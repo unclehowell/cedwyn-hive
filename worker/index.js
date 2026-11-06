@@ -460,9 +460,9 @@ function page(st, sites, log, origin) {
 }
 
 
-// Drafts board (metadata only). Source: hive/BOARD.json on unclehowell/cedwyn@hive, written by the agents after each turn.
+// Drafts board (metadata only). Source: hive/BOARD.json on unclehowell/cedwyn-hive@main (the split repo; cedwyn#421), written by the agents after each turn.
 // Only whitelisted metadata fields are served; the email text lives in HubSpot and never passes through here.
-const DRAFTS_SRC = "https://raw.githubusercontent.com/unclehowell/cedwyn/hive/hive/BOARD.json";
+const DRAFTS_SRC = "https://raw.githubusercontent.com/unclehowell/cedwyn-hive/main/hive/BOARD.json";
 const DRAFT_FIELDS = ["id", "record", "version", "status", "turn", "open_issues", "last_change", "last_agent", "rounds", "tier", "tier_since", "gmail_draft_id", "sent_at", "archive_url", "sent_version", "pct", "reviews", "distinct_agents", "agents", "version_reviews", "version_distinct_agents", "version_agents", "seat_agreements_version", "final_three_hat_version", "attachments_verified_version", "last_action_at", "last_action_by", "queue_after", "stage", "gate", "queue_position"];
 const DRAFTS_NOTE = "HubSpot changes are checked manually / by Tab's poll: the watcher has no HubSpot access, so this board moves only when an agent commits drafts/BOARD.json after its turn.";
 const DRAFTS_ALERTS = { automatic: ["A commit on unclehowell/datro (any branch, including drafts) by any agent other than Tab wakes Tab within about 5 to 10 minutes. Verified 23 Oct 2026: test commit 179519b on the drafts branch reached Tab at 13:29:26 UTC and woke it at 13:34:26 UTC after the 5-minute batching; Tab's own signed commits are filtered out.", "This monitor records every commit on the drafts branch within about 5 minutes (/changes.json?branch=drafts)."], manual: ["Edits made only in HubSpot: Tab checks the task by hand or by poll.", "The other agent (ChatGPT) cannot be notified automatically: it reads this board or the HubSpot task, or the owner nudges it."] };
@@ -553,7 +553,7 @@ const __estateOriginal = {
 // ---- Hive: dashboard for people, protocol for agents (hive.bucklerfamily.estate, watch/hive). Metadata only. — Sion's Tab agent
 const HIVE_HOST = /^hive\.bucklerfamily\.estate$/i;
 const HIVE_URL = "https://hive.bucklerfamily.estate";
-const ROSTER_SRC = "https://raw.githubusercontent.com/unclehowell/cedwyn/hive/hive/ROSTER.json";
+const ROSTER_SRC = "https://raw.githubusercontent.com/unclehowell/cedwyn-hive/main/hive/ROSTER.json";
 const HIVE_PROMPT = `You are an AI agent joining the BucklerFamily Hive. You are invited to work on ALL HubSpot work, not only email redrafts: housekeeping, Projects ('Cedwyn growth' and the PRINCE2 programme objectives), [CEDWYN REPO] tasks, BIZDEV tasks, research and case tasks, and email drafts. The scope, the rules for non-email work, the operating charter and the roll call are in ${HIVE_URL}/hive.md (protocol v3.11.0). The owner's phrase join hive.bucklerfamily.estate is an operational setup request, not a request for a verbal acknowledgement.
 
 First read ${HIVE_URL}/join.json, ${HIVE_URL}/hive.json, ${HIVE_URL}/hive.md and ${HIVE_URL}/automation.json; use ${HIVE_URL}/automation for your app/OS/runtime-specific rules. Read the live drafts/ROSTER.json, BOARD.json and relevant BATON. ROSTER.json alone determines active/pending seat status.
@@ -884,8 +884,8 @@ function ctxMd(r) {
   L.push(`- Research: https://research.bucklerfamily.estate · Evidence: https://wayback.bucklerfamily.estate · Projects: https://projects.bucklerfamily.estate`, `- Pack built: ${c.as_of || "?"}`);
   return L.join("\n");
 }
-const HIVE_AUTOMATION_HTML_URL="https://raw.githubusercontent.com/unclehowell/cedwyn/hive/hive/AUTOMATION.html";
-const HIVE_AUTOMATION_JSON_URL="https://raw.githubusercontent.com/unclehowell/cedwyn/hive/hive/AUTOMATION.json";
+const HIVE_AUTOMATION_HTML_URL="https://raw.githubusercontent.com/unclehowell/cedwyn-hive/main/hive/AUTOMATION.html";
+const HIVE_AUTOMATION_JSON_URL="https://raw.githubusercontent.com/unclehowell/cedwyn-hive/main/hive/AUTOMATION.json";
 
 
 // ===== Hive job flywheel (v3.19.0, 2 Nov 2026; producer's request 03:41 GMT): open HubSpot jobs, next job first, claim/release. =====
