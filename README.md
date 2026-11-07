@@ -12,17 +12,19 @@ It was split out of `unclehowell/cedwyn` (branch `hive`) on 5 Nov 2026, because 
 git clone --depth 1 https://github.com/unclehowell/cedwyn-hive.git
 ```
 
-## Where to send changes (read this first)
+## Where to send changes
 
-`split-repos.json` on `unclehowell/cedwyn` main sets the mode:
+The current `split-repos.json` entry in `unclehowell/cedwyn` sets this app to `mode: split-repo`. **This repository's `main` branch is the source of truth.**
 
-- **mirror** (now): the old branch `hive` on unclehowell/cedwyn is still the source. `mirror.yml` here copies it every
-  30 minutes. Send pull requests to `hive` on unclehowell/cedwyn (clone it with
-  `git clone --depth 1 --single-branch --branch hive --filter=blob:none https://github.com/unclehowell/cedwyn.git`).
-- **split-repo** (after the owner switches it): this repository is the source; send pull requests here.
-  unclehowell/cedwyn copies `main` back into `hive`, so the live page and every old path keep working.
+1. Make application changes on a feature branch in this repository.
+2. Open a pull request into this repository's `main`.
+3. After merge, Cedwyn's scheduled `sync-split-repos` workflow copies `main` into the retained legacy branch `hive`.
+4. The central `build-cedwyn` workflow assembles the unified site from the synced branch.
 
-`SPLIT.json` records the source commit of the last copy. The app's own notes, if the branch had any, are in `APP-README.md`.
+Do not open application pull requests against the legacy branch `hive`; it is a compatibility mirror, not the development target. Site-wide registry, shared runtime, central catalogue and build changes still belong in `unclehowell/cedwyn` `main`.
+
+Full instructions: [REPO-SPLIT.md](https://github.com/unclehowell/cedwyn/blob/main/docs/REPO-SPLIT.md).
+
 
 ## Previews
 
