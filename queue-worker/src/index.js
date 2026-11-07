@@ -1,6 +1,7 @@
 import { corsHeaders } from "./cors.js";
 import { IssueLease } from "./issue-lease.js";
 import { fetchAllSearchPages } from "./github-pagination.js";
+import { issuePage } from "./issue-page.js";
 
 const API = "https://api.github.com";
 const LABEL = "hive:public";
@@ -101,6 +102,7 @@ async function route(request, env) {
   }
   if (url.pathname === "/jobs" && request.method === "GET") {
     const limit = Math.max(1, Math.min(MAX_LIMIT, Number(url.searchParams.get("limit")) || 50));
+    const offset = Math.max(0, Math.min(3000, Number(url.searchParams.get("offset")) || 0));
     try {
       const pages = await Promise.all(repos.map(repo => githubIssues(repo, env)));
       const issues = pages.flat().sort((a, b) => {
@@ -113,8 +115,8 @@ async function route(request, env) {
         schema: "hive_github_jobs/v1",
         generated_at: new Date().toISOString(),
         source: { type: "github-issues", allowlisted_repositories: repos, required_label: LABEL },
-        counts: { open: rows.length, claimed: rows.filter(x => x.claim).length, takeable: rows.filter(x => x.takeable).length },
-        jobs: rows.slice(0, limit),
+        counts: { open: rows.length, claimed: rows.filter(x => x.claim).length, takeable: rows.filter(x => x.takeable).length, priority: { HIGH: rows.filter(x => x.priority === "HIGH").length, MEDIUM: rows.filter(x => x.priority === "MEDIUM").length, LOW: rows.filter(x => x.priority === "LOW").length, NONE: rows.filter(x => x.priority === "NONE").length } },
+        ...issuePage(rows, limit, offset),
         next_job: rows.find(x => x.takeable) || null
       });
     } catch (error) {

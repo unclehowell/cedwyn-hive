@@ -3,7 +3,7 @@
 Adapted from [DannyMac180/skills/be-ambitious](https://github.com/DannyMac180/skills/tree/main/be-ambitious) and Felix Rieseberg’s “How to be more ambitious” (Anthropic, 13 Oct 2026).
 
 **Standing direction for every Hive agent (Grok, Claude, ChatGPT, Tab, Instinct, etc.):**
-Before you rewrite, claim or execute any HubSpot task, FOI draft, catalogue entry, scene, or PR asset, answer the four questions for *this* field, then rewrite the task itself into the deeper version. Do not expand scope into a larger project; go one layer deeper on the same unit of work.
+Before you rewrite, claim or execute any public GitHub issue or private HubSpot correspondence task, FOI draft, catalogue entry, scene, or PR asset, answer the four questions for *this* field, then deepen the exact unit of work. Do not expand scope into a larger project; go one layer deeper on the same deliverable.
 
 ## The four questions (always)
 
@@ -19,9 +19,9 @@ Apply these four questions in a compact preflight. For a small routine task, one
    (Exact catalogue references, OS map series, sequential title search, red-team contrary evidence, independent source verification, statistical or chronological reconstruction, scene bible evidence map, Printify product mock from verified image, etc.)
 
 4. **What, other than you or the model, would show the result is right?**  
-   (Live page check, Git commit SHA + redeploy confirmation, HubSpot hs_lastmodifieddate, outside judge / second agent review, primary document citation that survives challenge, Stripe product live, e-book downloadable, etc.)
+   (Live page check, Git commit SHA + redeploy confirmation, GitHub issue/commit timestamp or HubSpot hs_lastmodifieddate for a private correspondence record, outside judge / second agent review, primary document citation that survives challenge, Stripe product live, e-book downloadable, etc.)
 
-Then rewrite the task prompt / acceptance criteria to demand exactly that deeper version. Stop and leave the rewritten criteria in the HubSpot changelog if the rewrite itself is the material step; otherwise execute the deeper version in the same turn.
+Then rewrite the issue prompt / acceptance criteria for public work, or the private HubSpot correspondence task when that is the relevant lane. Leave the revised criteria on the canonical GitHub issue or private HubSpot changelog as appropriate; otherwise execute the deeper version in the same turn.
 
 ## Ambition dimensions applied to Cedwyn
 
@@ -52,13 +52,13 @@ Assemble the crew mentally: forensic archivist + title researcher + documentary 
 
 ## Integration with existing Cedwyn rules
 
-- Still one material step per turn, one signed changelog line, HubSpot as system of record, no email send by agents, no private data in public GitHub, research paradigm (Welsh gentry / manorial house, test third-party title from primary records), closed leads, no-idle, claim/lease protocol unchanged.
+- Still one material step per turn, one signed changelog line, GitHub Issues as public project system of record; HubSpot only for private correspondence, no email send by agents, no private data in public GitHub, research paradigm (Welsh gentry / manorial house, test third-party title from primary records), closed leads, no-idle, claim/lease protocol unchanged.
 - The rewrite itself counts as the material step when it produces clearer acceptance criteria or a deeper sub-task that another agent (or the same agent on the next check-in) can execute.
 - Apply to every workstream: estate_history, FOI, catalogue, documentary, BIZDEV, website, procurement, Patagonia feasibility, PR (ebooks, Printify, Garden City plants, transparency via public email archive).
 
 ## Turn output and downstream conversion
 
-Every material turn leaves a compact, reusable work packet in the existing HubSpot task and canonical source system:
+Every public project turn leaves a compact, reusable work packet on the existing GitHub issue; each private correspondence turn leaves its review packet in the appropriate HubSpot task. Include source provenance, decision, test/evidence, unresolved risk and next action.
 
 1. **Outcome:** task ID, one-line deliverable, and why it advances the reconstruction or public value.
 2. **Source:** exact artifact/source IDs, original URL or reference, date, retrieval stage, provenance and limitations.
@@ -74,7 +74,7 @@ When a verified finding has downstream value, feed the existing pipeline rather 
 - **Approved public material → commerce:** propose Printify designs only from owned/licensed assets; verify current Garden City products, stock and claims before linking. Mockups and drafts are not sales or revenue. No paid listing, purchase, order or spend without the owner's applicable approval.
 - **Correspondence → transparency:** record sent messages only from a verified Gmail Sent copy; link replies to the original thread and catalogue attachments once. Keep private correspondence, personal data, legal advice and unverified allegations out of public progress reporting. Existing no-agent-send rule remains in force; an agent's draft is not a sent enquiry.
 
-Do not force every finding into every output channel. One useful verified catalogue update is better than five thin derivative posts. Do not create a new HubSpot task for each downstream format unless it is a genuinely distinct deliverable with a clear owner and acceptance test.
+Do not force every finding into every output channel. One useful verified catalogue update is better than five thin derivative posts. Do not create a new GitHub issue for each downstream format unless it is a genuinely distinct public-safe deliverable with a clear owner and acceptance test.
 
 ## Completion and throughput measurement
 
@@ -86,6 +86,6 @@ Do not force every finding into every output channel. One useful verified catalo
 
 ## Success metric for the skill
 
-More HubSpot tasks reach COMPLETED with verified live evidence per day, under free-tier Cloudflare/GitHub limits, because each taken job yields a durable catalogue entry, a closed gap, an approved public output, or a precise next lead instead of a shallow draft.
+More GitHub issues reach CLOSED only with independently verified acceptance, under free-tier Cloudflare/GitHub limits, because each taken job yields a durable catalogue entry, a resolved gap, an approved public output, or a precise next lead instead of a shallow draft.
 
 Signed: Grok (Hive seat), 2026-11-02.

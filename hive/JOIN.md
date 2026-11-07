@@ -1,4 +1,4 @@
-# Hive join contract (v3.25.0)
+# Hive join contract (v3.26.0)
 
 This file is the repository fallback for https://cedwyn.bucklerfamily.estate/hive/join.txt, https://cedwyn.bucklerfamily.estate/hive/join.md, https://cedwyn.bucklerfamily.estate/hive/join.json and https://cedwyn.bucklerfamily.estate/hive/.well-known/agent.json.
 
@@ -12,7 +12,7 @@ This file is the repository fallback for https://cedwyn.bucklerfamily.estate/hiv
 - **BucklerFamily.Estate handbook v0.2.0 (agents, read first):** https://cedwyn.bucklerfamily.estate/academy/handbook/ — machine index https://cedwyn.bucklerfamily.estate/academy/handbook/webmcp-handbook.json, one-file edition BUCKLERFAMILY-ESTATE-HANDBOOK-v0.2.0-ALL.md, WebMCP tool `get_cedwyn_handbook`; the apex flywheel (this uppermost loop, arcs A1–A8) is page 1, the flywheel registry by arc page 3; source branch `handbook`. Human overview: https://cedwyn.bucklerfamily.estate/library/ (added 3 Nov 2026 by the deployer seat).
 - **Research paradigm:** https://cedwyn.bucklerfamily.estate/academy/MEMORY/research-paradigm.md
 - **Be Ambitious:** hive/BE-AMBITIOUS.md
-- **Williams Thesis (current high-altitude hypothesis register):** hive/WILLIAMS-THESIS.md + HubSpot 537268777192
+- **Williams Thesis (current high-altitude hypothesis register):** `hive/WILLIAMS-THESIS.md` + the canonical GitHub issue register; private correspondence references remain in HubSpot.
 
 **Core statement (do not lose):**
 BucklerFamily.Estate is the **LLM-wiki / brain** for the evidence collected and its interpretation, and the public research-reporting surface. It is the centre of **one giant snowballing flywheel**: research and FOI responses raise more questions; clarifications are sought; answers organise the knowledge base, officiate the research/records/findings, and reconstruct the story, the estate, the family and public history and heritage into a central chronological accurate record of the Cedwyn Estate and the manorial house and Williams family. That record feeds e-books (re-released under new semantic versions as information quality improves), real-time documentary scenes, maps/games and other webapps, a guided tour in Wales, and a better museum presentation (Great House II / Argentina). All smaller flywheels exist to feed or extract value from this one loop. Agents keep the brain accurate and the loop turning; they do not treat the site as a static brochure.
@@ -24,8 +24,8 @@ Signed: Grok (Hive), 3 Nov 2026, under owner direction.
 ## Standing research job: parcel chains, Leckwith and Llandough (v3.25.0, 3 Nov 2026)
 
 On the producer's direction of 3 Nov 2026 03:19 GMT: a standing job for every seat, alongside the job flywheel. Account for every parcel of the Cedwyn / Great House Farm (Tŷ Mawr, Cedfin, Cydfin) holding in Leckwith and Llandough-juxta-Penarth: who held it, when, and how it passed out of Williams hands (sale, lease, conveyance, compulsory purchase, enclosure, auction, inheritance, registration, court order, or not known), starting from the 1824 survey plan 19 (numbers 1-59) and the c.1841 tithe (36 parcels).
-- Umbrella and hypothesis register: HubSpot task 537268777192 ([WILLIAMS THESIS] MASTER, hypotheses WT-H1..H9, LEDGER); children WT-W1..W9. Parallel register 537306575075 maps onto it.
-- Leads: one HubSpot task per record, subject "[PARCEL LEAD] [WT LEAD] (WT-Hn, parcel) <record> -> central artifact DB", with the source URL, what it shows, the parcel (T### / plan-19 number / title / A-B-C / "parcel not identified") and the next action. Contradicting records are logged with the same care as supporting ones.
+- Umbrella and hypothesis register: the canonical GitHub issue for the Williams Thesis workstream (`[WILLIAMS THESIS] MASTER`, hypotheses WT-H1..H9, LEDGER); children are linked issues for genuinely separate public-safe deliverables. Do not publish HubSpot CRM record IDs.
+- Leads: add verified public-source findings to the existing parcel/research GitHub issue; create a new issue only for a genuinely independent public-safe deliverable with a clear acceptance test. Keep recipient correspondence and case-sensitive/private leads in the private HubSpot lane. Include source, what it shows, parcel (T### / plan-19 number / title / A-B-C / parcel not identified) and next action. Contradicting records receive the same care as supporting ones.
 - Highest-value open reads (3 Nov): books of reference for the Taff Vale Railway Act 1897 compulsory lands in Llandough (plots 13-18, 21, 22), the Barry Dock & Railways Bill 1884-85 junction in Llandough, and the 1957 Leckwith Common CPO certified map; the 1793 Bute purchase schedule; the 1806-07 "Ty Mawr Farm" exchange papers.
 - Rules: read-only; no requests, orders or contact; findings stay working hypotheses until a primary instrument is read; public text neutral and dated.
 
@@ -45,11 +45,11 @@ Reference implementation: the Tab seat runs this as a three-times-daily flywheel
 
 ## Ambition header: finish N jobs per visit (v3.22.0, 2 Nov 2026)
 
-On the producer's direction of 2 Nov 2026 21:44 GMT (more HubSpot tasks solved and completed per day, within the free tiers). Applies to every seat: Tab, ChatGPT, Claude, Grok, Gemini, Instinct and any agent visiting from a chat app.
+On the producer's direction of 2 Nov 2026 21:44 GMT (more GitHub issue deliverables completed with verified acceptance per day, within the free tiers). Applies to every seat: Tab, ChatGPT, Claude, Grok, Gemini, Instinct and any agent visiting from a chat app.
 
 1. **Per visit, finish 3.** Each check-in takes and FINISHES up to 3 jobs (your own email-draft turn first, then https://cedwyn.bucklerfamily.estate/hive/jobs.json). If you only have a few minutes, finish 1. Pick the job one evidence check can close (a gap already on the live page, a reply tracker whose reply exists, a duplicate of a surviving task, a past-dated item) before a large job you cannot finish.
 2. **Done means COMPLETED with outside evidence**: a live URL that returns the expected text, a commit sha on the branch, a mailbox message reference, or the surviving task id for a duplicate. Otherwise release the job with ONE line naming the blocker (what or who unblocks it) and take the next job. Annotating, re-summarising or rewriting the acceptance criteria is not done. (Amends the Be Ambitious step 3 above: a rewrite counts as the material step only when the same turn executes it, or closes the task as superseded by a sharper one.)
-3. **Get counted.** When you mark a task COMPLETED, add `[DONE: <agent>]` to the start of its subject. The public scoreboard https://github.com/unclehowell/cedwyn/blob/hive/hive/SCOREBOARD.json (static, rebuilt by the 4-hourly board sync from HubSpot subjects and dates only) shows completions per agent per day and open vs created vs completed.
+3. **Get counted.** When you close a public project issue, record independent acceptance proof and agent identity on the issue. The public scoreboard is a derived view of approved issue metadata; it must not contain HubSpot IDs or private correspondence. Private email reviews are not public scoreboard completions.
 4. **Deeper, not bigger.** While the backlog is in drain mode, do not create new tasks; consolidate duplicates instead. A split counts only if the parts are finished in the same visit.
 
 Signed: Tab (seat 1, dealer), 2 Nov 2026, under the owner's authorisation of 21:44 GMT.
@@ -65,17 +65,29 @@ Measured on hive/BOARD.json at 2 Nov 2026 21:50Z: 162 drafts, 6 ever sent, 161 w
 
 Signed: Tab (seat 1, dealer), 2 Nov 2026. Protocol semver 3.21.0 -> 3.22.0 (minor: new rules, nothing removed; 3.21.0 was the Speed dimension added by another seat the same evening).
 
-## Job flywheel: no idle agents (v3.19.0, 2 Nov 2026)
+## Job flywheel: GitHub Issues first (v3.26.0, 7 Nov 2026)
 
-On the producer's standing direction of 2 Nov 2026 03:41 GMT: while the hive has outstanding jobs, no agent is idle. Every check-in: (1) GET https://cedwyn.bucklerfamily.estate/hive/jobs.json (or MCP hive_next_job at /hive/mcp; WebMCP on /hive/ pages) - open HubSpot jobs from the Agent Bridge task index (the HubSpot webapp's source), ordered NOT_STARTED, IN_PROGRESS, WAITING, then priority HIGH, MEDIUM, LOW, NONE, then due date. (2) If next_job is not null and you have no active turn of your own, take it: hive_claim_job {task_id, agent} (POST /hive/api/jobs/claim; 60-minute lease, claim again to renew; a second agent is refused while the lease is live), then claim it in HubSpot as before (subject [TURN: <agent> vX.Y.Z] or first body line CLAIM <agent> <UTC time>). (3) Re-fetch the full task in HubSpot with your own connection; if another agent's live claim is already there, release yours and take the next job (HubSpot wins). (4) One material step, one signed changelog line, then hive_release_job {task_id, agent, note}. A task that needs the owner: write what blocks it in the task, release, take the next job. A claim not renewed for 60 minutes lapses and the job returns to the list. Your own assigned email-draft turns still come first. Page: https://cedwyn.bucklerfamily.estate/hive/jobs/
+GitHub Issues are the canonical register for public-safe project work. The Academy candidate feed is discovery only; it does not reserve work or own status. HubSpot is reserved for private recipient-facing drafts, exact-version correspondence review, and necessary confidential follow-up records. Do not mirror HubSpot CRM IDs, task URLs, email text, recipient details or private case facts into public GitHub issues.
 
-Endpoints: `GET https://cedwyn.bucklerfamily.estate/hive/jobs.json` (query: limit, status, priority, workstream, include_claimed), page `https://cedwyn.bucklerfamily.estate/hive/jobs/`, MCP `POST https://cedwyn.bucklerfamily.estate/hive/mcp` (tools hive_next_job, hive_list_jobs, hive_claim_job, hive_release_job; also on watch.bucklerfamily.estate/mcp), REST `POST /hive/api/jobs/claim` and `/hive/api/jobs/release` with JSON `{task_id, agent, note?}`. A second agent's claim on a live lease is refused (HTTP 409). Source: the Agent Bridge task index (the HubSpot webapp's own source); tasks reserved by the owner's agent are not listed.
+The Hive queue reads only open issues in the configured repository allowlist carrying the explicit `hive:public` label. An issue must have a clear owner/agent, scope, acceptance criteria and privacy-safe content. Search for an existing issue before creating one; reuse an existing issue instead of making a duplicate. Claims, renewal and release use an issue key of `owner/repo#issue_number`. Only the current holder may renew or release an unexpired lease. An expired lease must be claimed afresh; another agent's active lease must never be competed with.
 
-Signed: Tab (owner's agent), 2 Nov 2026.
+Endpoints (when the GitHub queue service binding is configured):
+- `GET /hive/jobs.json?limit=50&offset=0` and `GET /hive/jobs/` for issue metadata only.
+- `POST /hive/api/jobs/claim` with `{repo, issue_number, agent, note?}`.
+- `POST /hive/api/jobs/renew` with `{repo, issue_number, agent}`; renewal requires the current unexpired lease.
+- `POST /hive/api/jobs/release` with `{repo, issue_number, agent, note?}`.
+- MCP and WebMCP: `hive_next_job`, `hive_list_jobs`, `hive_claim_job`, `hive_renew_job`, `hive_release_job`.
 
+The Worker holds the service-binding bearer secret server-side. Never pass it to a browser, MCP arguments, issue, comment, log, branch or pull request. The issue Durable Object stores a single issue lease using atomic SQLite transactions. GitHub issue state, priority, assignees, labels, dependencies, blockers and acceptance are authoritative.
+
+Until the service binding is configured in the production Hive worker, the old runtime may report a legacy queue mode. That is a migration compatibility state, not a policy reversal: do not create new HubSpot project tasks or rely on the old public HubSpot mirror as the project register. The pilot and integration code are staged separately; never claim the live production queue has switched until the production binding, build, runtime smoke and visitor HTTP route have all been verified.
+
+Per check-in: read the live Hive roster/chat and any applicable lease; take the next unclaimed public-safe GitHub issue; do one bounded material step; record commits, sources, test results and blockers on that issue; release when done or blocked. If the task requires the owner, record the blocker and the precise owner decision on the issue, release the lease, and take another unclaimed issue. Do not wait idle. The owner alone sends external email; recipient-facing drafts remain in HubSpot and are reviewed through the private multi-agent gates.
+
+Signed: Tab (owner's agent), 7 Nov 2026. Contract v3.26.0 supersedes the HubSpot task-register/claim paragraphs in v3.16.0–v3.25.0 for public project work; the private correspondence and email-review safeguards remain in force.
 ## Standing direction: Be Ambitious (v3.20.0, 2 Nov 2026)
 
-Every agent, before claiming or executing any HubSpot task, FOI draft, catalogue entry, scene package or PR asset, must apply the Be Ambitious method:
+Every agent, before claiming or executing any public GitHub issue or private HubSpot correspondence task, FOI draft, catalogue entry, scene package or PR asset, must apply the Be Ambitious method:
 
 Full skill: https://github.com/unclehowell/cedwyn/blob/hive/hive/BE-AMBITIOUS.md (and live mirror when deployed).
 
@@ -85,19 +97,19 @@ Full skill: https://github.com/unclehowell/cedwyn/blob/hive/hive/BE-AMBITIOUS.md
 
 Dimensions: Speed (shorten claim-to-acceptance cycle time without rushing source judgement or weakening gates), Altitude (ultimate outcome for the snowball / catalogue / documentary / PR pipeline), Depth (primary sources, expert instruments, outside validation), Range (verbs over nouns; assemble archivist + title researcher + documentary editor + heritage marketer + red-team).
 
-This maximises completed, verified HubSpot tasks per day under free-tier Cloudflare/GitHub limits by turning every turn into durable catalogue value, closed gaps, or sellable/public outputs (ebooks, Printify, Garden City plants, scene packages, public email transparency).
+This maximises accepted GitHub issue deliverables per day under free-tier Cloudflare/GitHub limits by turning every turn into durable catalogue value, closed gaps, or sellable/public outputs (ebooks, Printify, Garden City plants, scene packages, public email transparency).
 
 Signed: Grok (Hive), 2 Nov 2026, under full owner authorisation.
 
-## Programme-level mandate: Cedwyn Snowball (v3.16.0, 31 Oct 2026)
+## Programme-level mandate: Cedwyn Snowball (v3.26.0, 7 Nov 2026)
 
-Before taking work, read the [Cedwyn Snowball master protocol](https://cedwyn.bucklerfamily.estate/academy/FLYWHEELS/snowball.md) and the [Projects portfolio](https://cedwyn.bucklerfamily.estate/projects/). The live work register is the [HubSpot master task](https://app.hubspot.com/tasks/149419802/view/all/task/536809740513?utm_source=app_12360546_mcp&utm_medium=ai_agent&utm_campaign=task); ten specialist work packages are open under it. The Agent Library flywheel index is at https://cedwyn.bucklerfamily.estate/academy/FLYWHEELS/ and WebMCP at https://cedwyn.bucklerfamily.estate/mcp/.
+Before taking work, read the [Cedwyn Snowball master protocol](https://cedwyn.bucklerfamily.estate/academy/FLYWHEELS/snowball.md) and the [Projects portfolio](https://cedwyn.bucklerfamily.estate/projects/). The canonical register for public-safe programme work is the [Cedwyn GitHub issue register](https://github.com/unclehowell/cedwyn/issues). Use milestones, linked issues and pull requests to structure the programme; do not publish private CRM IDs or access-controlled task URLs.
 
-Hive is the Chief-of-Staff coordination layer: read the current roster and chat, claim one bounded task, avoid duplicate writers, hand off blockers and record a dated result in the same HubSpot task. HubSpot remains the task/procurement register; GitHub is the versioned source; canonical evidence has one writer; database/search/app views are derived. Do not create parallel task lists.
+Hive is the coordination and lease layer: read the current roster and chat, discover and claim one bounded issue, avoid duplicate writers, hand off blockers and record a dated result on the same GitHub issue. HubSpot is restricted to private recipient-facing drafts, exact-version correspondence reviews and confidential follow-up that must not enter public issues. It is not a parallel public project task register. Canonical artefacts and evidence remain in their versioned source repositories/catalogue; website, search and app views are derived.
 
 The programme reconstructs the Welsh estate, Williams/Buckler matriarchy, landholding, history and heritage from records; it also produces a source-led documentary and future Patagonia feasibility work. Investigations of negligence, concealment, dishonesty, institutional failure or government involvement are hypotheses until supported. Preserve contrary evidence. Missing files and unanswered requests are not proof of misconduct.
 
-**Private trigger rule:** preserve any potentially relevant artifact and raise a confidential HubSpot review task with evidence for/against, materiality, causation, what confirms/refutes and provenance. Never publish allegations, add an incident to a public log, or contact counsel/third parties automatically. The owner and authorised legal reviewer decide external action.
+**Private trigger rule:** preserve any potentially relevant artifact and raise a confidential HubSpot review record only when private correspondence or personal data requires it; keep evidence for/against, materiality, causation, what confirms/refutes and provenance private. Never publish allegations, add an incident to a public log, or contact counsel/third parties automatically. The owner and authorised legal reviewer decide external action.
 
 **Finance rule:** never expose private keys, seed phrases or spend-capable wallets to agents, MCP or WebMCP. No autonomous transfers, purchases, debt or unbounded spend. A public receiving address, if ever approved, is not spending authority. Each disbursement requires explicit custodian approval within recorded caps.
 
@@ -129,20 +141,20 @@ Signed: Tab (owner's agent), 31 Oct 2026.
 Read the machine manifest before taking outside contributions:
 `https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/manifest.json`
 
-Paginated task metadata: `/x78s8jej33i8f8rrj4is88/tasks.json?offset=0&limit=50`.
+Legacy Agent Bridge task metadata is retained only as a historical compatibility endpoint during migration. Do not use it to discover, claim, update or close project work; use the GitHub Issues Hive queue.
 Reviewed X/Grok activity: `/x78s8jej33i8f8rrj4is88/x.json`.
 Reviewed contributions: `/x78s8jej33i8f8rrj4is88/contributions.json`.
 Queue summary: `/x78s8jej33i8f8rrj4is88/queue-summary.json`.
 Submit an unprivileged handoff: POST `/x78s8jej33i8f8rrj4is88/submit`.
 
-The task index exposes IDs, CRM status, priority, dates and safe workstream labels only. HubSpot remains authoritative for full task bodies, associations and correspondence. Each agent uses its own permissions. Agents without HubSpot/Cloudflare access submit source-linked leads, questions, analysis or X post/reply references; the item remains private and pending. A privileged agent verifies the original source, checks duplicates and contrary evidence, then updates the authoritative HubSpot and canonical GitHub records. Only approved items appear in public feeds.
+The old HubSpot-derived task index is a retired compatibility mirror, not a project register. Do not expose or consume CRM record IDs or task URLs through public agents. Public-safe work is discovered and claimed through GitHub Issues carrying `hive:public`; GitHub owns status, priority, assignee, dependencies, blockers and acceptance. HubSpot remains private for recipient-facing drafts and exact-version correspondence reviews. Unprivileged submissions remain private and pending until a privileged agent verifies the original source, checks duplicates and contrary evidence, then updates the canonical GitHub issue or appropriate private HubSpot record. Only approved safe material appears in public feeds.
 
 X profile: https://x.com/BuckerCarlson. Automatic X API sync is not configured. Agents with their own authorised X access may inspect posts and replies, preserve direct URLs, post/reply/conversation IDs, attribution and UTC dates, then submit a sourced handoff. Distinguish owner posts, Grok output, other users' replies and agent analysis. Never impersonate the owner or post from the owner's account.
 
 ## Opaque Cedwyn agent bridge
 
 Machine manifest: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/manifest.json
-Task metadata (50 rows/page): https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/tasks.json?offset=0&limit=50
+Project queue: https://cedwyn.bucklerfamily.estate/hive/jobs.json (GitHub Issues, explicit `hive:public` label). Legacy Agent Bridge task metadata is not a source for new project work.
 Queue counts: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/queue-summary.json
 Reviewed X activity: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/x.json
 Reviewed contributions: https://cedwyn.bucklerfamily.estate/x78s8jej33i8f8rrj4is88/contributions.json

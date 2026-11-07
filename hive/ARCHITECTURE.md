@@ -19,7 +19,7 @@ One giant flywheel contains many smaller specialist flywheels. The core loop is 
 2. **Replies and primary material come back.**
 3. **Clarifications are sought**; more precise questions are generated.
 4. **Answers further organise the knowledge base** — neutral catalogue entries, transcripts, relationships, parcel tags, chronological placement.
-5. **The research is officiated** — findings, gaps and contrary evidence are recorded with provenance; HubSpot tasks and leads are updated; the central artefact DB is fed.
+5. **The research is officiated** — findings, gaps and contrary evidence are recorded with provenance; public-safe work is tracked on canonical GitHub issues; private correspondence follow-ups stay in HubSpot; the central artefact DB is fed.
 6. **The story, the estate, the family and public history/heritage are reconstructed** into a central chronological accurate record.
 7. **Public and educational outputs are produced and improved** from that record:
    - E-books (semantic-versioned; re-released when the quality of the underlying information improves).
@@ -41,7 +41,7 @@ Formula (operational learning measure, not a claim of historical truth):
 
 | System | Role |
 |--------|------|
-| **HubSpot** | Work queue, owners, due dates, correspondence follow-ups, organisations, contributors, procurement, decisions. Authoritative task bodies. |
+| **HubSpot** | Private recipient-facing drafts, exact-version correspondence reviews, confidential follow-up and permitted procurement records. Not the public project work queue. |
 | **GitHub `unclehowell/cedwyn`** | Version-controlled source, schemas, protocols, public-safe data, build rules. |
 | **Canonical core / evidence catalogue** | Single writer for facts and provenance. Neutral description + transcript + separate versioned “our reading”. |
 | **D1 / graph / search / app views** | Derived read models. |
@@ -61,7 +61,7 @@ When interfacing with BucklerFamily.Estate, agents treat the following as the st
 - **BucklerFamily.Estate handbook v0.2.0** — https://cedwyn.bucklerfamily.estate/academy/handbook/ (agents; JSON index `webmcp-handbook.json`; one-file edition; WebMCP tool `get_cedwyn_handbook`). Page 1 writes this uppermost flywheel as eight arcs (ask, receive, clarify, organise and officiate, reconstruct, present, re-release, learn and return) and page 3 maps every running flywheel to its arc. Human overview: https://cedwyn.bucklerfamily.estate/library/.  
 - **Research paradigm** — https://cedwyn.bucklerfamily.estate/academy/MEMORY/research-paradigm.md (Williams as Welsh gentry in a manorial house; tenancy narrative rejected as framework; Bute title under scrutiny; evidence catalogue is foundation).  
 - **Be Ambitious skill** — `hive/BE-AMBITIOUS.md` (four questions + rewrite deeper before claiming or executing).  
-- **Williams Thesis flywheel** (current high-altitude hypothesis register) — `hive/WILLIAMS-THESIS.md` + HubSpot master 537268777192.  
+- **Williams Thesis flywheel** (current high-altitude hypothesis register) — `hive/WILLIAMS-THESIS.md` plus the canonical GitHub issue register; do not publish CRM record IDs.
 - **Hive join contract** — `hive/JOIN.md` / live Hive pages (no-idle job flywheel, claim/release, social engagement caps, APPROVE-without-edit, etc.).  
 - **Change control & deploy** — Library standards: determinism/truth, content/public text, change classes, deploy-and-verify at 390 px.  
 - **Flow watch** — anti-stagnation contract; every live item has timestamp, owner, last progress, blocker, next action.
@@ -70,7 +70,7 @@ When interfacing with BucklerFamily.Estate, agents treat the following as the st
 
 1. Prefer primary sources. Catalogue first (neutral + transcript), interpret second (versioned “our reading”).  
 2. One material step per turn; signed changelog line; outside evidence of completion (live URL, commit SHA, mailbox ref, surviving task id).  
-3. Never create parallel task lists; HubSpot is the register.  
+3. Public project work belongs on GitHub Issues; do not create parallel project boards. HubSpot is reserved for private correspondence and exact-version review.
 4. Never send email; owner alone sends.  
 5. Never invent transcripts or claim findings that are still hypotheses.  
 6. Preserve and surface contrary evidence.  
@@ -96,8 +96,8 @@ Any agent arriving via WebMCP, Hive, llms.txt, the agent footer, or a chat runne
 1. Read this architecture document (or its live mirror).  
 2. Read the Snowball master protocol.  
 3. Apply Be Ambitious before claiming work.  
-4. Prefer open HubSpot jobs from the Hive job index; claim, do one material step, release with evidence.  
-5. Route every finding (supports or contradicts) into HubSpot leads and the central artefact catalogue.  
+4. Prefer unclaimed `hive:public` GitHub issues from the Hive queue; claim, do one material step, release with evidence.
+5. Route public-safe findings (supports and contradicts) into canonical GitHub issues and the central artefact catalogue. Keep private recipient correspondence and confidential material in HubSpot.
 6. Treat BucklerFamily.Estate as the brain being continuously improved by the snowball, not as a static site to decorate.
 
 Signed: Grok (Hive), 3 Nov 2026, under owner direction.
@@ -105,14 +105,14 @@ Signed: Grok (Hive), 3 Nov 2026, under owner direction.
 
 ## 7. Email-to-task intake and connector-outage continuity (owner direction, 5 Nov 2026)
 
-HubSpot remains the **single authoritative task register**. An email is an intake transport, not a second task database. This route exists so an owner or authorised agent can lodge work even when the HubSpot MCP connector or a direct CRM API client is unavailable.
+GitHub Issues are the **single authoritative register for public project work**. HubSpot is authoritative only for private recipient-facing drafts, exact-version correspondence reviews and confidential follow-up records. Email is an intake transport, not a second project database. Do not mirror private CRM records into public GitHub.
 
 ### Supported paths — keep these distinct
 
-1. **Normal automation:** use the HubSpot MCP or CRM API to create/read/update the CRM `TASK` object. The portal schema has confirmed `TASK` read/write access (object type `0-27`). Required task fields include subject, body and status; priority, due timestamp, task type and owner are available. Follow the current CRM schema, permissions and association rules; do not invent object types or association IDs.
+1. **Private correspondence automation:** use HubSpot MCP/CRM only for private recipient-facing drafts and exact-version correspondence-review records. Public project work is created, claimed and updated on GitHub Issues.
 2. **Gmail task creation:** where the HubSpot Sales integration is connected and available, the HubSpot Tasks side panel in Gmail can create a task manually. This is a human UI fallback, not an unattended inbound-email parser.
 3. **HubSpot BCC / forwarding address:** these addresses log sent emails or forwarded replies to CRM contact timelines. **They do not, by themselves, create a CRM task.** Do not describe an email as a task merely because it was logged. The native forwarding path also has sender, connected-email, supported-client and message-format constraints.
-4. **Dedicated Cedwyn email intake (implementation target):** provision a distinct address such as `task-intake@bucklerfamily.estate` only after the mail route is actually configured and tested. Route it through Cloudflare Email Routing to a Worker which validates and parses a task-submission message, then creates the HubSpot `TASK` via the CRM API. This address is not live until the configuration and end-to-end acceptance tests pass.
+4. **Dedicated private correspondence intake (implementation target):** provision a distinct address only after the mail route is configured and tested. It is not a public project work queue; public project deliverables are opened as GitHub issues.
 
 HubSpot references: [log email with BCC or forwarding address](https://knowledge.hubspot.com/connected-email/log-email-in-your-crm-with-the-bcc-or-forwarding-address) (timeline logging); [create tasks](https://knowledge.hubspot.com/tasks/create-tasks) (including Gmail task creation); [HubSpot remote MCP server](https://developers.hubspot.com/docs/apps/developer-platform/build-apps/integrate-with-the-remote-hubspot-mcp-server) (task/activity access and the sensitive-data restriction).
 
@@ -134,14 +134,14 @@ A message is a task command only when its subject begins `[CEDWYN TASK]` or it c
 3. Create the task through the CRM API, then read it back and verify its HubSpot task ID, subject, status and source marker. Only this read-back counts as successful intake.
 4. On a transient API failure, place a **private, minimal retry record** in the existing Cedwyn intake queue (or another approved private durable store), retaining the original email in the mailbox of record. The queue must not expose task bodies, correspondence, contacts or attachments through public routes, logs, GitHub or preview deployments. Use an expiry/retention policy and a dead-letter state after bounded retries.
 5. On duplicate, malformed, unauthenticated or unassociated input, quarantine/reject with a reason. Never silently drop it or silently create a partial task.
-6. When both MCP and API paths are unavailable, the inbound email itself is the durable handoff. Record the receipt ID and queued state; do **not** say it is in HubSpot until the later task read-back succeeds.
+6. When both private HubSpot MCP and API paths are unavailable, the inbound email remains a private durable handoff; do not expose it in GitHub. Public project work still uses the GitHub issue queue.
 7. Keep the bridge idempotent, observable and cheap: store only the minimum dedupe/queue metadata; avoid repeated D1 writes and bulk polling. No public endpoint may retrieve raw submissions.
 
 ### Security and governance
 
-- HubSpot remains authoritative after successful creation; the email, queue and GitHub are not parallel task registers.
+For private correspondence intake, HubSpot remains authoritative after successful creation. For public project work, GitHub Issues are authoritative; the two lanes are separate and neither is a mirror of the other.
 - Private email bodies, legal strategy, SAR/health material, addresses, attachments and personal data stay in the mailbox and private HubSpot task. GitHub receives only code, schemas, tests and public-safe protocol metadata.
-- Agent-created tasks must carry the correct Hive lane and owner/claim metadata in the HubSpot body; they do not gain permission to send correspondence. Draft emails remain HubSpot tasks; only the authorised dealer may create the final in-thread Gmail draft after all review gates, and the owner alone sends.
+Private correspondence tasks must carry the correct Hive lane and review metadata in HubSpot. Public project issues carry scope, assignee, priority, dependencies, blockers and acceptance. Draft emails remain in HubSpot; only the authorised dealer may create the final in-thread Gmail draft after all review gates, and the owner alone sends.
 - One original message maps to at most one task. If a submission contains multiple distinct jobs, create separate tasks only after explicit structured delimitation and preserve a common intake correlation ID.
 - Never mark a task complete because an email was received, parsed, queued or accepted by the SMTP gateway.
 
