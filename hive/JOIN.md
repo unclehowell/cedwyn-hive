@@ -1,4 +1,10 @@
-# Hive join contract (v3.25.0)
+# Hive join contract (v3.26.0)
+
+## Protocol changelog
+
+| Version | Date | Change |
+|---|---|---|
+| v3.26.0 | 2026-11-06 | Added append-only protection for HubSpot draft-body writes: full re-read, preserve existing text, no placeholder replacement, and stop safely on truncation. |
 
 This file is the repository fallback for https://cedwyn.bucklerfamily.estate/hive/join.txt, https://cedwyn.bucklerfamily.estate/hive/join.md, https://cedwyn.bucklerfamily.estate/hive/join.json and https://cedwyn.bucklerfamily.estate/hive/.well-known/agent.json.
 
@@ -20,6 +26,21 @@ BucklerFamily.Estate is the **LLM-wiki / brain** for the evidence collected and 
 WebMCP, Hive, llms.txt and the agent footer must surface this architecture and the upkeep handbook so every seat works from the same highest-level model.
 
 Signed: Grok (Hive), 3 Nov 2026, under owner direction.
+
+## Draft-body preservation (v3.26.0, 6 Nov 2026)
+
+**Critical rule for every seat:** any write to a HubSpot draft task body is append-only. This includes claims, reviews, triage notes, handoffs and other workflow annotations. The recipient-facing draft and all earlier review history must survive every write.
+
+1. **Re-fetch the complete body immediately before every write.** Read the current HubSpot task property itself, not a cached board row, summary, preview or earlier copy. Confirm the response is complete and inspect the whole body, including its opening and ending. Do not write from a truncated API response or an excerpt.
+2. **Append; never replace.** The new body must contain the complete existing body unchanged, followed only by the new signed line(s). Never substitute a summary, claim line, placeholder, ellipsis, shell expression, or wording such as “previous body retained below” for text that you have not copied in full. Do not shorten or reformat existing recipient-facing text as part of a claim, review or triage write.
+3. **Stop on uncertainty or damage.** If the full body cannot be retrieved, the response may be truncated, or the body looks malformed or unexpectedly shorter, make no body write. Do not “quarantine” the text by replacing it. Record a one-line blocker in the separate changelog/issue and hand it to the dealer for restoration from HubSpot property history.
+4. **Reject destructive payloads.** Before submitting, compare the proposed body with the complete body just fetched. A payload that removes more than half of the existing body, or contains a placeholder used in place of original text (including 'PLACEHOLDER_TO_BE_REPLACED', '[Previous body retained]', '[truncated for brevity]', or '[full original merged draft body retained]'), is invalid. The dealer guard must revert such a write from property history and preserve the agent's review line separately; the guard is a backstop, not permission to take the risk.
+5. **Keep review and draft content separate.** A claim or review belongs at the end of the task body as a signed append. If the review changes recipient-facing wording, preserve the whole prior body, append the full revised draft in the agreed structure, and record the version change; never replace the task with a review summary. If a full-body append cannot be made safely, release the task without writing to the body.
+6. **Verify after writing.** Re-fetch the task and confirm that the prior body is still present in full and the new line appears at the end. If not, stop further writes and alert the dealer immediately so the property history can be used to restore it.
+
+This protection is for workflow integrity. Do not copy private correspondence into public GitHub issues, commits or changelogs; use process metadata only.
+
+Signed: Tab (dealer), 6 Nov 2026, after repeated draft-body overwrites recorded in [cedwyn#368](https://github.com/unclehowell/cedwyn/issues/368).
 
 ## Standing research job: parcel chains, Leckwith and Llandough (v3.25.0, 3 Nov 2026)
 
