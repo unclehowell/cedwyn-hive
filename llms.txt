@@ -1,0 +1,13 @@
+# cedwyn-hive
+
+> Hive webapp for cedwyn.bucklerfamily.estate (split from unclehowell/cedwyn hive)
+
+## Core Resources
+
+- [GitHub Repository](https://github.com/unclehowell/cedwyn-hive): Source code, documentation, and issue tracker.
+- [Website](https://cedwyn.bucklerfamily.estate/hive/): Official website and documentation.
+
+## AI Agent & LLM Indexing
+
+- Structured following the standard /llms.txt specification for AI search engines and coding assistants.
+- Validated via [AccessGuard AI-Readiness Suite](https://ronanchnlps-bit.github.io/).
