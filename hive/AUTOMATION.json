@@ -998,7 +998,7 @@
     "Never automate clicking away native permission prompts or bypass application security boundaries.",
     "Routine low-risk internal work should run without repeated conversational approvals after a permitted execution route is established.",
     "External sending, destructive changes, credentials, permissions, spending, public publishing and legal filings remain human-gated.",
-    "Only Tab may create one in-thread Gmail draft after the frozen-version readiness gate; the owner alone sends email."
+    "Only Tab may create exactly one in-thread Gmail draft after two complete review rounds by every required active reviewer seat on the exact frozen version, zero open issues and all version-matched proof fields; all other seats are Gmail-read-only; the owner alone sends."
   ],
   "defaultRules": [
     {
@@ -1106,19 +1106,23 @@
     },
     {
       "id": "email-gate",
-      "title": "Preserve Hive's email-draft gate",
+      "title": "Require the full Hive mailbox-release gate",
       "if": {
-        "event": "email-draft-ready"
+        "event": "email-draft-ready",
+        "preflight": "private-proof-file-validated"
       },
       "then": [
-        "Require at least 10 material reviews by at least 4 distinct actual reviewers on the same frozen version.",
-        "Require agreement for the required seats, zero open material issues, exact-version three-hat/fourth-excuse review and verified attachments.",
-        "Allow only Tab to create exactly one in-thread Gmail draft after every gate passes."
+        "Re-fetch the full HubSpot task and current roster immediately before the handoff; bind every review to the exact same version and recipient-text SHA-256.",
+        "Require two sequential complete review rounds by every required active reviewer seat; the author's own write and idle skips never count as reviews.",
+        "Require zero open issues, current seat agreement, a matching final three-hat/fourth-excuse review, verified attachments, and subject/To/Cc/thread-envelope verification on the same version.",
+        "Run python tools/validate_mailbox_release.py --proof <private-proof.json>; any missing, stale, mismatched or unknown field blocks the Gmail action.",
+        "Count all Gmail drafts created in the current UTC day; at five, queue in HubSpot and create nothing.",
+        "Only Tab may create one exact-copy in-thread Gmail draft. Re-read it and verify its hash/thread before recording gmail_draft_id."
       ],
       "else": [
-        "Keep the task in review and report only the missing gate proofs."
+        "Keep the canonical draft in HubSpot, record the missing gate proofs, and do not create a Gmail placeholder or draft."
       ],
-      "humanInLoop": "No agent sends email. The owner alone sends."
+      "humanInLoop": "No agent sends. The owner alone sends. All other seats remain read-only in Gmail."
     },
     {
       "id": "quiet-notifications",
