@@ -1,15 +1,25 @@
-# Hive join contract (v3.26.0)
+# Hive join contract (v3.27.0)
 
-## Mailbox gate: two full rounds by every seat, 5 drafts a day (v3.26.0, 7 Nov 2026) — overrides any older Gate B threshold below
+## Mailbox gate: two full rounds by every seat, 5 drafts a day (v3.27.0, 8 Nov 2026) — overrides any older Gate B threshold below
 
 On the owner's instruction of 7 Nov 2026 22:43 GMT, for every hive email draft:
 
-1. **Two full rounds before the mailbox.** A draft goes into the owner's mailbox only after round 1 (a material review) and then round 2 (a full re-review) by every hive seat (Tab, ChatGPT, Grok, Claude, Instinct), each on the exact frozen version that will be drafted. An idle skip ("SKIPPED <seat> — IDLE") is never a review, and the author's own write is not a review. Any change to recipient-facing text starts both rounds again. READY / DEFINITELY READY / Gate B now mean this.
+1. **Two full rounds before the mailbox.** A draft goes into the owner's mailbox only after round 1 (a material review) and then round 2 (a full re-review) by every required active reviewer seat in the live roster (currently Tab, ChatGPT, Grok, Claude and Instinct), excluding the author, each on the exact frozen version that will be drafted. An idle skip ("SKIPPED <seat> — IDLE") is never a review, and the author's own write is not a review. Any change to recipient-facing text starts both rounds again. READY / DEFINITELY READY / Gate B now mean this.
 2. **Hard cap: at most 5 mailbox drafts per UTC day.** Count the day's drafts before creating one. At 5, create nothing: the task stays "DEFINITELY READY (queued)" for the next UTC day, oldest first.
 3. **Urgent items reach the owner by email.** Anything the owner must send himself urgently, or any other urgent concern: one short email to the owner's private address (it is in the HubSpot protocol header and in Tab's agent rules, never on a public page), subject starting "URGENT:".
-4. **No send without rule 1.** No draft is sent unless it passed rule 1. Drafts found in the mailbox without both rounds go back to their HubSpot task (signed changelog line "RETURNED FROM GMAIL DRAFT ...") and are then removed from the mailbox.
+4. **One creator, one final handoff.** Only Tab (seat 1, dealer) may create the single in-thread Gmail draft after every release proof passes. All other seats are read-only in Gmail: they must not create, update or send Gmail drafts. The Gmail draft must be an exact copy of the approved HubSpot version, with the approved subject, recipients, thread and verified attachments. The owner alone sends.
+5. **Fail closed on missing or stale proof.** Immediately before creating the draft, Tab must re-fetch the complete HubSpot task and live roster, confirm the frozen body/version/hash and every review/proof field, and count all Gmail drafts created during the current UTC day. Missing task mapping, unknown author, missing reviewer, stale source fetch, unresolved issue, mismatched hash/version, unverified attachment, missing reply-thread details or unavailable daily count means no Gmail draft. Never infer readiness from a label, an old board row, a draft's presence, or a past review.
+6. **Hard cap: five mailbox drafts per UTC day.** Count all drafts created in the mailbox during the current UTC day, regardless of author or subject. At five, create nothing; leave the task queued in HubSpot for the next UTC day. Do not create a placeholder or empty reply shell to reserve a place.
+7. **Recover unsafe drafts without losing evidence.** For each Hive draft found in Gmail without a matching ready HubSpot task and exact-version release proof:
+   - identify its original Gmail draft ID, message ID, thread ID, creation timestamp, subject and recipient envelope;
+   - copy the exact message body and all available attachment binaries/metadata into the matching private HubSpot task, or create/route a private exception task if no match exists; append a signed `RETURNED FROM GMAIL DRAFT` changelog entry including source IDs, body hash, recovered version and any missing items;
+   - re-fetch the task and verify that the recovered content and attachments are actually present;
+   - only then trash the individual draft message, never the entire conversation thread.
+   If the task match is uncertain, the body/hash differs, an attachment cannot be preserved, or the draft may be personal/template material, leave it untouched in Gmail, label/record it HOLD where possible, and route the exception. Never delete an unrelated personal draft or reusable owner template.
 
-Signed: Tab (seat 1, dealer), 7 Nov 2026. Protocol semver 3.25.0 -> 3.26.0.
+The two-round rule above supersedes the earlier routine/escalation review-count thresholds in the historical Gate B section below. The `tools/validate_mailbox_release.py` checker is a required fail-closed preflight for the dealer; its proof file contains metadata and hashes only, never email text, addresses or attachments.
+
+Signed: Tab (seat 1, dealer), 8 Nov 2026. Protocol semver 3.26.0 -> 3.27.0.
 
 This file is the repository fallback for https://cedwyn.bucklerfamily.estate/hive/join.txt, https://cedwyn.bucklerfamily.estate/hive/join.md, https://cedwyn.bucklerfamily.estate/hive/join.json and https://cedwyn.bucklerfamily.estate/hive/.well-known/agent.json.
 

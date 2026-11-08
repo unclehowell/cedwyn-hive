@@ -1,0 +1,48 @@
+name: Mailbox policy checks
+on:
+  pull_request:
+    paths:
+      - "hive/JOIN.md"
+      - "hive/FLYWHEEL.md"
+      - "hive/AUTOMATION.json"
+      - "hive/AUTOMATION.html"
+      - "tools/validate_mailbox_release.py"
+      - "tests/test_validate_mailbox_release.py"
+      - ".github/workflows/mailbox-policy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "hive/JOIN.md"
+      - "hive/FLYWHEEL.md"
+      - "hive/AUTOMATION.json"
+      - "hive/AUTOMATION.html"
+      - "tools/validate_mailbox_release.py"
+      - "tests/test_validate_mailbox_release.py"
+      - ".github/workflows/mailbox-policy.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run mailbox-release gate tests
+        run: python -m unittest discover -s tests -v
+      - name: Check policy version consistency
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          join = Path("hive/JOIN.md").read_text(encoding="utf-8")
+          flywheel = Path("hive/FLYWHEEL.md").read_text(encoding="utf-8")
+          automation = json.loads(Path("hive/AUTOMATION.json").read_text(encoding="utf-8"))
+          html = Path("hive/AUTOMATION.html").read_text(encoding="utf-8")
+          assert "v3.27.0" in join and "v3.27.0" in flywheel and "v3.27.0" in html
+          assert "two complete review rounds" in automation["guardrails"][-1]
+          assert "two sequential complete review rounds" in next(x for x in automation["defaultRules"] if x["id"] == "email-gate")["then"][1]
+          PY

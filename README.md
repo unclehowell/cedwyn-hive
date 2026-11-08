@@ -16,11 +16,10 @@ git clone --depth 1 https://github.com/unclehowell/cedwyn-hive.git
 
 `split-repos.json` on `unclehowell/cedwyn` main sets the mode:
 
-- **mirror** (now): the old branch `hive` on unclehowell/cedwyn is still the source. `mirror.yml` here copies it every
-  30 minutes. Send pull requests to `hive` on unclehowell/cedwyn (clone it with
-  `git clone --depth 1 --single-branch --branch hive --filter=blob:none https://github.com/unclehowell/cedwyn.git`).
-- **split-repo** (after the owner switches it): this repository is the source; send pull requests here.
-  unclehowell/cedwyn copies `main` back into `hive`, so the live page and every old path keep working.
+- **split-repo (current):** the live `split-repos.json` manifest sets Hive to `"mode": "split-repo", "deploy": "repo"`.
+  This repository's `main` branch is the source. Send pull requests here; do not edit the legacy `hive` branch in
+  `unclehowell/cedwyn`. The estate build reads this dedicated repository directly and fails closed if it cannot
+  produce the page. The legacy branch is retained for compatibility, not as an alternate source.
 
 `SPLIT.json` records the source commit of the last copy. The app's own notes, if the branch had any, are in `APP-README.md`.
 
