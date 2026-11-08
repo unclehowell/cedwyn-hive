@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cedwyn.bucklerfamily.estate/hive/mailbox-release-proof.schema.json",
+  "title": "Private Hive mailbox release proof",
+  "type": "object",
+  "required": [
+    "schema",
+    "task",
+    "roster",
+    "rounds",
+    "proofs",
+    "gmail"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hive_mailbox_release/v1"
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "id",
+        "version",
+        "status",
+        "author",
+        "recipient_text_sha256",
+        "recipient_envelope_sha256",
+        "lastmodified_at",
+        "fetched_at"
+      ]
+    },
+    "roster": {
+      "type": "object",
+      "required": [
+        "active_seats",
+        "checked_at"
+      ]
+    },
+    "rounds": {
+      "type": "object",
+      "required": [
+        "round1",
+        "round2"
+      ]
+    },
+    "proofs": {
+      "type": "object",
+      "required": [
+        "open_issues",
+        "seat_agreements_version",
+        "final_three_hat_version",
+        "attachments_verified_version",
+        "subject_recipient_thread_verified_version",
+        "recipient_envelope_sha256"
+      ]
+    },
+    "gmail": {
+      "type": "object",
+      "required": [
+        "checked_at",
+        "count_scope",
+        "drafts_created_today_utc",
+        "executor",
+        "action",
+        "thread_mode"
+      ]
+    }
+  },
+  "additionalProperties": false
+}
