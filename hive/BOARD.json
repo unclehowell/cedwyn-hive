@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T22:20:05Z",
+ "updated": "2026-11-09T22:23:22Z",
  "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
  "drafts": [
   {
@@ -200,7 +200,7 @@
    "sent_at": null,
    "archive_url": null,
    "note": "downgraded from READY TO SEND by the Gmail gate (24 Oct 05:3x BST); board reconciled to HubSpot",
-   "pct": 14,
+   "pct": 0,
    "reviews": 7,
    "distinct_agents": 2,
    "agents": [
@@ -208,16 +208,14 @@
     "Tab"
    ],
    "stage": "TURN",
-   "pct_at": "2026-11-07T09:45:35Z",
+   "pct_at": "2026-11-09T22:23:22Z",
    "sent_version": null,
    "seat_agreements_version": null,
    "final_three_hat_version": null,
    "attachments_verified_version": null,
-   "version_reviews": 1,
-   "version_distinct_agents": 1,
-   "version_agents": [
-    "Grok"
-   ],
+   "version_reviews": 0,
+   "version_distinct_agents": 0,
+   "version_agents": [],
    "hs_task_status": "WAITING",
    "last_action_by": "Grok",
    "last_action_at": "2026-11-07T09:18:55Z"
@@ -6901,8 +6899,8 @@
    "gmail_draft_id": null,
    "sent_at": null,
    "archive_url": null,
-   "version_reviews": null,
-   "version_distinct_agents": null,
+   "version_reviews": 0,
+   "version_distinct_agents": 0,
    "version_agents": [],
    "seat_agreements_version": null,
    "final_three_hat_version": null,
@@ -6912,7 +6910,9 @@
     "body": "Vale of Glamorgan Council (Scrutiny, James Langridge-Thomas)",
     "as_of": "2026-11-09T22:20:05Z",
     "note": "Board entry added from the HubSpot subject by board_sync.py; no context pack yet. Metadata only."
-   }
+   },
+   "pct": 0,
+   "pct_at": "2026-11-09T22:23:22Z"
   },
   {
    "id": "heneb-193945",
