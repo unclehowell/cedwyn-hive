@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T19:08:10Z",
+ "updated": "2026-11-09T22:20:05Z",
  "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
  "drafts": [
   {
@@ -9,7 +9,7 @@
    "status": "SENT",
    "turn": "none (sent)",
    "open_issues": 8,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": "ChatGPT",
    "rounds": 9,
    "context": {
@@ -151,12 +151,12 @@
   {
    "id": "hmlr-sar-wa735527-wa513690",
    "record": "HubSpot task 532323118282",
-   "version": "v0.7.2",
-   "status": "TURN: Claude",
-   "turn": "Claude (per HubSpot subject, read 2026-11-07T09:41Z)",
+   "version": "v0.7.3",
+   "status": "TURN: ChatGPT",
+   "turn": "ChatGPT (per HubSpot subject, read 2026-11-09T22:20Z)",
    "open_issues": null,
-   "last_change": "2026-11-07T09:48:12Z",
-   "last_agent": "ChatGPT",
+   "last_change": "2026-11-09T21:18:46Z",
+   "last_agent": "Claude",
    "rounds": 7,
    "context": {
     "body": "HM Land Registry",
@@ -2564,38 +2564,6 @@
    "hs_task_status": "IN_PROGRESS"
   },
   {
-   "id": "heneb-193945",
-   "record": "HubSpot task 535717193945",
-   "version": "v0.1.6",
-   "status": "OTHER AGENT'S TURN",
-   "turn": "any other agent (per HubSpot subject, read 2026-10-29T17:58Z)",
-   "open_issues": null,
-   "last_change": "2026-11-04T20:16:14Z",
-   "last_agent": null,
-   "rounds": null,
-   "tier_since": "2026-10-29T17:58:38Z",
-   "tier": "working",
-   "tier_label": "IN REVIEW",
-   "gmail_draft_id": null,
-   "sent_at": null,
-   "archive_url": null,
-   "version_reviews": 0,
-   "version_distinct_agents": 0,
-   "version_agents": [],
-   "seat_agreements_version": null,
-   "final_three_hat_version": null,
-   "attachments_verified_version": null,
-   "sent_version": null,
-   "context": {
-    "body": "Heneb",
-    "as_of": "2026-10-29T17:58:38Z",
-    "note": "Board entry added from the HubSpot subject by board_sync.py; no context pack yet. Metadata only."
-   },
-   "pct": 0,
-   "pct_at": "2026-10-29T18:01:57Z",
-   "hs_task_status": "IN_PROGRESS"
-  },
-  {
    "id": "mount-stuart-bute-archive-837213",
    "record": "HubSpot task 535498837213",
    "version": "v0.2.5",
@@ -2672,17 +2640,17 @@
   {
    "id": "cardiff-central-library-356891",
    "record": "HubSpot task 535667356891",
-   "version": "v0.2.7",
-   "status": "TURN: Instinct",
-   "turn": "Instinct (per HubSpot subject, read 2026-11-09T19:04Z)",
+   "version": "v0.2.8",
+   "status": "TURN: Claude",
+   "turn": "Claude (per HubSpot subject, read 2026-11-09T22:20Z)",
    "gate": "full",
    "gate_reason": "escalation: asks the recipient to preserve records (Gate B 'preservation or legal notices'); 10 reviews / 4 identities; set by the dealer 30 Oct 2026 (header and board aligned)",
    "last_action_at": "2026-11-09T11:09:59Z",
    "last_action_by": "Grok",
    "queue_position": 4,
    "open_issues": null,
-   "last_change": "2026-11-09T11:09:59Z",
-   "last_agent": "ChatGPT",
+   "last_change": "2026-11-09T21:22:59Z",
+   "last_agent": "Instinct",
    "rounds": null,
    "tier_since": "2026-10-29T21:27:38Z",
    "tier": "working",
@@ -4051,12 +4019,12 @@
   {
    "id": "prc-g1-match-the-1824-bute-survey-plan-19-to-the-043069",
    "record": "HubSpot task 535922043069",
-   "version": "v0.1.1",
-   "status": "TURN: ChatGPT",
-   "turn": "ChatGPT (per HubSpot subject, read 2026-11-07T12:34Z)",
+   "version": "v0.1.2",
+   "status": "TURN: Grok",
+   "turn": "Grok (per HubSpot subject, read 2026-11-09T22:20Z)",
    "open_issues": null,
-   "last_change": "2026-11-07T11:59:50Z",
-   "last_agent": "Claude",
+   "last_change": "2026-11-09T20:19:55Z",
+   "last_agent": "ChatGPT",
    "rounds": null,
    "tier_since": "2026-10-29T22:47:13Z",
    "tier": "working",
@@ -4080,7 +4048,7 @@
    "pct_at": "2026-10-30T01:31:27Z",
    "last_action_by": "Grok",
    "last_action_at": "2026-11-03T10:10:11Z",
-   "hs_task_status": "NOT_STARTED"
+   "hs_task_status": "IN_PROGRESS"
   },
   {
    "id": "fcdo-427037",
@@ -5036,7 +5004,7 @@
    "status": "TURN: ChatGPT",
    "turn": "ChatGPT (per HubSpot subject, read 2026-11-07T06:33Z)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5068,7 +5036,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:15Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5101,7 +5069,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5134,7 +5102,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5167,7 +5135,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5200,7 +5168,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:15Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5233,7 +5201,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:35Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5266,7 +5234,7 @@
    "status": "COMPLETED",
    "turn": "none (completed in HubSpot)",
    "open_issues": null,
-   "last_change": "2026-11-09T11:36:36Z",
+   "last_change": "2026-11-09T21:25:14Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-05T01:42:22Z",
@@ -5956,7 +5924,7 @@
    "status": "OTHER AGENT'S TURN",
    "turn": "any other agent (per HubSpot subject, read 2026-11-06T14:00Z)",
    "open_issues": null,
-   "last_change": "2026-11-07T10:26:57Z",
+   "last_change": "2026-11-09T19:56:16Z",
    "last_agent": null,
    "rounds": null,
    "tier_since": "2026-11-06T14:00:05Z",
@@ -6916,6 +6884,67 @@
    "pct": 0,
    "pct_at": "2026-11-08T06:44:32Z",
    "hs_task_status": "NOT_STARTED"
+  },
+  {
+   "id": "vale-of-glamorgan-council-scrutiny-james-langrid-328067",
+   "record": "HubSpot task 541477328067",
+   "version": "v0.1.0",
+   "status": "OTHER AGENT'S TURN",
+   "turn": "any other agent (per HubSpot subject, read 2026-11-09T22:20Z)",
+   "open_issues": null,
+   "last_change": "2026-11-09T19:56:25Z",
+   "last_agent": null,
+   "rounds": null,
+   "tier_since": "2026-11-09T22:20:05Z",
+   "tier": "working",
+   "tier_label": "IN REVIEW",
+   "gmail_draft_id": null,
+   "sent_at": null,
+   "archive_url": null,
+   "version_reviews": null,
+   "version_distinct_agents": null,
+   "version_agents": [],
+   "seat_agreements_version": null,
+   "final_three_hat_version": null,
+   "attachments_verified_version": null,
+   "sent_version": null,
+   "context": {
+    "body": "Vale of Glamorgan Council (Scrutiny, James Langridge-Thomas)",
+    "as_of": "2026-11-09T22:20:05Z",
+    "note": "Board entry added from the HubSpot subject by board_sync.py; no context pack yet. Metadata only."
+   }
+  },
+  {
+   "id": "heneb-193945",
+   "record": "HubSpot task 535717193945",
+   "version": "v0.1.6",
+   "status": "OTHER AGENT'S TURN",
+   "turn": "any other agent (per HubSpot subject, read 2026-10-29T17:58Z)",
+   "open_issues": null,
+   "last_change": "2026-11-04T20:16:14Z",
+   "last_agent": null,
+   "rounds": null,
+   "tier_since": "2026-10-29T17:58:38Z",
+   "tier": "working",
+   "tier_label": "IN REVIEW",
+   "gmail_draft_id": null,
+   "sent_at": null,
+   "archive_url": null,
+   "version_reviews": 0,
+   "version_distinct_agents": 0,
+   "version_agents": [],
+   "seat_agreements_version": null,
+   "final_three_hat_version": null,
+   "attachments_verified_version": null,
+   "sent_version": null,
+   "context": {
+    "body": "Heneb",
+    "as_of": "2026-10-29T17:58:38Z",
+    "note": "Board entry added from the HubSpot subject by board_sync.py; no context pack yet. Metadata only."
+   },
+   "pct": 0,
+   "pct_at": "2026-10-29T18:01:57Z",
+   "hs_task_status": "IN_PROGRESS"
   },
   {
    "id": "hmlr-lawyer-referral-sar-reply",
@@ -7940,11 +7969,11 @@
    "hs_task_status": "COMPLETED"
   }
  ],
- "synced_at": "2026-11-09T19:04:49Z",
+ "synced_at": "2026-11-09T22:20:05Z",
  "sync": {
   "by": "Sion's Tab agent (board_sync.py, 4-hourly schedule; replaces the Actions run)",
   "source": "HubSpot task subjects and hs_lastmodifieddate (metadata); changelog review counts for % complete (no body text stored)",
-  "last_changes": 9
+  "last_changes": 6
  },
  "events": [
   {
@@ -8856,6 +8885,13 @@
    "version": null,
    "agent": "Tab",
    "event": "Board sync from HubSpot subjects: public-services-ombudsman-for-wales-776444: TURN: Grok v0.1.4 -> TURN: Claude v0.1.4; cardiff-naturalists-society-012385: TURN: Grok v0.1.8 -> TURN: Claude v0.1.9; cardiff-rugby-museum-cardiff-athletic-club-archi-070438: TURN: Grok v0.1.7 -> TURN: Claude v0.1.7; cardiff-central-library-356891: TURN: Grok v0.2.7 -> TURN: Instinct v0.2.7; cardiff-council-strategic-estates-583253: TURN: Grok v0.1.4 -> TURN: Claude v0.1.4; prc-tf02-back-tag-research-findings-by-parcel-ba-375188: TURN: Grok v0.1.1 -> TURN: Grok v0.1.2; liverpool-john-moores-university-913342: TURN: Grok v0.1.6 -> TURN: Claude v0.1.7; ghf-reply-draft-310298: TURN: Claude v0.1.1 -> TURN: ChatGPT v0.1.1; seats last_seen refreshed. Metadata only."
+  },
+  {
+   "at": "2026-11-09T22:20:05Z",
+   "draft": null,
+   "version": null,
+   "agent": "Tab",
+   "event": "Board sync from HubSpot subjects: hmlr-sar-wa735527-wa513690: TURN: Claude v0.7.2 -> TURN: ChatGPT v0.7.3; cardiff-central-library-356891: TURN: Instinct v0.2.7 -> TURN: Claude v0.2.8; prc-g1-match-the-1824-bute-survey-plan-19-to-the-043069: TURN: ChatGPT v0.1.1 -> TURN: Grok v0.1.2; added vale-of-glamorgan-council-scrutiny-james-langrid-328067; seats last_seen refreshed; display order: 30 oldest row(s) by last_change moved past the 200-row display cap (none dropped). Metadata only."
   }
  ],
  "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
@@ -8871,26 +8907,26 @@
    "seat": 2,
    "agent": "ChatGPT",
    "status": "active",
-   "last_seen": "2026-11-09T11:36:35Z",
+   "last_seen": "2026-11-09T21:25:14Z",
    "last_seen_source": "row cardiff-central-library-bute-x6-12-reply"
   },
   {
    "seat": 3,
    "agent": "Grok",
    "status": "active",
-   "last_seen": "2026-11-09T18:25:33Z",
-   "last_seen_source": "row prc-tf02-back-tag-research-findings-by-parcel-ba-375188"
+   "last_seen": "2026-11-09T19:04:49Z",
+   "last_seen_source": "turn handoff on public-services-ombudsman-for-wales-776444 (seen by board sync)"
   },
   {
    "seat": 4,
    "agent": "Claude",
    "status": "active",
-   "last_seen": "2026-11-09T16:25:29Z",
-   "last_seen_source": "row cardiff-council-strategic-estates-583253"
+   "last_seen": "2026-11-09T21:18:46Z",
+   "last_seen_source": "row hmlr-sar-wa735527-wa513690"
   }
  ],
  "seats_rule": "last_seen = newest board activity per seat agent: draft rows whose last_agent/last_action_by is the agent, board events signed by the agent, and turn handoffs (a row leaving 'TURN: <agent>' or changing version while held by the agent, dated at the sync that saw it). Recomputed by board_sync.py every run (protocol v3.11.0 roll call). Metadata only; derived from BOARD.json itself.",
- "seats_as_of": "2026-11-09T19:08:03Z",
+ "seats_as_of": "2026-11-09T22:23:16Z",
  "standing_directions": [
   {
    "id": "SD-2026-11-01-paradigm",
@@ -8904,5 +8940,5 @@
    "posted_at": "2026-11-01T22:50:00Z"
   }
  ],
- "open_count": 182
+ "open_count": 183
 }
