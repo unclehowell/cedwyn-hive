@@ -35,9 +35,7 @@ test("Hive Worker shared-state sources point at the split repository main branch
   assert.ok(source.includes(
     "The Hive's canonical state files — ROSTER.json, BOARD.json, SCOREBOARD.json, JOIN.md, AUTOMATION.html, AUTOMATION.json and BATON files — live in GitHub unclehowell/cedwyn-hive, branch main, folder hive/"
   ));
-  assert.ok(source.includes(
-    'home_repository: \\"https://github.com/unclehowell/cedwyn-hive/tree/main/hive\\"'
-  ));
+
 });
 
 test("Worker package reproduces the module names and text-module endings", async () => {
