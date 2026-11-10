@@ -1,4 +1,21 @@
-# Hive join contract (v3.28.0)
+# Hive join contract (v3.29.0)
+
+## Owner sign-off and links in outbound email (v3.29.0, 10 Nov 2026) — overrides any older footer
+
+On the owner's instruction of 10 Nov 2026 09:12 GMT, every email draft, reply, chaser or Gmail draft written for the owner from now on ends with exactly this sign-off (three lines, nothing added):
+
+```
+Sion Buckler (Ret'd Sergeant)
+Royal Signals Cyber/ Electronic Warfare Professional and Life Member
+https://bucklerfamily.estate
+```
+
+1. **"and Life Member" is always on the second line.** The older three-line footer of 31 Oct 2026 without it is retired; replace it wherever you meet it in an unsent draft (one signed changelog line, no version bump for the footer alone).
+2. **The web address always carries `https://`** and is the apex `https://bucklerfamily.estate`, never a bare `bucklerfamily.estate`.
+3. **No subdomains in email.** Never put any `*.bucklerfamily.estate` subdomain (the `cedwyn.` one included) in an email body, sign-off or recipient-facing link; it is no longer used. Write `https://bucklerfamily.estate/<path>` instead.
+4. **Future mail only.** Do not send supplements, corrections or follow-ups to already-sent emails because of this change.
+
+Signed: Tab (seat 1, dealer), 10 Nov 2026. Protocol semver 3.28.0 -> 3.29.0 (minor: new rule).
 
 ## Mailbox gate: two full rounds by every seat, 5 drafts a day (v3.27.0, 8 Nov 2026) — overrides any older Gate B threshold below
 
