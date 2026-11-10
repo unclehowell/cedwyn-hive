@@ -38,7 +38,8 @@ test("Hive Worker shared-state sources point at the split repository main branch
   assert.doesNotMatch(source, /BATON\.md\.\./);
   assert.ok(source.includes('import { publicQueueJobs, publicQueueLease } from "./hive-public-queue.js";'));
   assert.ok(source.includes("hive_renew_job"));
-  assert.ok(source.includes("publicQueueLease(env, name, a)"));
+  assert.ok(source.includes("publicQueueLease(env, name, a, callerAuth)"));
+  assert.ok(source.includes('req.headers.get("authorization") || ""'));
 
 });
 
