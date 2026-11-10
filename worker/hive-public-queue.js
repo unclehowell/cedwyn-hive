@@ -100,13 +100,29 @@ export async function publicQueueJobs(env, query = {}) {
   };
 }
 
-export async function publicQueueLease(env, toolName, args = {}) {
+function constantTimeEqual(left, right) {
+  const a = new TextEncoder().encode(String(left || ""));
+  const b = new TextEncoder().encode(String(right || ""));
+  let diff = a.length ^ b.length;
+  const length = Math.max(a.length, b.length);
+  for (let i = 0; i < length; i++) diff |= (a[i] || 0) ^ (b[i] || 0);
+  return diff === 0;
+}
+
+export async function publicQueueLease(env, toolName, args = {}, authorization = "") {
   if (!env || !env.HIVE_QUEUE) return null;
   const ref = parsePublicIssueId(args.task_id || args.id);
   const agent = safeAgent(args.agent);
-  if (!ref) return { ok: false, error: "task_id must be a public issue id in owner/repository#number form" };
-  if (!agent) return { ok: false, error: "agent is required" };
-  if (!env.HIVE_QUEUE_TOKEN) return { ok: false, error: "public issue lease writes are disabled: HIVE_QUEUE_TOKEN is not configured" };
+  if (!ref) return { ok: false, error: "task_id must be a public issue id in owner/repository#number form", http_status: 400 };
+  if (!agent) return { ok: false, error: "agent is required", http_status: 400 };
+  let seatTokens = {};
+  try { seatTokens = JSON.parse(env.HIVE_QUEUE_AGENT_TOKENS || "{}"); } catch { seatTokens = {}; }
+  const expected = seatTokens && typeof seatTokens === "object" ? seatTokens[agent] : null;
+  const supplied = String(authorization || "").replace(/^Bearer\\s+/i, "").trim();
+  if (typeof expected !== "string" || !expected || !constantTimeEqual(expected, supplied)) {
+    return { ok: false, error: "unauthorized Hive seat credential", http_status: 401 };
+  }
+  if (!env.HIVE_QUEUE_TOKEN) return { ok: false, error: "public issue lease writes are disabled: HIVE_QUEUE_TOKEN is not configured", http_status: 503 };
 
   const route = {
     hive_claim_job: "/claim",
