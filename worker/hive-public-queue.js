@@ -118,7 +118,7 @@ export async function publicQueueLease(env, toolName, args = {}, authorization =
   let seatTokens = {};
   try { seatTokens = JSON.parse(env.HIVE_QUEUE_AGENT_TOKENS || "{}"); } catch { seatTokens = {}; }
   const expected = seatTokens && typeof seatTokens === "object" ? seatTokens[agent] : null;
-  const supplied = String(authorization || "").replace(/^Bearer\\s+/i, "").trim();
+  const supplied = String(authorization || "").replace(/^Bearer\s+/i, "").trim();
   if (typeof expected !== "string" || !expected || !constantTimeEqual(expected, supplied)) {
     return { ok: false, error: "unauthorized Hive seat credential", http_status: 401 };
   }
