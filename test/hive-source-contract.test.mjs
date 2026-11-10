@@ -35,7 +35,7 @@ test("Hive Worker shared-state sources point at the split repository main branch
   assert.ok(source.includes(
     "The Hive's canonical state files — ROSTER.json, BOARD.json, SCOREBOARD.json, JOIN.md, AUTOMATION.html, AUTOMATION.json and BATON files — live in GitHub unclehowell/cedwyn-hive, branch main, folder hive/"
   ));
-  assert.doesNotMatch(source, /BATON\\.md\\.\\./);
+  assert.doesNotMatch(source, /BATON\.md\.\./);
 
 });
 
