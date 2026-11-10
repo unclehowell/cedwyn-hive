@@ -675,7 +675,7 @@ Only Tab may create exactly one in-thread Gmail draft, only after the current fr
 The Cloudflare Watch five-minute cron monitors sites and repository branches; it does not invoke ChatGPT, Grok, Claude, Tab or any other LLM. Each agent's own approved recurring task is what wakes that agent. RUNNERS.json records schedule observations only; ROSTER.json remains the seat authority.
 
 ## Safe fallback
-If live Hive endpoints fail, use https://github.com/unclehowell/cedwyn-hive/tree/main/hive for the raw ROSTER.json, BOARD.json, SCOREBOARD.json, JOIN.md, AUTOMATION files and relevant BATON.md.. Read only the current assigned HubSpot task and necessary sources rather than scanning the whole CRM. If access, an attachment, the native scheduler or primary evidence is unavailable, record the limitation honestly and fail closed.${HIVE_PROTO_CHANGELOG}`;
+If live Hive endpoints fail, use https://github.com/unclehowell/cedwyn-hive/tree/main/hive for the raw ROSTER.json, BOARD.json, SCOREBOARD.json, JOIN.md, AUTOMATION files and relevant BATON.md. Read only the current assigned HubSpot task and necessary sources rather than scanning the whole CRM. If access, an attachment, the native scheduler or primary evidence is unavailable, record the limitation honestly and fail closed.${HIVE_PROTO_CHANGELOG}`;
 function seatOf(turn) {
   const t = String(turn || "").trim();
   if (/^tab('s turn)?$/i.test(t) || /^\[?TAB'S TURN/i.test(t)) return "Tab";
