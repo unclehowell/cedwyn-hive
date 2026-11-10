@@ -17,14 +17,17 @@ await mkdir(outDir, { recursive: true });
 const index = await readFile(path.join(sourceDir, "index.js"), "utf8");
 const seed = await readFile(path.join(sourceDir, "seed.txt"), "utf8");
 const pipeline = await readFile(path.join(sourceDir, "pipeline.js"), "utf8");
+const hiveQueue = await readFile(path.join(sourceDir, "hive-public-queue.js"), "utf8");
 
 if (!index.includes('import SEEDTXT from "./seed.txt";') ||
-    !index.includes('import PIPELINE_JS from "./pipeline.txt";')) {
+    !index.includes('import PIPELINE_JS from "./pipeline.txt";') ||
+    !index.includes('from "./hive-public-queue.js"')) {
   throw new Error("Worker module imports and packaging inputs do not agree");
 }
 
 await writeFile(path.join(outDir, "index.js"), index);
 await writeFile(path.join(outDir, "seed.txt"), normalizeFinalLineEnding(seed));
 await writeFile(path.join(outDir, "pipeline.txt"), normalizeFinalLineEnding(pipeline));
+await writeFile(path.join(outDir, "hive-public-queue.js"), hiveQueue);
 
 process.stdout.write("Packaged ghf-watch Worker modules to .worker-build/ghf-watch\n");
