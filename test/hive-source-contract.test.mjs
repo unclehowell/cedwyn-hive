@@ -23,6 +23,8 @@ test("Hive Worker shared-state sources point at the split repository main branch
   assert.doesNotMatch(source, /github\.com\/unclehowell\/cedwyn\/(?:blob|tree)\/hive\/hive\//);
   assert.doesNotMatch(source, /unclehowell\/cedwyn@hive/);
   assert.match(source, /unclehowell\/cedwyn-hive@main: hive\/BOARD\.json/);
+  assert.ok(source.includes("the Hive's canonical state files (ROSTER.json, BOARD.json, JOIN.md and BATON files) are in GitHub unclehowell/cedwyn-hive, branch main, folder hive/"));
+  assert.doesNotMatch(source, /the hive state is on branch hive, folder hive\//i);
 });
 
 test("Worker package reproduces the module names and deployed text-module endings", async () => {
