@@ -31,7 +31,7 @@ function mapIssue(issue, index = 0) {
     task_id: id,
     repo,
     issue_number: number,
-    status: "NOT_STARTED",
+    status: claim ? "IN_PROGRESS" : "NOT_STARTED",
     priority: ["HIGH", "MEDIUM", "LOW"].includes(issue.priority) ? issue.priority : "NONE",
     due: null,
     overdue: false,
@@ -70,16 +70,22 @@ export async function publicQueueJobs(env, query = {}) {
     };
   }
   const issues = Array.isArray(data.jobs) ? data.jobs : [];
-  const jobs = issues.map(mapIssue).filter(Boolean);
+  let jobs = issues.map(mapIssue).filter(Boolean);
+  if (query.status) jobs = jobs.filter(x => x.status === String(query.status).toUpperCase());
+  if (query.priority) jobs = jobs.filter(x => x.priority === String(query.priority).toUpperCase());
+  if (query.workstream && String(query.workstream) !== "public-github-issues") jobs = [];
+  if (!(query.include_claimed === "1" || query.include_claimed === true || query.include_claimed === "true")) {
+    jobs = jobs.filter(x => !x.claim || (query.agent && x.claim.agent === safeAgent(query.agent)));
+  }
   const next_job = data.next_job ? mapIssue(data.next_job) : jobs.find(x => x.takeable) || null;
   const counts = {
-    open: Number(data.counts?.open) || jobs.length,
-    claimed: Number(data.counts?.claimed) || jobs.filter(x => x.claim).length,
-    takeable: Number(data.counts?.takeable) || jobs.filter(x => x.takeable).length,
-    HIGH: jobs.filter(x => x.priority === "HIGH").length,
-    MEDIUM: jobs.filter(x => x.priority === "MEDIUM").length,
-    LOW: jobs.filter(x => x.priority === "LOW").length,
-    NONE: jobs.filter(x => x.priority === "NONE").length
+    open: Number(data.counts?.open) || issues.length,
+    claimed: Number(data.counts?.claimed) || issues.filter(x => x.claim).length,
+    takeable: Number(data.counts?.takeable) || issues.filter(x => x.takeable).length,
+    HIGH: Number(data.counts?.HIGH) || issues.filter(x => x.priority === "HIGH").length,
+    MEDIUM: Number(data.counts?.MEDIUM) || issues.filter(x => x.priority === "MEDIUM").length,
+    LOW: Number(data.counts?.LOW) || issues.filter(x => x.priority === "LOW").length,
+    NONE: Number(data.counts?.NONE) || issues.filter(x => x.priority === "NONE").length
   };
   return {
     schema: "hive_public_jobs/v1",
@@ -89,7 +95,7 @@ export async function publicQueueJobs(env, query = {}) {
     counts,
     next_job,
     returned: jobs.length,
-    jobs,
+    jobs: jobs.slice(0, limit),
     rule: "This queue contains public GitHub issues only. Email drafts, correspondence and private case tasks remain in HubSpot and must not be copied here."
   };
 }
