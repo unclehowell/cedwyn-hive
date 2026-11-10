@@ -62,6 +62,44 @@ test("public jobs map only explicitly returned issue metadata", async () => {
   assert.equal(JSON.stringify(result).includes("issue body"), false);
 });
 
+test("claimed jobs are visible to their holder but hidden from other seats by default", async () => {
+  const env = {
+    HIVE_QUEUE: {
+      async fetch() {
+        return new Response(JSON.stringify({
+          counts: { open: 2, claimed: 1, takeable: 1, HIGH: 1, NONE: 1 },
+          jobs: [
+            {
+              repo: "unclehowell/cedwyn-hive", number: 24, title: "Claimed by ChatGPT",
+              url: "https://github.com/unclehowell/cedwyn-hive/issues/24", priority: "HIGH",
+              labels: ["hive:public", "priority:high"], updated_at: "2026-11-10T19:00:00Z",
+              claim: { agent: "ChatGPT", claimed_at: "2026-11-10T19:00:00Z", renewed_at: "2026-11-10T19:30:00Z", expires_at: "2026-11-10T20:30:00Z" },
+              takeable: false
+            },
+            {
+              repo: "unclehowell/cedwyn-hive", number: 25, title: "Free issue",
+              url: "https://github.com/unclehowell/cedwyn-hive/issues/25", priority: "NONE",
+              labels: ["hive:public"], updated_at: "2026-11-10T19:00:00Z", takeable: true
+            }
+          ],
+          next_job: {
+            repo: "unclehowell/cedwyn-hive", number: 25, title: "Free issue",
+            url: "https://github.com/unclehowell/cedwyn-hive/issues/25", priority: "NONE",
+            labels: ["hive:public"], takeable: true
+          }
+        }));
+      }
+    }
+  };
+  const holder = await publicQueueJobs(env, { agent: "ChatGPT" });
+  assert.deepEqual(holder.jobs.map(x => x.task_id), ["unclehowell/cedwyn-hive#24", "unclehowell/cedwyn-hive#25"]);
+  assert.equal(holder.jobs[0].status, "IN_PROGRESS");
+  const other = await publicQueueJobs(env, { agent: "Claude" });
+  assert.deepEqual(other.jobs.map(x => x.task_id), ["unclehowell/cedwyn-hive#25"]);
+  const inProgress = await publicQueueJobs(env, { agent: "ChatGPT", status: "IN_PROGRESS" });
+  assert.deepEqual(inProgress.jobs.map(x => x.task_id), ["unclehowell/cedwyn-hive#24"]);
+});
+
 test("claim, renew and release call the matching authenticated lease endpoint", async () => {
   const calls = [];
   const env = {
