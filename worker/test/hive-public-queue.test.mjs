@@ -104,6 +104,7 @@ test("claim, renew and release call the matching authenticated lease endpoint", 
   const calls = [];
   const env = {
     HIVE_QUEUE_TOKEN: "test-token",
+    HIVE_QUEUE_AGENT_TOKENS: JSON.stringify({ ChatGPT: "chatgpt-seat-token" }),
     HIVE_QUEUE: {
       async fetch(url, init) {
         calls.push({ url, init });
@@ -116,7 +117,7 @@ test("claim, renew and release call the matching authenticated lease endpoint", 
     ["hive_renew_job", "/renew"],
     ["hive_release_job", "/release"]
   ]) {
-    const result = await publicQueueLease(env, tool, { task_id: "unclehowell/cedwyn-hive#24", agent: "ChatGPT" });
+    const result = await publicQueueLease(env, tool, { task_id: "unclehowell/cedwyn-hive#24", agent: "ChatGPT" }, "Bearer chatgpt-seat-token");
     assert.equal(result.ok, true);
     assert.equal(result.http_status, 200);
     assert.equal(result.operation, tool);
@@ -134,11 +135,30 @@ test("claim, renew and release call the matching authenticated lease endpoint", 
   }
 });
 
-test("an enabled binding fails closed without a lease secret", async () => {
-  const env = { HIVE_QUEUE: { fetch: async () => { throw new Error("must not call"); } } };
+test("lease mutations reject missing or wrong per-seat credentials before reaching the queue", async () => {
+  const env = {
+    HIVE_QUEUE_TOKEN: "internal-token",
+    HIVE_QUEUE_AGENT_TOKENS: JSON.stringify({ ChatGPT: "chatgpt-seat-token" }),
+    HIVE_QUEUE: { fetch: async () => { throw new Error("must not call"); } }
+  };
+  const args = { task_id: "unclehowell/cedwyn-hive#24", agent: "ChatGPT" };
+  const missing = await publicQueueLease(env, "hive_claim_job", args);
+  const wrong = await publicQueueLease(env, "hive_claim_job", args, "Bearer wrong-token");
+  assert.equal(missing.ok, false);
+  assert.equal(missing.http_status, 401);
+  assert.equal(wrong.ok, false);
+  assert.equal(wrong.http_status, 401);
+});
+
+test("an authenticated seat still fails closed without the internal queue secret", async () => {
+  const env = {
+    HIVE_QUEUE_AGENT_TOKENS: JSON.stringify({ ChatGPT: "chatgpt-seat-token" }),
+    HIVE_QUEUE: { fetch: async () => { throw new Error("must not call"); } }
+  };
   const result = await publicQueueLease(env, "hive_claim_job", {
     task_id: "unclehowell/cedwyn-hive#24", agent: "ChatGPT"
-  });
+  }, "Bearer chatgpt-seat-token");
   assert.equal(result.ok, false);
+  assert.equal(result.http_status, 503);
   assert.match(result.error, /HIVE_QUEUE_TOKEN/);
 });
