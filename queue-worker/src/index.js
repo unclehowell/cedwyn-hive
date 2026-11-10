@@ -113,7 +113,15 @@ async function route(request, env) {
         schema: "hive_github_jobs/v1",
         generated_at: new Date().toISOString(),
         source: { type: "github-issues", allowlisted_repositories: repos, required_label: LABEL },
-        counts: { open: rows.length, claimed: rows.filter(x => x.claim).length, takeable: rows.filter(x => x.takeable).length },
+        counts: {
+          open: rows.length,
+          claimed: rows.filter(x => x.claim).length,
+          takeable: rows.filter(x => x.takeable).length,
+          HIGH: rows.filter(x => x.priority === "HIGH").length,
+          MEDIUM: rows.filter(x => x.priority === "MEDIUM").length,
+          LOW: rows.filter(x => x.priority === "LOW").length,
+          NONE: rows.filter(x => x.priority === "NONE").length
+        },
         jobs: rows.slice(0, limit),
         next_job: rows.find(x => x.takeable) || null
       });
