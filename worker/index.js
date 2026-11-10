@@ -311,8 +311,8 @@ const TOOLS = [
 ];
 function findSite(sites, q) { if (!q) return null; q = String(q).toLowerCase().replace(/^https?:\/\//, "").replace(/\/$/, ""); return sites.find((s) => s.id.toLowerCase() === q || s.url.toLowerCase().replace(/^https?:\/\//, "").replace(/\/$/, "") === q || s.url.toLowerCase().includes("//" + q + ".bucklerfamily.estate/")) || null; }
 const rate = new Map();
-async function callTool(env, name, a = {}, ip = "") {
-  if (String(name || "").startsWith("hive_")) { const jr = await jobTool(env, name, a, ip); if (jr) return jr; }
+async function callTool(env, name, a = {}, ip = "", callerAuth = "") {
+  if (String(name || "").startsWith("hive_")) { const jr = await jobTool(env, name, a, ip, callerAuth); if (jr) return jr; }
   const { state: st, added } = await loadAll(env); const sites = allSites(added);
   if (name === "list_sites") {
     let rows = sites.map((s) => { const r = st.sites[s.url] || {}; return { id: s.id, url: s.url, up: r.up, status: r.status, ms: r.ms, hash: r.hash, title: r.title, checked: r.checked, changed: r.changed, changes: r.changes, branch: s.branch || null, repo: s.branch ? s.repo || "unclehowell/datro" : null, via: s.via, edge: r.edge, location: r.location, added_by: s.added_by }; });
@@ -416,7 +416,7 @@ async function mcp(env, req, ip) {
     if (x.method === "ping") return { jsonrpc: "2.0", id, result: {} };
     if (x.method === "tools/list") return { jsonrpc: "2.0", id, result: { tools: TOOLS.concat(JOB_TOOLS) } };
     if (x.method === "tools/call") {
-      const r = await callTool(env, x.params?.name, x.params?.arguments || {}, ip);
+      const r = await callTool(env, x.params?.name, x.params?.arguments || {}, ip, req.headers.get("authorization") || "");
       return { jsonrpc: "2.0", id, result: { content: [{ type: "text", text: JSON.stringify(r) }], structuredContent: r, isError: !!r.error } };
     }
     return { jsonrpc: "2.0", id, error: { code: -32601, message: "method not found: " + x.method } };
@@ -952,11 +952,11 @@ const JOB_TOOLS = [
   { name: "hive_renew_job", description: "Renew an existing unexpired public issue lease. Only its current holder may renew; renewal cannot recreate an expired lease.", inputSchema: { type: "object", required: ["task_id", "agent"], properties: { task_id: { type: "string" }, agent: { type: "string" } } } },
   { name: "hive_release_job", description: "Release a public issue lease held by this agent.", inputSchema: { type: "object", required: ["task_id", "agent"], properties: { task_id: { type: "string" }, agent: { type: "string" }, note: { type: "string" } } } }
 ];
-async function jobTool(env, name, a, ip) {
+async function jobTool(env, name, a, ip, callerAuth = "") {
   if (name === "hive_next_job") { const d = await hiveJobs(env, { workstream: a.workstream, agent: a.agent, limit: 1 }); return { rule: d.rule, next_job: d.next_job, counts: d.counts, source: d.source, claim: d.claim, error: d.error }; }
   if (name === "hive_list_jobs") return hiveJobs(env, { limit: a.limit, status: a.status, priority: a.priority, workstream: a.workstream, include_claimed: a.include_claimed ? "1" : "" });
   if (["hive_claim_job", "hive_renew_job", "hive_release_job"].includes(name)) {
-    if (env.HIVE_QUEUE) return publicQueueLease(env, name, a);
+    if (env.HIVE_QUEUE) return publicQueueLease(env, name, a, callerAuth);
     return jobClaimTool(env, name === "hive_renew_job" ? "hive_claim_job" : name, a, ip);
   }
   return null;
@@ -981,7 +981,7 @@ async function hiveRoute(req, env, ctx, p) {
   const T = (body, ct) => new Response(body, { headers: { ...H, "content-type": ct, "x-robots-tag": "all" } });
   if (p === "/jobs.json") return cached(req, ctx, env.HIVE_QUEUE ? 0 : 60, async () => J(await hiveJobs(env, Object.fromEntries(new URL(req.url).searchParams)), 200, env.HIVE_QUEUE ? 0 : 60));
   if (p === "/jobs" || p === "/jobs/") return cached(req, ctx, 60, async () => T(jobsPage(await hiveJobs(env, { limit: 200 })), "text/html; charset=utf-8"));
-  if ((p === "/api/jobs/claim" || p === "/api/jobs/renew" || p === "/api/jobs/release") && req.method === "POST") return (async () => { let a = {}; try { a = await req.json(); } catch (_) {} const name = p.endsWith("/claim") ? "hive_claim_job" : p.endsWith("/renew") ? "hive_renew_job" : "hive_release_job"; const r = env.HIVE_QUEUE ? await publicQueueLease(env, name, a) : await jobClaimTool(env, name === "hive_renew_job" ? "hive_claim_job" : name, a, req.headers.get("cf-connecting-ip") || ""); const status = r?.http_status || (r?.error ? (r?.ok === false ? 409 : 400) : 200); return J(r, status, 0); })();
+  if ((p === "/api/jobs/claim" || p === "/api/jobs/renew" || p === "/api/jobs/release") && req.method === "POST") return (async () => { let a = {}; try { a = await req.json(); } catch (_) {} const name = p.endsWith("/claim") ? "hive_claim_job" : p.endsWith("/renew") ? "hive_renew_job" : "hive_release_job"; const r = env.HIVE_QUEUE ? await publicQueueLease(env, name, a, req.headers.get("authorization") || "") : await jobClaimTool(env, name === "hive_renew_job" ? "hive_claim_job" : name, a, req.headers.get("cf-connecting-ip") || ""); const status = r?.http_status || (r?.error ? (r?.ok === false ? 409 : 400) : 200); return J(r, status, 0); })();
   if (p === "/mcp") { if (req.method === "POST") return mcp(env, req, req.headers.get("cf-connecting-ip") || ""); return J({ info: "Hive MCP (streamable HTTP, JSON-RPC 2.0): POST here. Job tools: hive_next_job, hive_list_jobs, hive_claim_job, hive_renew_job, hive_release_job (plus the change-monitor tools).", rule: JOB_RULE }, 200, 300); }
   if(p==="/automation.json") return cached(req,ctx,300,async()=>{const r=await fetch(HIVE_AUTOMATION_JSON_URL);if(!r.ok)return J({error:"catalog_unavailable"},502,30);const body=await r.text();try{JSON.parse(body)}catch(_){return J({error:"catalog_invalid"},502,30)}return new Response(body,{headers:{...H,"content-type":"application/json; charset=utf-8","cache-control":"public, max-age=300"}})});
   if(p==="/automation"||p==="/automation/") return cached(req,ctx,300,async()=>{const r=await fetch(HIVE_AUTOMATION_HTML_URL);if(!r.ok)return T("<!doctype html><html><body><h1>Automation page unavailable</h1><a href=\"/automation.json\">Catalog</a></body></html>","text/html; charset=utf-8");return new Response(await r.text(),{headers:{...H,"content-type":"text/html; charset=utf-8","cache-control":"public, max-age=300"}})});
