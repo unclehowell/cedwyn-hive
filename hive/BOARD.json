@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T22:44:04Z",
+  "updated": "2026-11-10T23:09:00Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -152,8 +152,8 @@
       "id": "hmlr-sar-wa735527-wa513690",
       "record": "HubSpot task 532323118282",
       "version": "v0.7.3",
-      "status": "TURN: ChatGPT",
-      "turn": "ChatGPT (per HubSpot subject, read 2026-11-09T22:20Z)",
+      "status": "TURN: Grok",
+      "turn": "Grok (per HubSpot subject, read back 2026-11-10T23:08Z)",
       "open_issues": null,
       "last_change": "2026-11-09T21:18:46Z",
       "last_agent": "Claude",
@@ -191,7 +191,8 @@
         "open_questions": null,
         "route": "hmlr",
         "regime": "SAR",
-        "kb_items": 23
+        "kb_items": 23,
+        "note": "D260928 partial overlap triage is in private HubSpot task; exact PDF/item/page comparison handed to Grok. No recipient text change, v0.7.3 frozen."
       },
       "tier_since": "2026-10-23T19:39:37Z",
       "tier": "working",
@@ -199,7 +200,7 @@
       "gmail_draft_id": null,
       "sent_at": null,
       "archive_url": null,
-      "note": "downgraded from READY TO SEND by the Gmail gate (24 Oct 05:3x BST); board reconciled to HubSpot",
+      "note": "Private D260928 scope triage added in HubSpot v0.7.3; ChatGPT source-access skip, no review counted; Grok to compare Main's existing 40-PDF/8-page response packet and 7,873-byte record map item-by-item. Recipient text unchanged.",
       "pct": 0,
       "reviews": 7,
       "distinct_agents": 2,
@@ -217,8 +218,9 @@
       "version_distinct_agents": 0,
       "version_agents": [],
       "hs_task_status": "WAITING",
-      "last_action_by": "Grok",
-      "last_action_at": "2026-11-07T09:18:55Z"
+      "last_action_by": "ChatGPT",
+      "last_action_at": "2026-11-10T23:09:00Z",
+      "queue_after": "Grok"
     },
     {
       "id": "vale-eir-vg41",
@@ -7986,13 +7988,6 @@
   },
   "events": [
     {
-      "at": "2026-11-02T09:44:13Z",
-      "draft": null,
-      "version": null,
-      "agent": "Tab",
-      "event": "Board sync from HubSpot subjects: vale-of-glamorgan-council-democratic-scrutiny-se-159627: TURN: ChatGPT v0.1.5 -> TURN: ChatGPT v0.1.6; museum-of-english-rural-life-university-of-readi-946828: TURN: Claude v0.1.6 -> TURN: Claude v0.1.9; michaelston-le-pit-and-leckwith-community-counci-786149: OTHER AGENT'S TURN v0.1.7 -> OTHER AGENT'S TURN v0.1.8; llandough-cc-693732: OTHER AGENT'S TURN v0.1.5 -> OTHER AGENT'S TURN v0.1.6; prc-te12-back-tag-evidence-catalogue-items-by-pa-348454: TURN: Grok v0.1.0 -> TURN: Claude v0.1.0; prc-b1-parcel-b-lead-012397: TURN: Grok v0.1.1 -> TURN: Claude v0.1.2; glamorgan-federation-of-wis-413853: OTHER AGENT'S TURN v0.1.7 -> OTHER AGENT'S TURN v0.1.10; wildlife-trust-of-south-and-west-wales-215090: OTHER AGENT'S TURN v0.1.5 -> OTHER AGENT'S TURN v0.1.7; fcdo-427037: OTHER AGENT'S TURN v0.1.5 -> OTHER AGENT'S TURN v0.1.6; west-glamorgan-archive-service-636933: OTHER AGENT'S TURN v0.1.3 -> OTH. Metadata only."
-    },
-    {
       "at": "2026-11-02T13:45:50Z",
       "draft": null,
       "version": null,
@@ -8264,6 +8259,13 @@
       "version": "v0.3.0",
       "agent": "ChatGPT",
       "event": "recipient text revised; R1/R2 reset; turn to Tab"
+    },
+    {
+      "at": "2026-11-10T23:09:00Z",
+      "draft": "hmlr-sar-wa735527-wa513690",
+      "version": "v0.7.3",
+      "agent": "ChatGPT",
+      "event": "source-access skip; private overlap triage recorded; turn to Grok"
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
