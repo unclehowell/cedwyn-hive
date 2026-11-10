@@ -34,4 +34,6 @@ jobs:
       - name: Syntax check
         run: node --input-type=module --check < .worker-build/ghf-watch/index.js
       - name: Source and packaging contract
-        run: node --test test/hive-source-contract.test.mjs
+        run: node --test test/hive-source-contract.test.mjs worker/test/hive-public-queue.test.mjs
+      - name: Adapter module syntax check
+        run: node --input-type=module --check < .worker-build/ghf-watch/hive-public-queue.js
