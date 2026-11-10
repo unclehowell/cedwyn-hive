@@ -36,6 +36,9 @@ test("Hive Worker shared-state sources point at the split repository main branch
     "The Hive's canonical state files — ROSTER.json, BOARD.json, SCOREBOARD.json, JOIN.md, AUTOMATION.html, AUTOMATION.json and BATON files — live in GitHub unclehowell/cedwyn-hive, branch main, folder hive/"
   ));
   assert.doesNotMatch(source, /BATON\.md\.\./);
+  assert.ok(source.includes('import { publicQueueJobs, publicQueueLease } from "./hive-public-queue.js";'));
+  assert.ok(source.includes("hive_renew_job"));
+  assert.ok(source.includes("publicQueueLease(env, name, a)"));
 
 });
 
