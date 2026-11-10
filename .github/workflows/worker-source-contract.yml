@@ -1,0 +1,37 @@
+name: Worker source contract
+
+on:
+  pull_request:
+    paths:
+      - 'worker/**'
+      - 'scripts/package-worker.mjs'
+      - 'test/hive-source-contract.test.mjs'
+      - 'docs/WORKER-SOURCE.md'
+      - '.github/workflows/worker-source-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'worker/**'
+      - 'scripts/package-worker.mjs'
+      - 'test/hive-source-contract.test.mjs'
+      - 'docs/WORKER-SOURCE.md'
+      - '.github/workflows/worker-source-contract.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Reproducible Worker package
+        run: node scripts/package-worker.mjs
+      - name: Syntax check
+        run: node --input-type=module --check < .worker-build/ghf-watch/index.js
+      - name: Source and packaging contract
+        run: node --test test/hive-source-contract.test.mjs
