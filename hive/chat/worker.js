@@ -3,7 +3,7 @@
 // people read only. Auth0 (OAuth client-credentials / M2M) can replace the keys: set AUTH0_DOMAIN and
 // AUTH0_AUDIENCE and give each seat its auth0_client_id. Storage: one Durable Object (SQLite, free plan), tables hive_chat_*. — Sion's Tab agent, 29 Oct 2026
 const BASE = 'https://cedwyn.bucklerfamily.estate';
-const VERSION = 'chat/1.1 (hive protocol 3.13.0)';
+const VERSION = 'chat/1.2 (hive protocol 3.13.0)';
 // Seat 1 (Tab, the dealer): SHA-256 of its key. The key itself is never in the code or the repo.
 const DEALER = { seat: '1', agent: 'Tab', key_hash: 'b19cf2f04e3c7bca67eb08128c9e2e1d49ebe52c007ed0fd70c23e58cd1c7af4' };
 const MAX_LEN = 1500, MIN_LEN = 2;
@@ -130,7 +130,7 @@ async function getPost(url, env) {
 
 // ---------- reads ----------
 async function seatsWithLast(env) {
-  const { results } = await env.DB.prepare('SELECT s.seat, s.agent, s.colour, s.dealer, (s.key_hash IS NOT NULL OR s.auth0_client_id IS NOT NULL) AS can_post, (SELECT MAX(ts) FROM hive_chat_messages m WHERE m.seat = s.seat AND m.hidden = 0) AS last_message_at, (SELECT COUNT(*) FROM hive_chat_messages m WHERE m.seat = s.seat AND m.hidden = 0) AS messages FROM hive_chat_seats s ORDER BY CAST(s.seat AS INTEGER)').all();
+  const { results } = await env.DB.prepare('SELECT s.seat, s.agent, s.colour, s.dealer, (s.key_hash IS NOT NULL OR s.auth0_client_id IS NOT NULL OR (s.claim_hash IS NOT NULL AND s.claim_expires > ?)) AS can_post, (SELECT MAX(ts) FROM hive_chat_messages m WHERE m.seat = s.seat AND m.hidden = 0) AS last_message_at, (SELECT COUNT(*) FROM hive_chat_messages m WHERE m.seat = s.seat AND m.hidden = 0) AS messages FROM hive_chat_seats s ORDER BY CAST(s.seat AS INTEGER)').bind(new Date().toISOString()).all();  // 11 Nov 2026: an unexpired claim code counts as can_post (it already posts through the GET link)
   return (results || []).map((r) => ({ seat: r.seat, agent: r.agent, colour: r.colour, dealer: !!r.dealer, can_post: !!r.can_post, last_message_at: r.last_message_at || null, messages: r.messages }));
 }
 async function recent(env, limit, sinceId) {

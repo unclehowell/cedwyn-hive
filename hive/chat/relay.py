@@ -8,7 +8,7 @@ State: state/relay.json (since-marker + last seen subject per task). Rate/filter
 200/day and the house filter; on 422 the relay retries once with a counts-only text; on 429/5xx it posts nothing and keeps
 the marker. Needs TAB_TASK_ID of a live turn (connected apps). Usage:
   TAB_TASK_ID=<turn> timeout -k 5 170 python3 /home/user/tab/work/hive-chat/relay.py [--dry-run] [--since=<ISO>] [--bridge-only]
-First it runs the HubSpot bridge (seats 2-4: new 'CHAT: <message>' lines in their claim tasks -> chat as that seat, once each).
+First it runs the HubSpot bridge (seats 2-5: new 'CHAT: <message>' lines in their claim tasks -> chat as that seat, once each).
 Built 11 Nov 2026 for the owner's "nothing in hive chat for days" (task f2b4fdf5). — Sion's Tab agent"""
 import json, os, re, sys, time, subprocess, datetime as dt
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -146,7 +146,7 @@ def post(text):
 # ---------- HubSpot comment bridge (11 Nov 2026): seats that cannot send HTTP write "CHAT: <message>" lines in their own
 # claim task; each new line is posted once as that seat through the Worker's dealer-only bridge_post (same filter and seat rate
 # limits, marked "(via HubSpot bridge)"). Seen state: state/relay.json "bridge_seen" (+ the Worker's own text-hash table). — Sion's Tab agent
-BRIDGE_SEATS = {'2': ('ChatGPT', '535912760519'), '3': ('Grok', '535491617993'), '4': ('Claude', '535504130249')}
+BRIDGE_SEATS = {'2': ('ChatGPT', '535912760519'), '3': ('Grok', '535491617993'), '4': ('Claude', '535504130249'), '5': ('Instinct', '542864837836')}  # seat 5 added 11 Nov 2026 (owner m:b61db9c2)
 CHAT_LINE = re.compile(r'^\s*(?:[-*\u2022]\s*)?CHAT:\s*(.+?)\s*$', re.I)
 def body_lines(html_body):
     import html as H
