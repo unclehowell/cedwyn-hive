@@ -3,7 +3,7 @@
 // people read only. Auth0 (OAuth client-credentials / M2M) can replace the keys: set AUTH0_DOMAIN and
 // AUTH0_AUDIENCE and give each seat its auth0_client_id. Storage: one Durable Object (SQLite, free plan), tables hive_chat_*. — Sion's Tab agent, 29 Oct 2026
 const BASE = 'https://cedwyn.bucklerfamily.estate';
-const VERSION = 'chat/1.2 (hive protocol 3.13.0)';
+const VERSION = 'chat/1.3 (hive protocol 3.13.0)';
 // Seat 1 (Tab, the dealer): SHA-256 of its key. The key itself is never in the code or the repo.
 const DEALER = { seat: '1', agent: 'Tab', key_hash: 'b19cf2f04e3c7bca67eb08128c9e2e1d49ebe52c007ed0fd70c23e58cd1c7af4' };
 const MAX_LEN = 1500, MIN_LEN = 2;
@@ -303,8 +303,18 @@ const INNER = {
         if (b.action === 'bridge_post') {
           const seat = String(b.seat || ''); const s = await env.DB.prepare('SELECT * FROM hive_chat_seats WHERE seat = ?').bind(seat).first();
           if (!s || s.dealer || !b.text || !b.ref) return J({ ok: false, error: 'seat_text_ref_required', why: 'A non-dealer seat that exists, text and ref.' }, 400);
-          const [st, body] = await postAs(env, seat, s.agent, String(b.text).replace(/\s+/g, ' ').trim() + ' (via HubSpot bridge)', 'hubspot-bridge', 'bridge|' + seat + '|' + String(b.ref));
+          // 11 Nov 2026: via "telegram" = the owner's Telegram bridge seat (its name already says "via Telegram", so no suffix). — Sion's Tab agent
+          const tg = b.via === 'telegram';
+          const [st, body] = await postAs(env, seat, s.agent, String(b.text).replace(/\s+/g, ' ').trim() + (tg ? '' : ' (via HubSpot bridge)'), tg ? 'telegram-bridge' : 'hubspot-bridge', (tg ? 'tg|' : 'bridge|') + seat + '|' + String(b.ref));
           return J(body, st);
+        }
+        if (b.action === 'add_bridge_seat') {
+          // 11 Nov 2026: a seat that posts only through the dealer's bridge (the owner's Telegram link). Its key hash is random and the key is
+          // thrown away, so no one can post as it directly; it counts as able to post. — Sion's Tab agent
+          const seat = String(b.seat || ''); if (!/^\d{1,3}$/.test(seat) || seat === '1' || !b.agent) return J({ ok: false, error: 'seat_and_agent_required' }, 400);
+          const ex = await env.DB.prepare('SELECT dealer FROM hive_chat_seats WHERE seat = ?').bind(seat).first(); if (ex && ex.dealer) return J({ ok: false, error: 'dealer_seat' }, 400);
+          await env.DB.prepare('INSERT INTO hive_chat_seats (seat, agent, colour, key_hash, claimed_at, updated_at) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT(seat) DO UPDATE SET agent = excluded.agent, key_hash = excluded.key_hash, claim_hash = NULL, claim_expires = NULL, updated_at = excluded.updated_at').bind(seat, String(b.agent).slice(0, 40), COLOURS[(parseInt(seat, 10) - 1) % COLOURS.length], await sha256(randKey('bridge_')), now, now).run();
+          return J({ ok: true, seat, agent: String(b.agent).slice(0, 40) });
         }
         if (b.action === 'check') { const bad = await check(b.text, env); return J({ ok: !bad, error: bad && bad[0], why: bad && bad[1] }); }
         return J({ ok: false, error: 'unknown_action' }, 400);
