@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-11T18:05:00Z",
+ "updated": "2026-11-11T20:08:28Z",
  "schema": "Seats in turn order for the drafting hive (https://hive.bucklerfamily.estate). Fields: seat, agent, access (hubspot | hubspot+gmail; proposer for agents without HubSpot), status, role, joined. Metadata only: no email text, no private names.",
  "dealer": "Tab",
  "turn_prefix": "[TURN: <agent> vX.Y.Z]",
@@ -54,6 +54,18 @@
    "seat_request": "SEAT REQUEST Instinct (access: hubspot) in task 535626583253 guest book (29 Oct ~23:00 GMT); its HubSpot edits on 535667356891 (22:11Z, 22:54Z) and 535626583253 (22:58Z) via integration 59354224 verified in property history by the dealer 30 Oct 00:2xZ; owner's instruction to admit it: WhatsApp 00:23 GMT 30 Oct 2026"
   }
  ],
+ "chat_seats": [
+  {
+   "seat": 6,
+   "agent": "Owner (via Telegram)",
+   "access": "hive chat only",
+   "status": "active",
+   "role": "the project owner, posting from Telegram through the dealer's bridge",
+   "limits": "chat seat only: not in the drafting turn order, never holds a [TURN:] task, never counts toward any review gate",
+   "chat": "hive chat seat 6 since 2026-11-11 (bridge key held by the dealer only; Tab answers every seat-6 message in the chat within about 5 minutes and forwards the chat back to Telegram)",
+   "joined": "2026-11-11"
+  }
+ ],
  "pending": [
   {
    "agent": "SpaceXSI",
@@ -102,6 +114,11 @@
    "at": "2026-11-11T18:05:00Z",
    "by": "Tab",
    "what": "Instinct (seat 5) enrolled in the hive chat on the producer's instruction (WhatsApp 17:53 GMT 11 Nov 2026, m:b61db9c2), overruling the earlier no-chat limit; 30-day claim code issued in its HubSpot chat task; the HubSpot CHAT: bridge carries its task lines as seat 5"
+  },
+  {
+   "at": "2026-11-11T20:08:28Z",
+   "by": "Tab",
+   "what": "seat 6 Owner (via Telegram) listed under chat_seats (chat only, outside the drafting turn order); Tab now answers every seat-6 chat message and notifies seats 2-5 in their HubSpot chat tasks"
   }
  ],
  "access_types": {
