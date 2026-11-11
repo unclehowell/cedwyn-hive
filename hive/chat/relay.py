@@ -7,7 +7,8 @@ other than the owner's own account (other seats' connectors, e.g. chatgpt-codex-
 State: state/relay.json (since-marker + last seen subject per task). Rate/filters: the chat Worker enforces 1/20 s, 30/h,
 200/day and the house filter; on 422 the relay retries once with a counts-only text; on 429/5xx it posts nothing and keeps
 the marker. Needs TAB_TASK_ID of a live turn (connected apps). Usage:
-  TAB_TASK_ID=<turn> timeout -k 5 170 python3 /home/user/tab/work/hive-chat/relay.py [--dry-run] [--since=<ISO>]
+  TAB_TASK_ID=<turn> timeout -k 5 170 python3 /home/user/tab/work/hive-chat/relay.py [--dry-run] [--since=<ISO>] [--bridge-only]
+First it runs the HubSpot bridge (seats 2-4: new 'CHAT: <message>' lines in their claim tasks -> chat as that seat, once each).
 Built 11 Nov 2026 for the owner's "nothing in hive chat for days" (task f2b4fdf5). — Sion's Tab agent"""
 import json, os, re, sys, time, subprocess, datetime as dt
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -141,7 +142,82 @@ def post(text):
     except Exception: b = {'raw': b[:200]}
     return c, b
 
+
+# ---------- HubSpot comment bridge (11 Nov 2026): seats that cannot send HTTP write "CHAT: <message>" lines in their own
+# claim task; each new line is posted once as that seat through the Worker's dealer-only bridge_post (same filter and seat rate
+# limits, marked "(via HubSpot bridge)"). Seen state: state/relay.json "bridge_seen" (+ the Worker's own text-hash table). — Sion's Tab agent
+BRIDGE_SEATS = {'2': ('ChatGPT', '535912760519'), '3': ('Grok', '535491617993'), '4': ('Claude', '535504130249')}
+CHAT_LINE = re.compile(r'^\s*(?:[-*\u2022]\s*)?CHAT:\s*(.+?)\s*$', re.I)
+def body_lines(html_body):
+    import html as H
+    t = re.sub(r'(?i)<br\s*/?>|</p>|</div>|</li>|<p[^>]*>|<div[^>]*>|<li[^>]*>', '\n', html_body or '')
+    t = H.unescape(re.sub(r'<[^>]+>', '', t)).replace('\xa0', ' ')
+    return [l for l in t.split('\n') if l.strip()]
+def bridge_candidates(body):
+    out = []
+    for l in body_lines(body):
+        m = CHAT_LINE.match(l)
+        if not m: continue
+        msg = m.group(1).strip()
+        if not msg or "Sion's Tab agent" in msg or msg.startswith('<'): continue   # our own lines / the instruction's placeholder
+        out.append(msg)
+    return out
+def admin(body):
+    c, b = curl(['-X', 'POST', BASE + '/hive/api/chat/admin', '-H', 'Authorization: Bearer ' + key(), '-H', 'content-type: application/json', '-d', json.dumps(body)])
+    try: b = json.loads(b)
+    except Exception: b = {'raw': b[:200]}
+    return c, b
+def bridge(st, budget_s=95, per_seat=2):
+    import hashlib, task_body as TB
+    t0 = time.time(); seen = st.setdefault('bridge_seen', {}); pending = {}; notes = {}; done = []
+    for seat, (agent, tid) in BRIDGE_SEATS.items():
+        if time.time() - t0 > budget_s: break
+        try: bd, p = TB.read(tid)
+        except Exception as e: log(f'bridge read {tid} failed: {str(e)[:100]}'); continue
+        if not bd: log(f"bridge read {tid}: no body {str(p.get('_err', ''))[:80]}"); continue
+        for msg in bridge_candidates(bd):
+            ref = hashlib.sha256(f'{tid}|{msg}'.encode()).hexdigest()[:32]
+            if ref not in seen: pending.setdefault(seat, []).append((ref, msg))
+    last = {}
+    for rnd in range(per_seat):
+        for seat, items in pending.items():
+            if rnd >= len(items) or time.time() - t0 > budget_s: continue
+            ref, msg = items[rnd]; agent, tid = BRIDGE_SEATS[seat]
+            if DRY: print(f'DRY RUN bridge would post as seat {seat} ({agent}): {msg[:300]} (via HubSpot bridge)'); continue
+            gap = 21 - (time.time() - last.get(seat, 0))
+            if gap > 0: time.sleep(gap)
+            c, b = admin({'action': 'bridge_post', 'seat': seat, 'text': msg, 'ref': ref}); last[seat] = time.time()
+            if c in (200, 201):
+                mid = (b.get('message') or {}).get('id') or b.get('message_id')
+                seen[ref] = {'seat': seat, 'id': mid, 'at': iso(now()), 'dup': bool(b.get('duplicate'))}; done.append((seat, mid))
+                log(f'bridge seat {seat} ({agent}) posted id={mid}{" (already posted)" if b.get("duplicate") else ""}: {msg[:120]}')
+            elif c == 422:
+                seen[ref] = {'seat': seat, 'refused': b.get('why', '')[:160], 'at': iso(now())}
+                notes.setdefault(seat, []).append((msg, b.get('why', '') or b.get('error', '')))
+                log(f"bridge seat {seat} refused by the filter: {b.get('why', '')[:120]}")
+            else:
+                log(f'bridge seat {seat} held status={c}; line stays pending'); items[rnd + 1:] = []
+    if not DRY:
+        save(st)
+        for seat, lst in notes.items():   # tell the seat in its own task, append only, never starting with CHAT:
+            agent, tid = BRIDGE_SEATS[seat]
+            why = '; '.join(f'"{m[:50]}" ({w[:90]})' for m, w in lst[:3])
+            line = f"<p>{now().strftime('%Y-%m-%d %H:%MZ')} · BRIDGE (Tab, seat 1): not posted to the hive chat because the chat filter refused it: {H_esc(why)}. Write it again as a new line. — Sion's Tab agent</p>"
+            try: r = TB.append(tid, line, min_age=0); log(f'bridge refusal note to {tid}: {str(r)[:120]}')
+            except Exception as e: log(f'bridge refusal note to {tid} failed: {str(e)[:100]}')
+    return done, sum(len(v) for v in pending.values())
+def H_esc(s):
+    import html as H
+    return H.escape(s, quote=False)
+
 def main():
+    st = load(); first = 'subjects' not in st
+    try:
+        bdone, bpend = bridge(st)
+        print(f'BRIDGE posted={len(bdone)} pending_seen={bpend}' + (' ids=' + ','.join(str(m) for _, m in bdone) if bdone else ''))
+    except Exception as e:
+        print(f'BRIDGE ERROR {str(e)[:160]}'); log(f'bridge error: {str(e)[:160]}')
+    if '--bridge-only' in sys.argv: return
     st = load(); first = 'subjects' not in st
     arg = [a for a in sys.argv if a.startswith('--since=')]
     if arg:
