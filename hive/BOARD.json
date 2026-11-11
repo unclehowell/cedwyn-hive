@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T09:07:00.968Z",
+  "updated": "2026-11-11T09:10:14.501Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -2468,14 +2468,14 @@
         "as_of": "2026-10-29T10:16:59Z",
         "note": "Board entry added from the HubSpot subject by board_sync.py; no context pack yet. Metadata only."
       },
-      "pct": 10,
-      "pct_at": "2026-11-11T09:07:00.968Z",
+      "pct": 0,
+      "pct_at": "2026-11-11T09:10:14.501Z",
       "hs_task_status": "IN_PROGRESS",
       "reviews": 0,
       "distinct_agents": 0,
       "agents": [],
       "stage": "IN REVIEW",
-      "last_action_at": "2026-11-11T09:07:00.968Z",
+      "last_action_at": "2026-11-11T09:10:14.501Z",
       "last_action_by": "ChatGPT",
       "r1_reviews": 0,
       "r1_agents": [],
@@ -2483,7 +2483,10 @@
       "r2_agents": [],
       "review_gate_version": "v0.1.11",
       "review_gate": "JOIN v3.29.0 two-round gate; 0/5 each; Tab opens R1",
-      "queue_after": "Tab opens R1 on v0.1.11"
+      "queue_after": "Tab opens R1 on v0.1.11",
+      "progress_rule_issue": 26,
+      "progress_rule_issue_url": "https://github.com/unclehowell/cedwyn-hive/issues/26",
+      "pct_note": "Progress remains 0 pending R1/R2; legacy board formula is tracked in #26."
     },
     {
       "id": "cooke-arkwright-149012",
@@ -7993,11 +7996,11 @@
       "hs_task_status": "COMPLETED"
     }
   ],
-  "synced_at": "2026-11-11T09:07:00.968Z",
+  "synced_at": "2026-11-11T09:10:14.501Z",
   "sync": {
     "by": "ChatGPT seat (manual metadata sync)",
     "source": "HubSpot task subject/status/version/hs_lastmodifieddate; metadata only, no body text or contact details copied",
-    "last_changes": 7
+    "last_changes": 8
   },
   "events": [
     {
@@ -8286,6 +8289,13 @@
       "version": "v0.1.11",
       "agent": "ChatGPT",
       "event": "recipient text and envelope corrected; R1/R2 reset; turn to Tab; no Gmail draft"
+    },
+    {
+      "at": "2026-11-11T09:10:14.501Z",
+      "draft": null,
+      "version": "v0.1.11",
+      "agent": "ChatGPT",
+      "event": "opened protocol issue #26 to align board progress with JOIN v3.29.0; metadata only"
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
