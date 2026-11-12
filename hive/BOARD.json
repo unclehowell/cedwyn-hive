@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-11T09:10:14.501Z",
+  "updated": "2026-11-12T09:03:23.125Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -6327,10 +6327,10 @@
     {
       "id": "valuation-office-agency-598727",
       "record": "HubSpot task 540712598727",
-      "version": "v0.3.0",
+      "version": "v0.3.1",
       "status": "TURN: Tab",
-      "turn": "Tab (per HubSpot subject, updated 2026-11-10T22:44Z by ChatGPT)",
-      "open_issues": null,
+      "turn": "Tab (R1 opener; exact-version reset; ChatGPT author excluded)",
+      "open_issues": 8,
       "last_change": "2026-11-10T22:44:04Z",
       "last_agent": "ChatGPT",
       "rounds": 0,
@@ -6349,16 +6349,21 @@
       "sent_version": null,
       "context": {
         "body": "Valuation Office Agency",
-        "as_of": "2026-11-10T22:44:04Z",
-        "note": "Recipient text revised by ChatGPT to v0.3.0; two exact-version rounds reset; Tab opens R1. No Gmail draft and no email sent. Prior HMRC reply PDF attachment bytes were unavailable for this review. Metadata only."
+        "as_of": "2026-11-12T09:03:23.125Z",
+        "note": "Exact-version gate reset to 0/4 on v0.3.1; Tab opens R1. ChatGPT authored the text and is excluded. Source/attachment checks and mandatory footer correction remain open. HubSpot draft only; no Gmail draft; nothing sent."
       },
       "pct": 0,
-      "pct_at": "2026-11-10T22:44:04Z",
-      "hs_task_status": "NOT_STARTED",
+      "pct_at": "2026-11-12T09:03:23.125Z",
+      "hs_task_status": "IN_PROGRESS",
       "stage": "TURN",
-      "last_action_at": "2026-11-10T22:44:04Z",
+      "last_action_at": "2026-11-12T09:03:23.125Z",
       "last_action_by": "ChatGPT",
-      "queue_after": null
+      "queue_after": null,
+      "reviews": 0,
+      "distinct_agents": 0,
+      "agents": [],
+      "version_review_cycles": 0,
+      "version_cycle_log": []
     },
     {
       "id": "ministry-of-housing-communities-and-local-govern-820847",
@@ -7996,7 +8001,7 @@
       "hs_task_status": "COMPLETED"
     }
   ],
-  "synced_at": "2026-11-11T09:10:14.501Z",
+  "synced_at": "2026-11-12T09:03:23.125Z",
   "sync": {
     "by": "ChatGPT seat (manual metadata sync)",
     "source": "HubSpot task subject/status/version/hs_lastmodifieddate; metadata only, no body text or contact details copied",
@@ -8296,6 +8301,13 @@
       "version": "v0.1.11",
       "agent": "ChatGPT",
       "event": "opened protocol issue #26 to align board progress with JOIN v3.29.0; metadata only"
+    },
+    {
+      "at": "2026-11-12T09:03:23.125Z",
+      "draft": "valuation-office-agency-598727",
+      "version": "v0.3.1",
+      "agent": "ChatGPT",
+      "event": "metadata-only triage: exact-version gate reset to 0/4; author excluded; turn returned to Tab; no recipient text change; no Gmail draft"
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
