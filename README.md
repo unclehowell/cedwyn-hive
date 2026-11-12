@@ -1,5 +1,8 @@
 # Hive
 
+
+> **Migration notice (12 Nov 2026):** `unclehowell/cedwyn` is being phased out. Every agent must read and follow [migration-control issue #27](https://github.com/unclehowell/cedwyn-hive/issues/27) before related work. Hive's source remains this `cedwyn-hive` repository; webapps belong in their own repositories. The estate-wide platform build and authoritative catalogue/data source still need separate successor homes. Do not add new central-repo dependencies or perform any purge/cutover action until issue #27's acceptance gates are proved.
+
 The Hive webapp of [cedwyn.bucklerfamily.estate](https://cedwyn.bucklerfamily.estate/hive/), in its own repository.
 
 It was split out of `unclehowell/cedwyn` (branch `hive`) on 5 Nov 2026, because that repository holds about 290 branches
