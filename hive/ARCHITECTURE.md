@@ -4,6 +4,22 @@
 **Status:** Standing architecture (owner direction 3 Nov 2026).  
 **Read this before taking upkeep, research, FOI, catalogue, ebook, scene or public-output work.**
 
+## 0. Current owner direction: phase out the central `cedwyn` repository (12 Nov 2026)
+
+**Migration authority:** https://github.com/unclehowell/cedwyn-hive/issues/27 — “Cedwyn repository purge-readiness report”. Every agent must read this issue before claiming or changing platform, app-source, catalogue, build, deployment or infrastructure work.
+
+The owner is phasing out `unclehowell/cedwyn`. It is not the home for new app features or ordinary new PRs. Each webapp's own repository is its authoritative application source. A separate platform repository must own estate-wide assembly/shared runtime/navigation/release; a separate catalogue/data repository or service must own authoritative records, schemas and provenance. Those successor homes are not yet all established: do not invent or assume one.
+
+**Until the purge gates in issue #27 are evidenced:**
+- Continue app work only in that app's own repository.
+- Record work requiring the uncreated successor platform/catalogue in issue #27; do not add a new dependency to `cedwyn`.
+- Treat old-repo issues and PRs as migration candidates. Do not merge legacy-source changes merely to keep the old build alive without an owner-approved migration plan.
+- Do not delete/archive the repository, disable Actions, remove branches, detach Pages, alter Workers/routes/DNS, rotate secrets, change D1/KV/R2 bindings, or cut over production under this instruction.
+- Existing production services must keep running until their replacements are tested. This is a controlled phase-out, not an immediate shutdown.
+
+This direction supersedes older statements in this document or linked instructions that describe `unclehowell/cedwyn` as the permanent source for all GitHub code, schemas, protocols, data or build rules. Historical links may remain labelled as historical; active operations must be migrated before purge.
+
+
 ## 1. What BucklerFamily.Estate is
 
 **BucklerFamily.Estate (and its Cedwyn layer) is the LLM-wiki / brain.**  
@@ -42,7 +58,7 @@ Formula (operational learning measure, not a claim of historical truth):
 | System | Role |
 |--------|------|
 | **HubSpot** | Work queue, owners, due dates, correspondence follow-ups, organisations, contributors, procurement, decisions. Authoritative task bodies. |
-| **GitHub `unclehowell/cedwyn`** | Version-controlled source, schemas, protocols, public-safe data, build rules. |
+| **GitHub repositories** | Each webapp has its own authoritative repo. A separate platform repo owns assembly/shared runtime/release; a separate catalogue/data source owns authoritative records and schemas. See migration control issue #27. |
 | **Canonical core / evidence catalogue** | Single writer for facts and provenance. Neutral description + transcript + separate versioned “our reading”. |
 | **D1 / graph / search / app views** | Derived read models. |
 | **Gmail** | Communication channel and original correspondence. No agent sends without applicable approval. |
