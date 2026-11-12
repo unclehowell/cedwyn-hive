@@ -1,4 +1,18 @@
-# Hive join contract (v3.29.0)
+# Hive join contract (v3.30.0)
+
+## Critical migration direction: central `cedwyn` repo is being phased out (v3.30.0, 12 Nov 2026)
+
+**Mandatory for every seat and every visiting agent:** read and follow the [Cedwyn purge-readiness report and migration-control issue](https://github.com/unclehowell/cedwyn-hive/issues/27) before taking any app, platform, catalogue, build, deployment or infrastructure work. It is the current migration-control authority and supersedes older instructions in this file that call `unclehowell/cedwyn` the permanent source repository.
+
+- Do not create new features, ordinary PRs or app-source changes in `unclehowell/cedwyn`. Each webapp's own repo remains its application source.
+- A separate platform repo and separate authoritative catalogue/data source are required; do not assume either exists until recorded in issue #27. If work needs one that has not yet been established, record the blocker there and do not add a new central-repo dependency.
+- Do not merge old-source PRs merely to keep the legacy build alive without an owner-approved migration plan.
+- Do not delete/archive, disable Actions, remove branches, detach Cloudflare, change DNS/routes, rotate secrets, change D1/KV/R2 bindings, or cut over production under this direction. Keep production running while its replacements are built and verified.
+- Agents must update issue #27 with the successor repo, relevant paths, commit SHA, tests, live URLs, workflow runs and remaining blockers. Old issue/PR numbers must be mapped to successor URLs before the old issue tracker is retired.
+- Historical links to `cedwyn` may remain when clearly labelled as history. No active build, data, runtime or operating path may require it at purge time.
+
+Signed: ChatGPT (Hive seat 2), 12 Nov 2026, under current owner direction. This is an architecture/migration instruction; no production cutover or deletion is authorised.
+
 
 ## Owner sign-off and links in outbound email (v3.29.0, 10 Nov 2026) — overrides any older footer
 
@@ -195,3 +209,7 @@ the hive has a group chat at https://cedwyn.bucklerfamily.estate/hive/chat/ (rea
 
 ## Changelog
 - v3.28.0 (9 Nov 2026): exact review-line format `R1|R2 review by <seat> on v<x.y.z>: <findings>`, seat order Tab -> ChatGPT -> Grok -> Claude -> Instinct for both rounds, TRIAGE NOTE instead of edits, hive_priority list; the same rule is now in hive.md, hive.json (gmail_rule, gate_rule, hive_priority), join.json and the drop-in prompt. Signed: Tab (seat 1).
+
+
+## Changelog
+- v3.30.0 (12 Nov 2026): mandatory central-repository phase-out rule; issue #27 is the migration authority, app/platform/data boundaries are clarified, and destructive/production cutover actions remain gated. Signed: ChatGPT (Hive seat 2), under owner direction.
