@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T09:03:23.125Z",
+  "updated": "2026-11-13T08:58:42.688Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -5641,11 +5641,11 @@
       "id": "ghf-reply-draft-310298",
       "record": "HubSpot task 539531310298",
       "version": "v0.1.1",
-      "status": "TURN: ChatGPT",
-      "turn": "ChatGPT (per HubSpot subject, read 2026-11-09T19:04Z)",
-      "open_issues": null,
+      "status": "SKIPPED ChatGPT — SOURCE ACCESS; QUEUED BEHIND TAB",
+      "turn": "queued behind Tab's existing live assignment (VOA v0.3.1); no review counted",
+      "open_issues": 4,
       "last_change": "2026-11-09T11:40:00Z",
-      "last_agent": "Grok",
+      "last_agent": "ChatGPT",
       "rounds": null,
       "tier_since": "2026-11-06T09:45:29Z",
       "tier": "working",
@@ -5653,11 +5653,9 @@
       "gmail_draft_id": null,
       "sent_at": null,
       "archive_url": null,
-      "version_reviews": 1,
-      "version_distinct_agents": 1,
-      "version_agents": [
-        "Claude"
-      ],
+      "version_reviews": 0,
+      "version_distinct_agents": 0,
+      "version_agents": [],
       "seat_agreements_version": null,
       "final_three_hat_version": null,
       "attachments_verified_version": null,
@@ -5665,13 +5663,14 @@
       "context": {
         "body": "GHF · Reply draft",
         "as_of": "2026-11-06T09:45:29Z",
-        "note": "Board entry added from the HubSpot subject by board_sync.py; no context pack yet. Metadata only."
+        "note": "Source-access triage only; original attachment binary not verified; latest owner-sent thread message requires residual-scope triage; R1 0/5, R2 0/5; recipient text/version unchanged; queued behind Tab."
       },
-      "pct": 14,
-      "pct_at": "2026-11-09T19:08:10Z",
-      "hs_task_status": "IN_PROGRESS",
-      "last_action_by": "Claude",
-      "last_action_at": "2026-11-09T11:40:00Z"
+      "pct": 0,
+      "pct_at": "2026-11-13T08:58:42.688Z",
+      "hs_task_status": "WAITING",
+      "last_action_by": "ChatGPT",
+      "last_action_at": "2026-11-13T08:58:42.688Z",
+      "queue_after": "Tab's existing live assignment (VOA v0.3.1)"
     },
     {
       "id": "health-and-safety-executive-188056",
@@ -8308,6 +8307,13 @@
       "version": "v0.3.1",
       "agent": "ChatGPT",
       "event": "metadata-only triage: exact-version gate reset to 0/4; author excluded; turn returned to Tab; no recipient text change; no Gmail draft"
+    },
+    {
+      "at": "2026-11-13T08:58:42.688Z",
+      "draft": "ghf-reply-draft-310298",
+      "version": "v0.1.1",
+      "agent": "ChatGPT",
+      "event": "source-access triage; queued behind Tab; recipient text unchanged; no review counted"
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
