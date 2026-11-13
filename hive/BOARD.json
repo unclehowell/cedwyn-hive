@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T08:58:42.688Z",
+  "updated": "2026-11-13T10:34:26.692Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -5641,8 +5641,8 @@
       "id": "ghf-reply-draft-310298",
       "record": "HubSpot task 539531310298",
       "version": "v0.1.1",
-      "status": "SKIPPED ChatGPT — SOURCE ACCESS; QUEUED BEHIND TAB",
-      "turn": "queued behind Tab's existing live assignment (VOA v0.3.1); no review counted",
+      "status": "SKIPPED Tab — owner-declared unavailable; source triage by ChatGPT; queued behind Grok",
+      "turn": "Grok (seat 3), queued behind existing live assignment task 526363862238; no review counted",
       "open_issues": 4,
       "last_change": "2026-11-09T11:40:00Z",
       "last_agent": "ChatGPT",
@@ -5663,14 +5663,14 @@
       "context": {
         "body": "GHF · Reply draft",
         "as_of": "2026-11-06T09:45:29Z",
-        "note": "Source-access triage only; original attachment binary not verified; latest owner-sent thread message requires residual-scope triage; R1 0/5, R2 0/5; recipient text/version unchanged; queued behind Tab."
+        "note": "Primary law/policy triage added privately in HubSpot; UHB 291 v2 is published but past its stated review date. Original 21 Aug application-form binary remains unverified. Tab skipped under owner direction; not a review. R1/R2 remain 0/5. Grok source-recovery turn queued behind existing assignment 526363862238. Recipient text/version unchanged."
       },
       "pct": 0,
-      "pct_at": "2026-11-13T08:58:42.688Z",
+      "pct_at": "2026-11-13T10:34:26.692Z",
       "hs_task_status": "WAITING",
       "last_action_by": "ChatGPT",
-      "last_action_at": "2026-11-13T08:58:42.688Z",
-      "queue_after": "Tab's existing live assignment (VOA v0.3.1)"
+      "last_action_at": "2026-11-13T10:34:26.692Z",
+      "queue_after": "Grok task 526363862238 (existing live assignment)"
     },
     {
       "id": "health-and-safety-executive-188056",
@@ -8314,6 +8314,13 @@
       "version": "v0.1.1",
       "agent": "ChatGPT",
       "event": "source-access triage; queued behind Tab; recipient text unchanged; no review counted"
+    },
+    {
+      "at": "2026-11-13T10:34:26.692Z",
+      "draft": "ghf-reply-draft-310298",
+      "version": "v0.1.1",
+      "agent": "ChatGPT",
+      "event": "Skipped unavailable Tab without review; recorded primary law/policy triage in HubSpot; routed original-attachment recovery to Grok queue; recipient text unchanged."
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
