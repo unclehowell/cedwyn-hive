@@ -8010,7 +8010,7 @@
       "last_agent": "Instinct",
       "rounds": 0,
       "tier": "working",
-      "tier_label": "BLOCKED",
+      "tier_label": "QUEUED",
       "gmail_draft_id": null,
       "sent_at": null,
       "archive_url": null,
@@ -8030,7 +8030,7 @@
       "final_three_hat_version": null,
       "attachments_verified_version": null,
       "sent_version": null,
-      "hs_task_status": "DEFERRED",
+      "hs_task_status": "WAITING",
       "last_action_at": "2026-11-14T11:14:26.228Z",
       "last_action_by": "ChatGPT",
       "note": "Private HubSpot source triage appended; v0.2.0 unchanged; no review counted; queued to Tab; not send-ready."
