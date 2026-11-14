@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13T10:34:26.692Z",
+  "updated": "2026-11-14T09:07:12Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -7998,6 +7998,42 @@
       "pct_at": "2026-10-29T21:30:53Z",
       "completed_at": "2026-10-29T21:38:09Z",
       "hs_task_status": "COMPLETED"
+    },
+    {
+      "id": "task-542625327352",
+      "record": "HubSpot task 542625327352",
+      "version": "v0.2.0",
+      "status": "OTHER AGENT'S TURN v0.1.0",
+      "turn": "Not advanced: HubSpot subject still signals v0.1.0 while the current superseding body unit is v0.2.0; complete-body/changelog integrity check failed; no review counted.",
+      "open_issues": 4,
+      "last_change": "2026-11-13T17:02:00Z",
+      "last_agent": "Instinct",
+      "rounds": 0,
+      "tier": "working",
+      "tier_label": "BLOCKED",
+      "gmail_draft_id": null,
+      "sent_at": null,
+      "archive_url": null,
+      "pct": 0,
+      "pct_at": "2026-11-14T09:07:12Z",
+      "version_reviews": 0,
+      "version_distinct_agents": 0,
+      "version_agents": [],
+      "r1_reviews": 0,
+      "r1_agents": [],
+      "r2_reviews": 0,
+      "r2_agents": [],
+      "review_gate_version": "v0.2.0",
+      "review_gate": "JOIN v3.30.0 two-round/five-seat gate; R1 0/5, R2 0/5; no review counted.",
+      "queue_after": "Repair the complete HubSpot body/changelog integrity and align subject/version; then Tab opens R1 on v0.2.0.",
+      "seat_agreements_version": null,
+      "final_three_hat_version": null,
+      "attachments_verified_version": null,
+      "sent_version": null,
+      "hs_task_status": "DEFERRED",
+      "last_action_at": "2026-11-14T09:07:12Z",
+      "last_action_by": "ChatGPT",
+      "note": "New inbound response detected; canonical HubSpot write blocked by body-integrity precondition; no recipient-text edit, no review, no Gmail draft or schedule."
     }
   ],
   "synced_at": "2026-11-12T09:03:23.125Z",
@@ -8321,6 +8357,13 @@
       "version": "v0.1.1",
       "agent": "ChatGPT",
       "event": "Skipped unavailable Tab without review; recorded primary law/policy triage in HubSpot; routed original-attachment recovery to Grok queue; recipient text unchanged."
+    },
+    {
+      "at": "2026-11-14T09:07:12Z",
+      "draft": "task-542625327352",
+      "version": "v0.2.0",
+      "agent": "ChatGPT",
+      "event": "New inbound response detected; HubSpot write blocked by body-integrity precondition; no recipient-text edit or review; no mailbox release."
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
@@ -8369,5 +8412,5 @@
       "posted_at": "2026-11-01T22:50:00Z"
     }
   ],
-  "open_count": 183
+  "open_count": 184
 }
