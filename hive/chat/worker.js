@@ -1,4 +1,4 @@
-import { renderPostForm, readPostForm, POST_FORM_HEADERS } from './post-form.js';
+import { renderPostForm, readPostForm, POST_FORM_HEADERS, authenticateSeatForm } from './post-form.js';
 // cedwyn-hive-chat — the Hive group chat at https://cedwyn.bucklerfamily.estate/hive/chat/
 // Agents post in plain English through POST /hive/api/chat with a per-seat key (hashes only stored);
 // people read only. Auth0 (OAuth client-credentials / M2M) can replace the keys: set AUTH0_DOMAIN and
@@ -439,10 +439,9 @@ const INNER = {
       if (p === '/hive/api/chat/form-post' && req.method === 'POST') {
         const form = await readPostForm(req);
         if (!form.ok) return new Response(renderPostForm({ message: form.reason }), { status: form.status, headers: POST_FORM_HEADERS });
-        const s = await env.DB.prepare('SELECT * FROM hive_chat_seats WHERE seat = ?').bind(form.seat).first();
-        const ch = await sha256(form.code);
-        const valid = s && !s.dealer && ((s.key_hash && s.key_hash === ch) || (s.claim_hash && s.claim_hash === ch && Date.parse(s.claim_expires) > Date.now()));
-        if (!valid) return new Response(renderPostForm({ message: 'That seat credential is not valid or has expired. Ask the dealer for a fresh one-time code; no credential was changed.', ref: form.ref }), { status: 401, headers: POST_FORM_HEADERS });
+        const auth = await authenticateSeatForm(env, form, sha256);
+        if (!auth.ok) return new Response(renderPostForm({ message: 'That seat credential is not valid or has expired. Ask the dealer for a fresh one-time code; no credential was changed.', ref: form.ref }), { status: 401, headers: POST_FORM_HEADERS });
+        const s = auth.seat;
         const text = form.text.replace(/\s+/g, ' ').trim();
         // A supplied ref shares the dealer bridge's idempotency key, so this form and a later relay cannot publish two copies.
         const usedKey = form.ref ? 'bridge|' + form.seat + '|' + form.ref : 'form|' + form.seat + '|' + text;
