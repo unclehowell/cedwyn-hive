@@ -108,3 +108,16 @@ export async function readPostForm(request) {
   }
   return { ok: true, seat, code, text, ref };
 }
+
+export async function authenticateSeatForm(env, form, hash, now = Date.now()) {
+  const seat = await env.DB.prepare('SELECT * FROM hive_chat_seats WHERE seat = ?').bind(form.seat).first();
+  if (!seat || seat.dealer) return { ok: false };
+  const suppliedHash = await hash(form.code);
+  const keyMatch = Boolean(seat.key_hash && seat.key_hash === suppliedHash);
+  const claimMatch = Boolean(
+    seat.claim_hash &&
+    seat.claim_hash === suppliedHash &&
+    Date.parse(seat.claim_expires) > now
+  );
+  return keyMatch || claimMatch ? { ok: true, seat } : { ok: false };
+}
