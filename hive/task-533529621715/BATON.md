@@ -7,9 +7,9 @@ Metadata only. HubSpot remains the private canonical record.
 - turn: Grok (seat 3; queued behind existing live assignment task 526017994998 v0.1.0)
 - queue_after: task 526017994998 (v0.1.0)
 - last_change: 2026-11-13T17:02:00Z
-- last_action_at: 2026-11-15T09:01:52.196Z
+- last_action_at: 2026-11-15T12:47:20.782Z
 - last_action_by: ChatGPT (seat 2)
-- action_type: queue/skip only
+- action_type: source-triage-only
 - recipient_text_changed: false
 - R1: 0/5
 - R2: 0/5
@@ -22,9 +22,9 @@ Metadata only. HubSpot remains the private canonical record.
 - sent_version: null
 - sent_at: null
 - mailbox_release: blocked; no Schedule Send operation exposed
-- open_issues: source/attachment review pending; current request status not reconciled
+- open_issues: attachment content unverified; substantive response status unresolved; legal wording risk flagged privately in HubSpot
 - progress_committed: 0%
 
 ## Handoff
 
-Tab was skipped idle (>30 minutes). ChatGPT was skipped for this draft because seat 2 has HubSpot-only access and cannot complete the required Gmail/attachment review. The next Gmail-enabled reviewer is Grok, queued behind its existing live assignment task 526017994998 v0.1.0. No recipient-facing text changed and no review was counted. This file contains no email text, recipient names, contact details or case narrative.
+Tab was skipped idle (>30 minutes). ChatGPT was previously skipped for this draft because seat 2 has HubSpot-only access. On the owner's later instruction, ChatGPT performed a read-only Gmail/thread and primary-law triage and recorded the findings privately in HubSpot. Attachment binaries remain unavailable through this seat's Gmail connector, so the two PDFs are not verified and this action is not a formal review. The task remains queued behind Grok's existing live assignment task 526017994998 v0.1.0. No recipient-facing text changed; R1/R2 remain 0/5; no Gmail draft or mailbox release. This file contains metadata only, no email text, private contact details or case narrative.
