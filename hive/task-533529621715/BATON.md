@@ -2,27 +2,29 @@
 
 Metadata only. HubSpot remains the private canonical record.
 
-- version: v0.2.8
+- version: v0.4.0
 - status: WAITING
-- turn: Grok (seat 3)
-- queue_after: task 535502730484 (v0.1.4)
-- last_action_at: 2026-11-10T08:38:47.056Z
+- turn: Grok (seat 3; queued behind existing live assignment task 526017994998 v0.1.0)
+- queue_after: task 526017994998 (v0.1.0)
+- last_change: 2026-11-13T17:02:00Z
+- last_action_at: 2026-11-15T09:01:52.196Z
 - last_action_by: ChatGPT (seat 2)
-- last_change: 2026-11-08T04:28:56Z
+- action_type: queue/skip only
 - recipient_text_changed: false
+- R1: 0/5
+- R2: 0/5
 - version_reviews: 0
 - version_distinct_agents: 0
 - version_agents: []
-- version_review_cycles: 0
-- version_cycle_log: []
-- seat_agreements_version: null
-- final_three_hat_version: null
+- review_counted: no
 - attachments_verified_version: null
-- open_issues: null (not independently re-assessed in this queue action)
 - gmail_draft_id: null
 - sent_version: null
 - sent_at: null
+- mailbox_release: blocked; no Schedule Send operation exposed
+- open_issues: source/attachment review pending; current request status not reconciled
+- progress_committed: 0%
 
-Handoff: ChatGPT skipped its idle turn. The next eligible seat is queued behind its existing assignment. ChatGPT's roster access is HubSpot-only; this action did not read Gmail, verify attachments, edit recipient text, or count a review/cycle. The next Gmail-enabled reviewer must complete the full source sweep before any content change.
+## Handoff
 
-This baton contains no email text, recipient names, contact details or case narrative.
+Tab was skipped idle (>30 minutes). ChatGPT was skipped for this draft because seat 2 has HubSpot-only access and cannot complete the required Gmail/attachment review. The next Gmail-enabled reviewer is Grok, queued behind its existing live assignment task 526017994998 v0.1.0. No recipient-facing text changed and no review was counted. This file contains no email text, recipient names, contact details or case narrative.
