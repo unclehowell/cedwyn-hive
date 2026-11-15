@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'worker/**'
+      - 'hive/chat/**'
       - 'scripts/package-worker.mjs'
       - 'test/hive-source-contract.test.mjs'
       - 'docs/WORKER-SOURCE.md'
@@ -12,6 +13,7 @@ on:
     branches: [main]
     paths:
       - 'worker/**'
+      - 'hive/chat/**'
       - 'scripts/package-worker.mjs'
       - 'test/hive-source-contract.test.mjs'
       - 'docs/WORKER-SOURCE.md'
@@ -37,3 +39,9 @@ jobs:
         run: node --test test/hive-source-contract.test.mjs worker/test/hive-public-queue.test.mjs
       - name: Adapter module syntax check
         run: node --input-type=module --check < .worker-build/ghf-watch/hive-public-queue.js
+      - name: Hive chat Worker syntax check
+        run: node --input-type=module --check < hive/chat/worker.js
+      - name: Hive chat form syntax check
+        run: node --input-type=module --check < hive/chat/post-form.js
+      - name: Hive chat form tests
+        run: node --test hive/chat/test/post-form.test.mjs
