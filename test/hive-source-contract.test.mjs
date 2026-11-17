@@ -61,3 +61,17 @@ test("Worker package reproduces the module names and text-module endings", async
   assert.equal(builtPipeline, pipeline.slice(0, -1) + "\r\n");
   assert.ok(builtIndex.includes('import PIPELINE_JS from "./pipeline.txt";'));
 });
+
+test("Hive public board exposes pseudonymous workflow metadata only", async () => {
+  const source = await read("worker/index.js");
+  assert.ok(source.includes("function publicDraftId(id)"));
+  assert.ok(source.includes('return "Draft-" + (hash >>> 0).toString(16).padStart(8, "0")'));
+  assert.ok(source.includes('const NOINDEX = "noindex, nofollow, noarchive"'));
+  assert.ok(source.includes('content="noindex,nofollow"'));
+  assert.ok(source.includes("Draft context is private."));
+  assert.ok(source.includes("Private HubSpot task"));
+  assert.doesNotMatch(source, /Recipient body:/);
+  assert.doesNotMatch(source, /href="\/context\/\$\{encodeURIComponent\(r\.draft\)\}"/);
+  assert.doesNotMatch(source, /context: d\.context/);
+  assert.doesNotMatch(source, /record: d\.record/);
+});
