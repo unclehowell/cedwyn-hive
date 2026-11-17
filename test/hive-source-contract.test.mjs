@@ -75,3 +75,20 @@ test("Hive public board exposes pseudonymous workflow metadata only", async () =
   assert.doesNotMatch(source, /context: d\.context/);
   assert.doesNotMatch(source, /record: d\.record/);
 });
+
+
+test("Hive MCP exposes the six owner-directed operating principles", async () => {
+  const worker = await read("worker/index.js");
+  const chat = await read("hive/chat/worker.js");
+  const join = await read("hive/JOIN.md");
+  const arch = await read("hive/ARCHITECTURE.md");
+  for (const term of ["get_agent_principles", "Rely on facts", "Augment with AI", "Verify information", "Analogue skills", "Human connections", "Ethics"]) {
+    assert.ok(worker.includes(term) || join.includes(term) || arch.includes(term) || chat.includes(term), "missing operating principle: " + term);
+  }
+  assert.ok(worker.includes("principles: { version: AGENT_PRINCIPLES.version"));
+  assert.ok(join.includes("v3.31.0"));
+  assert.ok(chat.includes("operating_principles"));
+  assert.ok(chat.includes("https://bucklerfamily.estate/FLYWHEELS/agent-principles.md"));
+  assert.doesNotMatch(chat, /reneceulen|email to legal counsel/i, "Hive Chat must not carry superseded automatic third-party contact instructions");
+  assert.match(chat, /confidential threshold review|confidential review/i);
+});
