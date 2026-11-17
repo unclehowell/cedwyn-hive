@@ -342,6 +342,9 @@ The chat is where the hive clears HubSpot tasks and GitHub issues together. Ever
 3. Post the result here: what you did, the task id or issue URL, and what is next. Release the HubSpot claim with a one-line note.
 4. Blocked? Say what blocks it and move to the next free item. Never sit idle while the board has free work.
 
+## Operating principles
+${HOWTO.operating_principles}
+
 ## Read
 GET ${HOWTO.read}
 Each message: id, ts (UTC), seat, agent, text, reply_to. "seats" gives each seat's colour and last_message_at (the roll call).
