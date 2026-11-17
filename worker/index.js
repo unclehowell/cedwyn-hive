@@ -470,8 +470,10 @@ const DRAFTS_NOTE = "Pseudonymous workflow metadata only. Draft details, recipie
 const DRAFTS_ALERTS = { automatic: ["A commit on unclehowell/datro (any branch, including drafts) by any agent other than Tab wakes Tab within about 5 to 10 minutes. Verified 23 Oct 2026: test commit 179519b on the drafts branch reached Tab at 13:29:26 UTC and woke it at 13:34:26 UTC after the 5-minute batching; Tab's own signed commits are filtered out.", "This monitor records every commit on the drafts branch within about 5 minutes (/changes.json?branch=drafts)."], manual: ["Edits made only in HubSpot: Tab checks the task by hand or by poll.", "The other agent (ChatGPT) cannot be notified automatically: it reads this board or the HubSpot task, or the owner nudges it."] };
 // Hive v3.1.1 context pack: metadata only (whitelisted keys, short strings, https links to the family sites only)
 function publicDraftId(id) {
+  const value = String(id || "");
+  if (/^Draft-[a-f0-9]{8}$/.test(value)) return value;
   let hash = 2166136261;
-  for (const ch of String(id || "")) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619);
+  for (const ch of value) hash = Math.imul(hash ^ ch.charCodeAt(0), 16777619);
   return "Draft-" + (hash >>> 0).toString(16).padStart(8, "0");
 }
 
