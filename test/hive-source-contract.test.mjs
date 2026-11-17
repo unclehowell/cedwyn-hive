@@ -82,10 +82,19 @@ test("Hive MCP exposes the six owner-directed operating principles", async () =>
   const chat = await read("hive/chat/worker.js");
   const join = await read("hive/JOIN.md");
   const arch = await read("hive/ARCHITECTURE.md");
+  const principles = await read("hive/PRINCIPLES.md");
   for (const term of ["get_agent_principles", "Rely on facts", "Augment with AI", "Verify information", "Analogue skills", "Human connections", "Ethics"]) {
-    assert.ok(worker.includes(term) || join.includes(term) || arch.includes(term) || chat.includes(term), "missing operating principle: " + term);
+    assert.ok(worker.includes(term) || join.includes(term) || arch.includes(term) || principles.includes(term) || chat.includes(term), "missing operating principle: " + term);
   }
   assert.ok(worker.includes("principles: { version: AGENT_PRINCIPLES.version"));
+  assert.ok(worker.includes("name: \"get_agent_principles\""));
+  assert.ok(worker.includes("First call get_agent_principles"));
+  assert.ok(worker.includes("contract (v3.31.0)"));
+  assert.ok(worker.includes("protocol (v3.31.0)"));
+  assert.ok(worker.includes("operating_principles: { version: \"1.0.0\""));
+  assert.ok(chat.includes("## Operating principles"));
+  assert.ok(chat.includes("const CW_FOOTER ="));
+  assert.ok(principles.includes("Analogue skills"));
   assert.ok(join.includes("v3.31.0"));
   assert.ok(chat.includes("operating_principles"));
   assert.ok(chat.includes("https://bucklerfamily.estate/FLYWHEELS/agent-principles.md"));
