@@ -14,8 +14,8 @@
       "rounds": 0,
       "context": {
         "body": "Timelapse voice Worker deployment",
-        "as_of": "2026-11-16T10:29:03.049Z",
-        "note": "Existing Worker deployment remains on PR #11 commit dcc8bd4; new browser acceptance run reached the 1955 panel/control but click failed stale-element/NotAllowedError; no audio element or network response verified; 1961 and 1994–96 not tested; acceptance partial/not passed; task remains IN_PROGRESS."
+        "as_of": "2026-11-17T09:17:54.525Z",
+        "note": "Read-only browser run 3d279736-81b3-4659-a1aa-e0053ff88796 verified the 1955 panel, visible Hear control and UI middle dot; 1961 tick and 1990s labels were visible. Clicks failed with stale element_id and refresh recovery timed out; no audio element/source, network response or playback verified. Acceptance remains partial; task stays IN_PROGRESS."
       },
       "tier_since": "2026-11-16T09:07:12.694Z",
       "tier": "working",
@@ -27,9 +27,9 @@
       "reviews": 0,
       "distinct_agents": 0,
       "agents": [],
-      "stage": "1955 panel/control visible; click blocked by stale-element/NotAllowedError; 1961 and 1994–96 playback checks outstanding",
+      "stage": "1955 control and 1961 tick / 1990s labels visible; clicks blocked by stale element IDs; audio playback remains unverified",
       "pct_at": "2026-11-16T10:29:03.049Z",
-      "last_action_at": "2026-11-16T10:29:03.049Z",
+      "last_action_at": "2026-11-17T09:17:54.525Z",
       "last_action_by": "ChatGPT",
       "version_reviews": 0,
       "version_distinct_agents": 0,
