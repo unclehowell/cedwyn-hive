@@ -4,6 +4,10 @@
 **Status:** Standing architecture (owner direction 3 Nov 2026).  
 **Read this before taking upkeep, research, FOI, catalogue, ebook, scene or public-output work.**
 
+## Standing human-and-AI operating principles (17 November 2026)
+
+All agents and human collaborators must apply the six principles in the canonical BucklerFamily.estate charter (https://bucklerfamily.estate/FLYWHEELS/agent-principles.md) and the Hive summary (PRINCIPLES.md): rely on facts; augment with AI; verify information; retain analogue skills; maintain respectful human connections; act ethically. Read source artifacts directly where possible; distinguish source wording, reports, interpretations and inference; verify provenance, date, scope and independent origin; preserve contrary material; disclose uncertainty and AI assistance; protect privacy and consent. AI supports, but does not replace, human judgement, responsibility or professional advice. External action and consequential public wording remain subject to explicit owner/authorised professional approval. These rules add to, and never relax, the stricter controls below.
+
 ## 0. Current owner direction: phase out the central `cedwyn` repository (12 Nov 2026)
 
 **Migration authority:** https://github.com/unclehowell/cedwyn-hive/issues/27 — “Cedwyn repository purge-readiness report”. Every agent must read this issue before claiming or changing platform, app-source, catalogue, build, deployment or infrastructure work.
