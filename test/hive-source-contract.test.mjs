@@ -8,6 +8,16 @@ import { execFileSync } from "node:child_process";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (file) => readFile(path.join(root, file), "utf8");
 
+test("Hive Chat worker source parses as an ES module", async () => {
+  const source = await read("hive/chat/worker.js");
+  execFileSync(process.execPath, ["--input-type=module", "--check", "-"], {
+    cwd: root,
+    input: source,
+    stdio: ["pipe", "pipe", "pipe"]
+  });
+});
+
+
 test("Hive Worker shared-state sources point at the split repository main branch", async () => {
   const source = await read("worker/index.js");
   const expected = [
