@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T11:25:20Z",
+  "updated": "2026-11-18T11:41:42.902Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -7451,12 +7451,12 @@
     },
     {
       "id": "Draft-0d0e0c93",
-      "version": "v0.2.0",
-      "status": "SKIPPED Tab — IDLE; QUEUED BEHIND CHATGPT TASK 535086855385",
-      "turn": "ChatGPT (queued behind its existing HIVE PRIORITY assignment task 535086855385 v0.1.12)",
-      "open_issues": 4,
-      "last_change": "2026-11-13T17:02:00Z",
-      "last_agent": "Instinct",
+      "version": "v0.2.1",
+      "status": "TURN: Tab",
+      "turn": "Tab (R1 opener; exact-version reset; ChatGPT author excluded)",
+      "open_issues": 0,
+      "last_change": "2026-11-18T11:41:42.902Z",
+      "last_agent": "ChatGPT",
       "rounds": 0,
       "tier": "working",
       "tier_since": null,
@@ -7465,19 +7465,19 @@
       "archive_url": null,
       "sent_version": null,
       "pct": 0,
-      "reviews": null,
-      "distinct_agents": null,
-      "agents": null,
+      "reviews": 0,
+      "distinct_agents": 0,
+      "agents": [],
       "version_reviews": 0,
       "version_distinct_agents": 0,
       "version_agents": [],
       "seat_agreements_version": null,
-      "final_three_hat_version": null,
-      "attachments_verified_version": null,
-      "last_action_at": "2026-11-14T11:25:20Z",
+      "final_three_hat_version": "v0.2.1",
+      "attachments_verified_version": "v0.2.1",
+      "last_action_at": "2026-11-18T11:41:42.902Z",
       "last_action_by": "ChatGPT",
-      "queue_after": "ChatGPT task 535086855385 (v0.1.12; current HIVE PRIORITY assignment)",
-      "stage": null,
+      "queue_after": null,
+      "stage": "TURN",
       "gate": null,
       "queue_position": null
     }
@@ -7866,6 +7866,13 @@
       "version": "v0.1.0",
       "agent": "ChatGPT",
       "event": "draft workflow event"
+    },
+    {
+      "at": "2026-11-18T11:41:42.902Z",
+      "draft": "Draft-0d0e0c93",
+      "version": "v0.2.1",
+      "agent": "ChatGPT",
+      "event": "material recipient-text edit; exact-version gate reset 0/5 + 0/5; returned to Tab; HubSpot-only, no Gmail draft"
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
