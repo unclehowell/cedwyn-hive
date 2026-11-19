@@ -7,7 +7,7 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - turn: ChatGPT (direct owner-assigned non-email task)
 - action_type: deployment-verification
 - last_change: 2026-11-16T09:07:12.694Z
-- last_action_at: 2026-11-19T08:56:09.374Z
+- last_action_at: 2026-11-19T13:31:36.291Z
 - last_action_by: ChatGPT (seat 2)
 - repository: unclehowell/cedwyn-wales-3d
 - pull_request: 11 (open, unmerged)
@@ -18,15 +18,15 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - version_id: fbc2ce06-0b8f-486d-8002-e08e02736078
 - deployed_at: 2026-11-16T03:42:36.174494Z
 - deployed_source_matches_branch: yes (7,033 normalised characters)
-- health: ok; Workers AI binding present
+- health: UNCONFIRMED in current check (historical health pass only; current extraction of workers.dev/health returned 404); AI binding present in current Cloudflare version metadata
 - workers_dev: enabled
 - preview: https://feature-timelapse-1877-prese.cedwyn-wales-3d.pages.dev
-- acceptance: PARTIAL / BLOCKED — stable selectors identified; local browser egress blocked; no /speak request made because a cache miss may invoke Workers AI; playback unverified
+- acceptance: PARTIAL / BLOCKED — Cloudflare API reconfirms latest deployment at 100% on PR #11; current runtime health is unconfirmed; no actual click/audio response/playback verified for e1955, e1961 or e1994b; no /speak request made because a cache miss may invoke Workers AI
 - verified: source exposes ?tl=pause, #tlvoiceaudio, #tlvoice and .tlhear; event modal's Hear this headline handler calls speakHeadline(e.id, true); worker checks v4 cache before Workers AI on a miss
-- pending: no-spend cached-fixture or separately authorised test; actual .tlhear click, audio response and playback verification for e1955, e1961 and e1994b; spoken separator remains unresolved
+- pending: confirm a no-spend cache fixture or approved no-spend browser test path; actual .tlhear click, audio response, play() resolution/currentTime progression and audible wording for e1955, e1961 and e1994b; current /health route response remains unconfirmed
 - hive_chat_message_id: 90 (existing/idempotently confirmed)
 - mailbox: not applicable
-- next_step: use an approved browser/network and no-spend cached fixture (or separate spend authorisation) to exercise .tlhear for all three events; close only after playback checks pass
+- next_step: use an approved browser/network and a known no-spend cached fixture to exercise .tlhear for all three events; do not probe /speak while cache status is unknown; close only after playback checks pass
 
 ## Handoff
 
@@ -49,3 +49,15 @@ The requested Worker deployment already existed before this seat's execution. It
 - browser: Playwright-managed Chromium binary unavailable; system Chromium navigation to the preview was blocked before page load with net::ERR_BLOCKED_BY_ADMINISTRATOR
 - cost gate: /speak cache miss calls Workers AI @cf/deepgram/aura-1; no /speak request or inference was made
 - result: selector discovery only; no click, audio response or playback proof; task remains IN_PROGRESS / PARTIAL
+
+
+## Current deployment re-verification — 2026-11-19T13:31:36.291Z
+
+- Cloudflare authenticated API: the deployment list still shows deployment ab2256b6-83f2-4d86-8477-076e817119fc as the latest; created 2026-11-16T03:42:36.174494Z, with version fbc2ce06-0b8f-486d-8002-e08e02736078 receiving 100% traffic. No later deployment appears in the returned five-entry history.
+- Version metadata: version 5; annotations link PR #11 and commit dcc8bd4c3ed974d6eb3c6852b74fcecb96a61539; AI binding is present.
+- GitHub: PR #11 remains open and unmerged at the same head commit.
+- Health: the previous public workers.dev /health URL returned 404 via the current extraction check. This is not treated as definitive proof of a Worker failure, but the previous health: ok result is historical and current health remains unconfirmed.
+- Cost gate: workers/timelapse-voice.js checks cache and calls Workers AI on a cache miss. No /speak GET or HEAD was made; no inference or spend occurred.
+- Acceptance: no user-gesture click, audio response, playback progress or audible wording independently verified for e1955, e1961 or e1994b. Keep IN_PROGRESS / PARTIAL.
+- Next: run the three real UI playback checks only through an approved no-spend cached fixture or safe test path; do not redeploy, merge or trigger an unknown cache miss.
+- Change scope: metadata only; no app source, worker, branch, deployment, DNS or route changes.
