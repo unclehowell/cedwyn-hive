@@ -7,7 +7,7 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - turn: ChatGPT (direct owner-assigned non-email task)
 - action_type: deployment-verification
 - last_change: 2026-11-16T09:07:12.694Z
-- last_action_at: 2026-11-17T09:17:54.525Z
+- last_action_at: 2026-11-19T08:56:09.374Z
 - last_action_by: ChatGPT (seat 2)
 - repository: unclehowell/cedwyn-wales-3d
 - pull_request: 11 (open, unmerged)
@@ -21,12 +21,12 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - health: ok; Workers AI binding present
 - workers_dev: enabled
 - preview: https://feature-timelapse-1877-prese.cedwyn-wales-3d.pages.dev
-- acceptance: PARTIAL — browser clicks blocked by stale element IDs; no audio element/source, network response or playback verified
-- verified: preview loads; e1955 heading/control and U+00B7 middle dot visible; 1961 timeline tick and 1990s event labels visible; prior source transformation checks remain recorded
-- pending: actual button click, audio element/source, successful response and playback verification for e1955, e1961 and e1994b; spoken separator remains unresolved
+- acceptance: PARTIAL / BLOCKED — stable selectors identified; local browser egress blocked; no /speak request made because a cache miss may invoke Workers AI; playback unverified
+- verified: source exposes ?tl=pause, #tlvoiceaudio, #tlvoice and .tlhear; event modal's Hear this headline handler calls speakHeadline(e.id, true); worker checks v4 cache before Workers AI on a miss
+- pending: no-spend cached-fixture or separately authorised test; actual .tlhear click, audio response and playback verification for e1955, e1961 and e1994b; spoken separator remains unresolved
 - hive_chat_message_id: 90 (existing/idempotently confirmed)
 - mailbox: not applicable
-- next_step: use a manual audio-enabled browser or stable-selector browser test for all three events; close the HubSpot task only if all playback checks pass
+- next_step: use an approved browser/network and no-spend cached fixture (or separate spend authorisation) to exercise .tlhear for all three events; close only after playback checks pass
 
 ## Handoff
 
@@ -39,3 +39,13 @@ The requested Worker deployment already existed before this seat's execution. It
 - audio: no successful user-gesture click, audio element/source, network response or playback verified; spoken treatment of U+00B7 remains unresolved
 - scope: read-only; no code, merge, deployment, worker setting, route or DNS change
 - next: manual audio-enabled browser or stable-selector harness; test e1955, e1961 and e1994b before closure
+
+
+## Stable selector / cost-gate diagnosis — 2026-11-19T08:56:09.374Z
+
+- source: unclehowell/cedwyn-wales-3d, branch feature/timelapse-1877-present; timelapse.js blob 5f48bdc00f87f8e0570742b437a846fd3f0966a2; workers/timelapse-voice.js blob 1cea62744b8fc2e8f66d58d038723165fd6b93f7
+- route: append ?tl=pause to open the timelapse paused
+- selectors: #tlvoiceaudio (audio element), #tlvoice (main Hear control), .tlhear (event modal Hear this headline)
+- browser: Playwright-managed Chromium binary unavailable; system Chromium navigation to the preview was blocked before page load with net::ERR_BLOCKED_BY_ADMINISTRATOR
+- cost gate: /speak cache miss calls Workers AI @cf/deepgram/aura-1; no /speak request or inference was made
+- result: selector discovery only; no click, audio response or playback proof; task remains IN_PROGRESS / PARTIAL
