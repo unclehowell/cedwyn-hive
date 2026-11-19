@@ -1,11 +1,11 @@
 {
-  "updated": "2026-11-18T11:41:42.902Z",
+  "updated": "2026-11-19T08:56:09.374Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
       "id": "Draft-d2cfb055",
       "version": "v0.1.0",
-      "status": "IN_PROGRESS — deployment verified; playback acceptance partial",
+      "status": "IN_PROGRESS — deployment verified; stable selectors identified; playback acceptance blocked",
       "turn": "ChatGPT (direct owner-assigned non-email task)",
       "open_issues": 3,
       "last_change": "2026-11-16T09:07:12.694Z",
@@ -27,10 +27,10 @@
       "seat_agreements_version": null,
       "final_three_hat_version": null,
       "attachments_verified_version": null,
-      "last_action_at": "2026-11-17T09:17:54.525Z",
+      "last_action_at": "2026-11-19T08:56:09.374Z",
       "last_action_by": "ChatGPT",
       "queue_after": null,
-      "stage": "1955 control and 1961 tick / 1990s labels visible; clicks blocked by stale element IDs; audio playback remains unverified",
+      "stage": "?tl=pause and #tlvoiceaudio / #tlvoice / .tlhear selectors identified; local Chromium egress blocked; Workers AI cache-miss cost gate; playback unverified",
       "gate": null,
       "queue_position": null
     },
