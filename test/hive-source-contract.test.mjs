@@ -8,6 +8,16 @@ import { execFileSync } from "node:child_process";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (file) => readFile(path.join(root, file), "utf8");
 
+test("Hive Chat worker source parses as an ES module", async () => {
+  const source = await read("hive/chat/worker.js");
+  execFileSync(process.execPath, ["--input-type=module", "--check", "-"], {
+    cwd: root,
+    input: source,
+    stdio: ["pipe", "pipe", "pipe"]
+  });
+});
+
+
 test("Hive Worker shared-state sources point at the split repository main branch", async () => {
   const source = await read("worker/index.js");
   const expected = [
@@ -74,4 +84,30 @@ test("Hive public board exposes pseudonymous workflow metadata only", async () =
   assert.doesNotMatch(source, /href="\/context\/\$\{encodeURIComponent\(r\.draft\)\}"/);
   assert.doesNotMatch(source, /context: d\.context/);
   assert.doesNotMatch(source, /record: d\.record/);
+});
+
+
+test("Hive MCP exposes the six owner-directed operating principles", async () => {
+  const worker = await read("worker/index.js");
+  const chat = await read("hive/chat/worker.js");
+  const join = await read("hive/JOIN.md");
+  const arch = await read("hive/ARCHITECTURE.md");
+  const principles = await read("hive/PRINCIPLES.md");
+  for (const term of ["get_agent_principles", "Rely on facts", "Augment with AI", "Verify information", "Analogue skills", "Human connections", "Ethics"]) {
+    assert.ok(worker.includes(term) || join.includes(term) || arch.includes(term) || principles.includes(term) || chat.includes(term), "missing operating principle: " + term);
+  }
+  assert.ok(worker.includes("principles: { version: AGENT_PRINCIPLES.version"));
+  assert.ok(worker.includes("name: \"get_agent_principles\""));
+  assert.ok(worker.includes("First call get_agent_principles"));
+  assert.ok(worker.includes("contract (v3.31.0)"));
+  assert.ok(worker.includes("protocol (v3.31.0)"));
+  assert.ok(worker.includes("operating_principles: { version: \"1.0.0\""));
+  assert.ok(chat.includes("## Operating principles"));
+  assert.ok(chat.includes("const CW_FOOTER ="));
+  assert.ok(principles.includes("Analogue skills"));
+  assert.ok(join.includes("v3.31.0"));
+  assert.ok(chat.includes("operating_principles"));
+  assert.ok(chat.includes("https://bucklerfamily.estate/FLYWHEELS/agent-principles.md"));
+  assert.doesNotMatch(chat, /reneceulen|email to legal counsel/i, "Hive Chat must not carry superseded automatic third-party contact instructions");
+  assert.match(chat, /confidential threshold review|confidential review/i);
 });

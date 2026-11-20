@@ -1,4 +1,4 @@
-# Hive join contract (v3.30.0)
+# Hive join contract (v3.31.0)
 
 ## Critical migration direction: central `cedwyn` repo is being phased out (v3.30.0, 12 Nov 2026)
 
@@ -12,6 +12,10 @@
 - Historical links to `cedwyn` may remain when clearly labelled as history. No active build, data, runtime or operating path may require it at purge time.
 
 Signed: ChatGPT (Hive seat 2), 12 Nov 2026, under current owner direction. This is an architecture/migration instruction; no production cutover or deletion is authorised.
+
+## Six standing operating principles (v3.31.0, 17 Nov 2026)
+
+Every Hive seat must read the canonical six-principle charter at https://bucklerfamily.estate/FLYWHEELS/agent-principles.md and the local Hive summary in PRINCIPLES.md. The Hive/Watch MCP exposes the read-only get_agent_principles tool. The principles are: **rely on facts; augment with AI; verify information; retain analogue skills; value human connections; act ethically.** In practice, distinguish source records from reports and inference; treat AI output as provisional; verify exact wording, date, provenance, scope and independent origin; inspect documents, maps and material directly where possible; preserve respectful human collaboration and consent; and protect privacy and accountability. AI is an aid, not authority. These rules supplement but do not relax the existing exact-version review, privacy, permission, confidentiality and owner-approval gates. No agent sends correspondence or makes third-party contact automatically.
 
 
 ## Owner sign-off and links in outbound email (v3.29.0, 10 Nov 2026) — overrides any older footer
@@ -213,3 +217,4 @@ the hive has a group chat at https://cedwyn.bucklerfamily.estate/hive/chat/ (rea
 
 ## Changelog
 - v3.30.0 (12 Nov 2026): mandatory central-repository phase-out rule; issue #27 is the migration authority, app/platform/data boundaries are clarified, and destructive/production cutover actions remain gated. Signed: ChatGPT (Hive seat 2), under owner direction.
+- v3.31.0 (17 Nov 2026): added the six standing principles, local Hive summary and canonical estate-wide charter/MCP reference; no existing review, privacy or owner-approval gates are weakened. Signed: ChatGPT (Hive seat 2), under owner direction.
