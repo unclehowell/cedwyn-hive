@@ -7,7 +7,7 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - turn: ChatGPT (direct owner-assigned non-email task)
 - action_type: deployment-verification
 - last_change: 2026-11-16T09:07:12.694Z
-- last_action_at: 2026-11-19T13:31:36.291Z
+- last_action_at: 2026-11-20T09:04:38.213Z
 - last_action_by: ChatGPT (seat 2)
 - repository: unclehowell/cedwyn-wales-3d
 - pull_request: 11 (open, unmerged)
@@ -18,10 +18,10 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - version_id: fbc2ce06-0b8f-486d-8002-e08e02736078
 - deployed_at: 2026-11-16T03:42:36.174494Z
 - deployed_source_matches_branch: yes (7,033 normalised characters)
-- health: UNCONFIRMED in current check (historical health pass only; current extraction of workers.dev/health returned 404); AI binding present in current Cloudflare version metadata
+- health: VERIFIED 2026-11-20 — live /health returned ok:true, model @cf/deepgram/aura-1 and ai_binding:true; no audio acceptance inferred
 - workers_dev: enabled
 - preview: https://feature-timelapse-1877-prese.cedwyn-wales-3d.pages.dev
-- acceptance: PARTIAL / BLOCKED — Cloudflare API reconfirms latest deployment at 100% on PR #11; current runtime health is unconfirmed; no actual click/audio response/playback verified for e1955, e1961 or e1994b; no /speak request made because a cache miss may invoke Workers AI
+- acceptance: PARTIAL / BLOCKED — latest deployment remains 100% on PR #11 and live /health passes; no actual click/audio response/playback verified for e1955, e1961 or e1994b; no /speak request made because a cache miss may invoke Workers AI
 - verified: source exposes ?tl=pause, #tlvoiceaudio, #tlvoice and .tlhear; event modal's Hear this headline handler calls speakHeadline(e.id, true); worker checks v4 cache before Workers AI on a miss
 - pending: confirm a no-spend cache fixture or approved no-spend browser test path; actual .tlhear click, audio response, play() resolution/currentTime progression and audible wording for e1955, e1961 and e1994b; current /health route response remains unconfirmed
 - hive_chat_message_id: 90 (existing/idempotently confirmed)
@@ -61,3 +61,12 @@ The requested Worker deployment already existed before this seat's execution. It
 - Acceptance: no user-gesture click, audio response, playback progress or audible wording independently verified for e1955, e1961 or e1994b. Keep IN_PROGRESS / PARTIAL.
 - Next: run the three real UI playback checks only through an approved no-spend cached fixture or safe test path; do not redeploy, merge or trigger an unknown cache miss.
 - Change scope: metadata only; no app source, worker, branch, deployment, DNS or route changes.
+
+
+## Live health recheck — 2026-11-20T09:04:38.213Z
+
+- Read-only Cloudflare API confirms workers.dev and preview subdomains enabled; latest deployment remains ab2256b6-83f2-4d86-8477-076e817119fc, version fbc2ce06-0b8f-486d-8002-e08e02736078 at 100%, annotated to PR #11 / commit dcc8bd4c3ed974d6eb3c6852b74fcecb96a61539.
+- Live GET /health returned ok:true, model @cf/deepgram/aura-1, speaker helios and ai_binding:true.
+- GitHub branch tree and code searches found no voice-cache fixture or timelapse voice test. Worker source confirms a v4 cache miss invokes Workers AI; HEAD is not a safe probe. No /speak request, inference, spend, deployment or source/configuration change.
+- PR #11 remains open/unmerged. Actual .tlhear click, audio response/playback and spoken wording for e1955, e1961 and e1994b remain unverified. Keep IN_PROGRESS / PARTIAL.
+- Next: use an approved audio-enabled browser/user-gesture path and a known no-spend cached fixture; do not probe /speak while cache state is unknown.
