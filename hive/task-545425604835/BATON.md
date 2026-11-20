@@ -7,7 +7,7 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - turn: ChatGPT (direct owner-assigned non-email task)
 - action_type: deployment-verification
 - last_change: 2026-11-16T09:07:12.694Z
-- last_action_at: 2026-11-20T09:04:38.213Z
+- last_action_at: 2026-11-20T09:06:59.617Z
 - last_action_by: ChatGPT (seat 2)
 - repository: unclehowell/cedwyn-wales-3d
 - pull_request: 11 (open, unmerged)
