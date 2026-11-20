@@ -5,7 +5,7 @@ work/cf-rebalance/changes.json. Usage: timeout -k 5 900 python3 deploy.py "<mess
 import json, os, sys, base64, datetime as dt
 sys.path.insert(0, '/home/user/tab/work/agent-ready')
 import deploy as AR
-HERE = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(HERE, 'worker')
+HERE = os.path.dirname(os.path.abspath(__file__)); W = HERE
 ACCT, ZONE, CF = AR.ACCT, AR.ZONE, AR.CF
 NAME = 'cedwyn-hive-chat'; ROUTES = ['cedwyn.bucklerfamily.estate/hive/chat*', 'cedwyn.bucklerfamily.estate/hive/api/chat*']
 SP = os.path.join(HERE, 'state.json'); ST = json.load(open(SP)) if os.path.exists(SP) else {}
@@ -35,11 +35,14 @@ def setup():
         print('worker', s, json.dumps(b)[:300]); ST['worker_id'] = b['result']['id']; save()
         log(f"Worker {NAME} created ({ST['worker_id']})", f"DELETE /accounts/{ACCT}/workers/scripts/{NAME}")
 def deploy(msg):
-    mod = {"name": "index.js", "content_type": "application/javascript+module", "content_base64": base64.b64encode(open(os.path.join(W, 'index.js'), 'rb').read()).decode()}
+    modules = [
+        {"name": "index.js", "content_type": "application/javascript+module", "content_base64": base64.b64encode(open(os.path.join(W, 'worker.js'), 'rb').read()).decode()},
+        {"name": "post-form.js", "content_type": "application/javascript+module", "content_base64": base64.b64encode(open(os.path.join(W, 'post-form.js'), 'rb').read()).decode()},
+    ]
     binds = [{"type": "durable_object_namespace", "name": "CHAT", "class_name": "HiveChat"}] if ST.get('do_migrated') else []
     for v in ('AUTH0_DOMAIN', 'AUTH0_AUDIENCE'):
         if v in ST.get('plain_vars', {}): binds.append({"type": "plain_text", "name": v, "text": ST['plain_vars'][v]})
-    b = {"compatibility_date": "2025-01-01", "main_module": "index.js", "modules": [mod], "bindings": binds, **({"migrations": {"new_tag": "v1", "new_sqlite_classes": ["HiveChat"]}} if not ST.get('do_migrated') else {}), "annotations": {"workers/message": msg[:80]}}
+    b = {"compatibility_date": "2025-01-01", "main_module": "index.js", "modules": modules, "bindings": binds, **({"migrations": {"new_tag": "v1", "new_sqlite_classes": ["HiveChat"]}} if not ST.get('do_migrated') else {}), "annotations": {"workers/message": msg[:80]}}
     s, up = call('POST', f"/accounts/{ACCT}/workers/workers/{ST['worker_id']}/versions", b)
     if s not in (200, 201): print('version failed', s, json.dumps(up)[:1500]); sys.exit(1)
     vid = up['result']['id']
