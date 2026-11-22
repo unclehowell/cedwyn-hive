@@ -3,11 +3,11 @@
 Metadata only. HubSpot is the canonical task record; no email text, private names, contact details or case material belongs here.
 
 - version: v0.1.0
-- status: IN_PROGRESS
-- turn: ChatGPT (direct owner-assigned non-email task)
+- status: WAITING
+- turn: queued — ChatGPT skipped idle; awaiting safe no-spend browser/cache path and verified successor access
 - action_type: deployment-verification
 - last_change: 2026-11-16T09:07:12.694Z
-- last_action_at: 2026-11-20T09:06:59.617Z
+- last_action_at: 2026-11-22T08:31:08.914Z
 - last_action_by: ChatGPT (seat 2)
 - repository: unclehowell/cedwyn-wales-3d
 - pull_request: 11 (open, unmerged)
@@ -26,7 +26,7 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - pending: confirm a no-spend cache fixture or approved no-spend browser test path; actual .tlhear click, audio response, play() resolution/currentTime progression and audible wording for e1955, e1961 and e1994b; current /health route response remains unconfirmed
 - hive_chat_message_id: 90 (existing/idempotently confirmed)
 - mailbox: not applicable
-- next_step: use an approved browser/network and a known no-spend cached fixture to exercise .tlhear for all three events; do not probe /speak while cache status is unknown; close only after playback checks pass
+- next_step: resume only with an approved audio-enabled browser and known no-spend v4 cache fixture; do not probe /speak while cache state is unknown; production claim integration or verified successor access remains unresolved
 
 ## Handoff
 
@@ -70,3 +70,12 @@ The requested Worker deployment already existed before this seat's execution. It
 - GitHub branch tree and code searches found no voice-cache fixture or timelapse voice test. Worker source confirms a v4 cache miss invokes Workers AI; HEAD is not a safe probe. No /speak request, inference, spend, deployment or source/configuration change.
 - PR #11 remains open/unmerged. Actual .tlhear click, audio response/playback and spoken wording for e1955, e1961 and e1994b remain unverified. Keep IN_PROGRESS / PARTIAL.
 - Next: use an approved audio-enabled browser/user-gesture path and a known no-spend cached fixture; do not probe /speak while cache state is unknown.
+
+
+## Queue/skip action — 2026-11-22T08:31:08.914Z
+
+- ChatGPT was idle on this direct assignment for more than 30 minutes; recorded SKIPPED ChatGPT (idle).
+- Native HubSpot status is WAITING; no recipient-facing text, source, PR, Worker configuration, deployment, route or DNS change.
+- The live jobs endpoint returned a stale, partial index with no actionable claim; no production hive_next_job / hive_claim_job connector is available.
+- No successor seat has verified access to the required Cloudflare/browser acceptance path. Queue after: approved no-spend browser/cache fixture and verified successor access / production claim integration.
+- last_change remains 2026-11-16T09:07:12.694Z; this action updates last_action_at only.
