@@ -1,6 +1,6 @@
 # Three-Hat and FOI Correspondence Guardrails
 
-Version: 1.0.1
+Version: 1.0.2
 Effective: 24 November 2026
 Authority: Hive JOIN contract v3.31.2
 Scope: every recipient-facing email draft, reply, follow-up, FOI/EIR/SAR request, internal review, complaint, preservation enquiry and every HubSpot redraft or material edit.
@@ -125,7 +125,7 @@ Do not use 'destroyed', 'lost', 'concealed', 'missing at transfer', 'not held' o
 
 ## 7. Preservation language and allegation control
 
-Do not state that FOIA s77 creates a general preservation duty or that every open request automatically imposes a case-specific legal hold. Section 77 concerns specified acts against records with the intention of preventing disclosure after a qualifying request. The s46 records-management Code is a records-management framework; it is not, without more, proof of a blanket legal hold in an individual case.
+Do not state that FOIA s77 or Data Protection Act 2018 s173 creates a general preservation duty or that an open request automatically imposes a case-specific legal hold. FOIA s77 concerns specified acts against records with the intention of preventing disclosure after a qualifying FOIA request. DPA 2018 s173 concerns specified acts against information with the intention of preventing disclosure after a qualifying data-subject access request. Neither offence provision is a general retention or preservation rule. The s46 records-management Code is a records-management framework; it is not, without more, proof of a blanket legal hold in an individual case.
 
 A preservation request should identify the records, the relevant open matters, the requested duration and the action sought. Ask the recipient to confirm whether a hold or other preservation measure has actually been applied, who/which function owns it, and the relevant retention/disposal policy or recorded decision. Distinguish a request for preservation from a statutory FOI/EIR request, complaint or SAR. Any claim of unlawful destruction, concealment, fraud, bad faith or deliberate obstruction must be held as an allegation/hypothesis unless evidence supports each element; do not put such conclusions into a routine draft.
 
