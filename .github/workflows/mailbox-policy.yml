@@ -6,6 +6,11 @@ on:
       - "hive/FLYWHEEL.md"
       - "hive/AUTOMATION.json"
       - "hive/AUTOMATION.html"
+      - "hive/AUTOMATION.md"
+      - "hive/RUNNERS.json"
+      - "hive/MAILBOX-RELEASE.md"
+      - "hive/mailbox-release-proof.schema.json"
+      - "hive/THREE-HAT-FOI-GUARDRAILS.md"
       - "tools/validate_mailbox_release.py"
       - "tests/test_validate_mailbox_release.py"
       - ".github/workflows/mailbox-policy.yml"
@@ -16,6 +21,11 @@ on:
       - "hive/FLYWHEEL.md"
       - "hive/AUTOMATION.json"
       - "hive/AUTOMATION.html"
+      - "hive/AUTOMATION.md"
+      - "hive/RUNNERS.json"
+      - "hive/MAILBOX-RELEASE.md"
+      - "hive/mailbox-release-proof.schema.json"
+      - "hive/THREE-HAT-FOI-GUARDRAILS.md"
       - "tools/validate_mailbox_release.py"
       - "tests/test_validate_mailbox_release.py"
       - ".github/workflows/mailbox-policy.yml"
@@ -42,7 +52,15 @@ jobs:
           flywheel = Path("hive/FLYWHEEL.md").read_text(encoding="utf-8")
           automation = json.loads(Path("hive/AUTOMATION.json").read_text(encoding="utf-8"))
           html = Path("hive/AUTOMATION.html").read_text(encoding="utf-8")
-          assert "v3.27.0" in join and "v3.27.0" in flywheel and "v3.27.0" in html
+          assert "v3.31.2" in join and "v3.31.2" in flywheel and "v3.31.2" in html
+          assert automation["joinContract"]["version"] == "3.31.2"
+          assert automation["version"] == "1.1.4"
+          assert "schedule_send_supported" in Path("hive/mailbox-release-proof.schema.json").read_text(encoding="utf-8")
+          assert "There is no daily draft-volume cap." in Path("hive/MAILBOX-RELEASE.md").read_text(encoding="utf-8")
           assert "two complete review rounds" in automation["guardrails"][-1]
-          assert "two sequential complete review rounds" in next(x for x in automation["defaultRules"] if x["id"] == "email-gate")["then"][1]
+          email_gate = next(x for x in automation["defaultRules"] if x["id"] == "email-gate")
+          assert "two sequential complete review rounds" in email_gate["then"][1]
+          assert any("48 elapsed hours" in x for x in email_gate["then"])
+          assert not any("five drafts" in x.lower() or "at five" in x.lower() for x in email_gate["then"])
+          assert automation["joinContract"]["sourceNote"].startswith("Version reflects the repository fallback")
           PY
