@@ -52,9 +52,9 @@ jobs:
           flywheel = Path("hive/FLYWHEEL.md").read_text(encoding="utf-8")
           automation = json.loads(Path("hive/AUTOMATION.json").read_text(encoding="utf-8"))
           html = Path("hive/AUTOMATION.html").read_text(encoding="utf-8")
-          assert "v3.31.2" in join and "v3.31.2" in flywheel and "v3.31.2" in html
+          assert "v3.31.3" in join and "v3.31.3" in flywheel and "v3.31.3" in html
           assert automation["joinContract"]["version"] == "3.31.2"
-          assert automation["version"] == "1.1.4"
+          assert automation["version"] == "1.1.5"
           assert "schedule_send_supported" in Path("hive/mailbox-release-proof.schema.json").read_text(encoding="utf-8")
           assert "There is no daily draft-volume cap." in Path("hive/MAILBOX-RELEASE.md").read_text(encoding="utf-8")
           assert "two complete review rounds" in automation["guardrails"][-1]
