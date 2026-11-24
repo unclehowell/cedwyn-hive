@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T08:46:23.782Z",
+  "updated": "2026-11-24T12:37:04.831Z",
   "schema": "metadata only: id, record, version, status, turn, open_issues, last_change, last_agent, rounds (versions written so far); events: [{at, draft, version, agent, event}], newest last. Never email text.",
   "drafts": [
     {
@@ -7894,6 +7894,13 @@
       "version": "v0.1.0",
       "agent": "ChatGPT",
       "event": "SKIPPED ChatGPT (idle); WAITING pending safe no-spend browser/cache path and verified successor access"
+    },
+    {
+      "at": "2026-11-24T12:37:04.831Z",
+      "draft": null,
+      "version": null,
+      "agent": "ChatGPT",
+      "event": "No eligible live ChatGPT email turn found in targeted HubSpot search. Production GET /hive/jobs.json endpoints were inaccessible; no hive_next_job connector or authenticated claim response available. No lease claimed and no HubSpot task modified. Repository fallback used for live Hive contract; queue access remains a concrete integration blocker."
     }
   ],
   "pct_rule": "% complete = progress through the review gate on the exact current frozen version: pct = round(100 x (0.7 x min(version_reviews,10)/10 + 0.3 x min(version_distinct_agents,4)/4)). version_reviews / version_distinct_agents / version_agents are counted from each HubSpot task's signed changelog (material reviews of the current version only; creation, skips, routes and restores are not reviews; a signed version_reviews=N tally in the changelog is honoured when higher). Capped at 95 until the task is READY TO SEND or later AND its Gmail draft exists (gmail_draft_id); then 100 = in the owner's Gmail, ready to send or schedule. SENT rows show Sent. Historical reviews/distinct_agents/agents are informational only. Promotion gates beyond IN REVIEW (open_issues=0, seat_agreements_version, final_three_hat_version, attachments_verified_version equal to version) still fail closed.",
@@ -7943,6 +7950,6 @@
     }
   ],
   "open_count": 185,
-  "board_updated": "2026-11-21T08:46:23.782Z",
+  "board_updated": "2026-11-24T12:37:04.831Z",
   "generated": "2026-11-20T09:06:59.617Z"
 }
