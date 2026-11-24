@@ -15,6 +15,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 FRESH_SECONDS = 300
 SHA256_RE = re.compile(r"^[a-fA-F0-9]{64}$")
@@ -52,12 +53,87 @@ def is_sha256(value: Any) -> bool:
     return isinstance(value, str) and bool(SHA256_RE.fullmatch(value))
 
 
+
+def parse_hhmm(value: Any, field: str, errors: list[str]) -> int | None:
+    if not isinstance(value, str) or not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", value):
+        errors.append(f"{field} must be a 24-hour HH:MM value")
+        return None
+    hour, minute = (int(part) for part in value.split(":"))
+    return hour * 60 + minute
+
+
+def validate_schedule(gmail: dict[str, Any], now: datetime, errors: list[str]) -> None:
+    """Fail closed unless genuine Schedule Send and a recipient-local business slot are proven."""
+    if gmail.get("schedule_send_supported") is not True:
+        errors.append("genuine Gmail Schedule Send is not exposed and verified")
+    if gmail.get("schedule_send_operation") != "gmail_schedule_send":
+        errors.append("gmail.schedule_send_operation must identify the genuine Gmail Schedule Send operation")
+
+    planned = check_fresh(gmail.get("planned_draft_creation_at"), "gmail.planned_draft_creation_at", now, errors)
+    scheduled = parse_utc(gmail.get("scheduled_send_at"), "gmail.scheduled_send_at", errors)
+    if planned and scheduled:
+        delta = (scheduled - planned).total_seconds()
+        if delta <= 0:
+            errors.append("gmail.scheduled_send_at must be after planned draft creation")
+        if delta > 48 * 60 * 60:
+            errors.append("gmail.scheduled_send_at exceeds the 48 elapsed-hour limit after draft creation")
+
+    zone_name = gmail.get("recipient_timezone")
+    zone = None
+    if not isinstance(zone_name, str) or not zone_name.strip():
+        errors.append("gmail.recipient_timezone is required")
+    else:
+        try:
+            zone = ZoneInfo(zone_name)
+        except ZoneInfoNotFoundError:
+            errors.append("gmail.recipient_timezone must be a valid IANA time zone")
+
+    local_raw = gmail.get("recipient_local_send_at")
+    local_dt = None
+    if not isinstance(local_raw, str) or not local_raw.strip():
+        errors.append("gmail.recipient_local_send_at is required")
+    else:
+        try:
+            local_dt = datetime.fromisoformat(local_raw.replace("Z", "+00:00"))
+            if local_dt.tzinfo is None:
+                errors.append("gmail.recipient_local_send_at must include a UTC offset")
+                local_dt = None
+        except ValueError:
+            errors.append("gmail.recipient_local_send_at must be a valid ISO-8601 timestamp")
+
+    if scheduled and zone and local_dt:
+        expected = scheduled.astimezone(zone)
+        if local_dt.replace(tzinfo=None) != expected.replace(tzinfo=None) or local_dt.utcoffset() != expected.utcoffset():
+            errors.append("gmail.recipient_local_send_at does not match scheduled_send_at in recipient_timezone")
+        if expected.weekday() >= 5:
+            errors.append("gmail.scheduled_send_at falls on a weekend in the recipient's time zone")
+
+        start = parse_hhmm(gmail.get("business_window_start"), "gmail.business_window_start", errors)
+        end = parse_hhmm(gmail.get("business_window_end"), "gmail.business_window_end", errors)
+        local_minutes = expected.hour * 60 + expected.minute
+        if start is not None and end is not None:
+            if start >= end:
+                errors.append("recipient business window must have start earlier than end")
+            elif not (start <= local_minutes < end):
+                errors.append("gmail.scheduled_send_at is outside the verified recipient-local business window")
+
+    if gmail.get("business_day_verified") is not True:
+        errors.append("recipient working day and public-holiday calendar have not been verified")
+    if not isinstance(gmail.get("business_calendar_source_url"), str) or not gmail["business_calendar_source_url"].startswith("https://"):
+        errors.append("gmail.business_calendar_source_url must identify the checked recipient holiday calendar")
+    calendar_checked = parse_utc(gmail.get("business_calendar_checked_at"), "gmail.business_calendar_checked_at", errors)
+    if calendar_checked:
+        age = (now - calendar_checked).total_seconds()
+        if age < -60 or age > 7 * 24 * 60 * 60:
+            errors.append("gmail.business_calendar_checked_at must be within the last seven days")
+
+
 def validate_release(payload: dict[str, Any], now: datetime | None = None) -> list[str]:
     """Return blockers; an empty list means the supplied metadata proof passes."""
     now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     errors: list[str] = []
 
-    if payload.get("schema") != "hive_mailbox_release/v1":
+    if payload.get("schema") != "hive_mailbox_release/v2":
         errors.append("schema must be hive_mailbox_release/v1")
 
     task = payload.get("task")
@@ -152,6 +228,10 @@ def validate_release(payload: dict[str, Any], now: datetime | None = None) -> li
         "final_three_hat_version",
         "attachments_verified_version",
         "subject_recipient_thread_verified_version",
+        "full_context_thread_verified_version",
+        "recipient_profile_verified_version",
+        "source_indexes_verified_version",
+        "csscpsg_verified_version",
     ):
         if proofs.get(field) != version:
             errors.append(f"proofs.{field} must match task.version")
@@ -159,17 +239,11 @@ def validate_release(payload: dict[str, Any], now: datetime | None = None) -> li
         errors.append("proofs.recipient_envelope_sha256 does not match the verified envelope")
 
     check_fresh(gmail.get("checked_at"), "gmail.checked_at", now, errors)
-    if gmail.get("count_scope") != "all_mailbox_drafts_created_today_utc":
-        errors.append("gmail.count_scope must cover all mailbox drafts created today UTC")
-    count = gmail.get("drafts_created_today_utc")
-    if not isinstance(count, int) or isinstance(count, bool) or count < 0:
-        errors.append("gmail.drafts_created_today_utc must be a non-negative integer")
-    elif count >= 5:
-        errors.append("daily mailbox cap reached: five drafts already created today UTC")
+    validate_schedule(gmail, now, errors)
     if gmail.get("executor") != "Tab":
-        errors.append("only Tab (dealer) may create the final Gmail draft")
-    if gmail.get("action") != "create_one_final_draft":
-        errors.append("gmail.action must be create_one_final_draft")
+        errors.append("only Tab (dealer) may create and schedule the final Gmail draft")
+    if gmail.get("action") != "create_and_schedule_one_final_draft":
+        errors.append("gmail.action must be create_and_schedule_one_final_draft")
 
     mode = gmail.get("thread_mode")
     if mode == "reply":
@@ -203,8 +277,8 @@ def main() -> int:
             print(f"- {blocker}")
         return 1
 
-    print(f"READY: task {payload['task']['id']} version {payload['task']['version']} passed the mailbox-release metadata gate.")
-    print("This checker does not create a draft or send email; complete the single approved create/read-back step manually.")
+    print(f"READY: task {payload['task']['id']} version {payload['task']['version']} passed the mailbox-release preflight. Schedule Send must still be confirmed by Gmail.")
+    print("This checker does not create, schedule or send email; Tab must perform the single approved Schedule Send action and verify Gmail's scheduled queue/read-back. The owner alone sends.")
     return 0
 
 
