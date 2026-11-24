@@ -4,7 +4,7 @@
   "purpose": "Metadata-only evidence of recurring task schedules. This file never determines seat membership, assignment, review count, Gmail readiness or sent status.",
   "seat_authority": "hive/ROSTER.json",
   "required_task_title": "Hive check-in — ",
-  "preferred_interval_minutes": 1440,
+  "preferred_interval_minutes": null,
   "watch_cron_invokes_agents": false,
   "observations": [
     {
@@ -53,5 +53,6 @@
       "limitations": "Do not infer configured status from HubSpot access or roster membership."
     }
   ],
-  "operating_rule": "Only the agent that can inspect its own harness may change its observation to CONFIGURED. Refresh the roster before acting; if an agent is not active, schedule status does not grant it a seat."
+  "operating_rule": "Only the agent that can inspect its own harness may change its observation to CONFIGURED. Refresh the roster before acting; if an agent is not active, schedule status does not grant it a seat.",
+  "interval_policy": "No universal cadence: use each agent's verified actual_cadence. ChatGPT is daily at 08:00 Europe/London; Tab's five-minute schedule is a separate agent schedule. The five-minute Watch does not invoke LLM agents."
 }
