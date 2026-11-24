@@ -13,7 +13,7 @@
   ],
   "properties": {
     "schema": {
-      "const": "hive_mailbox_release/v1"
+      "const": "hive_mailbox_release/v2"
     },
     "task": {
       "type": "object",
@@ -50,6 +50,10 @@
         "final_three_hat_version",
         "attachments_verified_version",
         "subject_recipient_thread_verified_version",
+        "full_context_thread_verified_version",
+        "recipient_profile_verified_version",
+        "source_indexes_verified_version",
+        "csscpsg_verified_version",
         "recipient_envelope_sha256"
       ]
     },
@@ -57,8 +61,17 @@
       "type": "object",
       "required": [
         "checked_at",
-        "count_scope",
-        "drafts_created_today_utc",
+        "schedule_send_supported",
+        "schedule_send_operation",
+        "planned_draft_creation_at",
+        "scheduled_send_at",
+        "recipient_timezone",
+        "recipient_local_send_at",
+        "business_window_start",
+        "business_window_end",
+        "business_day_verified",
+        "business_calendar_source_url",
+        "business_calendar_checked_at",
         "executor",
         "action",
         "thread_mode"
