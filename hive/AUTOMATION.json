@@ -1126,7 +1126,7 @@
         "If genuine Schedule Send is unavailable or unconfirmed, keep the task open as NOT SCHEDULED / BLOCKED; do not simulate scheduling with a reminder, due date or daily runner.",
         "Reconcile legacy unscheduled drafts against the full thread and HubSpot. Do not send merely to clear Drafts; delete or safely reschedule only through a supported, confirmed Gmail operation. Otherwise leave untouched and record the exception."
       ],
-      "humanInLoop": "No agent sends. The owner alone sends. All other seats remain read-only in Gmail."
+      "humanInLoop": "Only Tab may create and Schedule Send the frozen in-thread version under the owner's 13 Nov override after every exact-version proof passes. No agent may use immediate-send. Any manual send remains owner-only; all other seats remain read-only in Gmail."
     },
     {
       "id": "quiet-notifications",
