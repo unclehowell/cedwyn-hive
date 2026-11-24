@@ -87,7 +87,7 @@ When interfacing with BucklerFamily.Estate, agents treat the following as the st
 1. Prefer primary sources. Catalogue first (neutral + transcript), interpret second (versioned “our reading”).  
 2. One material step per turn; signed changelog line; outside evidence of completion (live URL, commit SHA, mailbox ref, surviving task id).  
 3. Never create parallel task lists; HubSpot is the register.  
-4. Never send email; owner alone sends.  
+4. No agent may use immediate-send. Tab may use genuine Gmail Schedule Send only under the 13 Nov owner override after the exact-version review and recipient-specific send-readiness gates; manual sending remains owner-only.  
 5. Never invent transcripts or claim findings that are still hypotheses.  
 6. Preserve and surface contrary evidence.  
 7. Public pages and e-books improve by semantic version when the underlying catalogue quality improves — re-release, do not overwrite history silently.  
@@ -157,7 +157,7 @@ A message is a task command only when its subject begins `[CEDWYN TASK]` or it c
 
 - HubSpot remains authoritative after successful creation; the email, queue and GitHub are not parallel task registers.
 - Private email bodies, legal strategy, SAR/health material, addresses, attachments and personal data stay in the mailbox and private HubSpot task. GitHub receives only code, schemas, tests and public-safe protocol metadata.
-- Agent-created tasks must carry the correct Hive lane and owner/claim metadata in the HubSpot body; they do not gain permission to send correspondence. Draft emails remain HubSpot tasks; only the authorised dealer may create the final in-thread Gmail draft after all review gates, and the owner alone sends.
+- Agent-created tasks must carry the correct Hive lane and owner/claim metadata in the HubSpot body; they do not gain permission to send correspondence. Draft emails remain HubSpot tasks; only Tab may create and Schedule Send one exact-version in-thread message after all review gates. No agent may use immediate-send; manual sending remains owner-only.
 - One original message maps to at most one task. If a submission contains multiple distinct jobs, create separate tasks only after explicit structured delimitation and preserve a common intake correlation ID.
 - Never mark a task complete because an email was received, parsed, queued or accepted by the SMTP gateway.
 
