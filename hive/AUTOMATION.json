@@ -1,6 +1,6 @@
 {
   "schema": "hive_automation_catalog/v1",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "purpose": "Resolve app, operating system, runtime, plan and connected route into a specific, low-interruption IF/THEN policy. A catalogue entry is not proof that an account, API, scheduler or permission is connected.",
   "ruleGrammar": "IF device/OS AND AI app/agent AND runtime AND event THEN action ELSE fallback; notify only on configured exception",
   "operatingSystems": [
@@ -998,7 +998,7 @@
     "Never automate clicking away native permission prompts or bypass application security boundaries.",
     "Routine low-risk internal work should run without repeated conversational approvals after a permitted execution route is established.",
     "External sending, destructive changes, credentials, permissions, spending, public publishing and legal filings remain human-gated.",
-    "Only Tab may create exactly one in-thread Gmail draft after two complete review rounds by every required active reviewer seat on the exact frozen version, zero open issues and all version-matched proof fields; all other seats are Gmail-read-only; the owner alone sends."
+    "Only Tab may create and Schedule Send exactly one in-thread Gmail draft after the two complete review rounds by every required active reviewer seat, exact-version proofs, full thread/attachment checks, recipient-profile and source-index checks, three-hat/fourth-excuse/CSSCPSG checks, and a verified recipient-local business slot within 48 elapsed hours of draft creation. There is no daily draft-volume cap. If genuine Schedule Send is unavailable, create no new Gmail draft; keep HubSpot canonical and open. No agent uses immediate-send; the owner retains manual-send authority."
   ],
   "defaultRules": [
     {
@@ -1116,11 +1116,15 @@
         "Require two sequential complete review rounds by every required active reviewer seat; the author's own write and idle skips never count as reviews.",
         "Require zero open issues, current seat agreement, a matching final three-hat/fourth-excuse review, verified attachments, and subject/To/Cc/thread-envelope verification on the same version.",
         "Run python tools/validate_mailbox_release.py --proof <private-proof.json>; any missing, stale, mismatched or unknown field blocks the Gmail action.",
-        "Count all Gmail drafts created in the current UTC day; at five, queue in HubSpot and create nothing.",
-        "Only Tab may create one exact-copy in-thread Gmail draft. Re-read it and verify its hash/thread before recording gmail_draft_id."
+        "Verify that the connected Gmail interface exposes a genuine Schedule Send operation; do not infer it from draft/send APIs.",
+        "Verify the recipient's IANA time zone, normal business window, working day and public-holiday calendar. Record the checked calendar source and choose the next suitable recipient-local business slot.",
+        "Schedule the frozen version at the moment of placement, no later than 48 elapsed hours after draft creation. There is no daily draft-volume cap.",
+        "Only Tab may create and Schedule Send one exact-copy in-thread Gmail message. Read it back and verify body hash, subject, recipients, thread, scheduled timestamp and presence in Gmail's scheduled queue before recording identifiers."
       ],
       "else": [
-        "Keep the canonical draft in HubSpot, record the missing gate proofs, and do not create a Gmail placeholder or draft."
+        "Keep the canonical draft in HubSpot, record the missing gate proofs, and do not create a Gmail placeholder or draft.",
+        "If genuine Schedule Send is unavailable or unconfirmed, keep the task open as NOT SCHEDULED / BLOCKED; do not simulate scheduling with a reminder, due date or daily runner.",
+        "Reconcile legacy unscheduled drafts against the full thread and HubSpot. Do not send merely to clear Drafts; delete or safely reschedule only through a supported, confirmed Gmail operation. Otherwise leave untouched and record the exception."
       ],
       "humanInLoop": "No agent sends. The owner alone sends. All other seats remain read-only in Gmail."
     },
