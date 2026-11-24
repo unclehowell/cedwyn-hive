@@ -1,4 +1,4 @@
-# Hive mailbox release gate (v3.31.2)
+# Hive mailbox release gate (v3.31.3)
 
 HubSpot is the canonical drafting and review record. Gmail is not a drafting workspace, agent handoff store, backup location or review queue.
 
