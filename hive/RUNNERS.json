@@ -1,10 +1,10 @@
 {
   "schema": "hive_runner_observations/v1",
-  "updated": "2026-11-05T08:55:00Z",
+  "updated": "2026-11-24T12:35:00Z",
   "purpose": "Metadata-only evidence of recurring task schedules. This file never determines seat membership, assignment, review count, Gmail readiness or sent status.",
-  "seat_authority": "drafts/ROSTER.json",
+  "seat_authority": "hive/ROSTER.json",
   "required_task_title": "Hive check-in — ",
-  "preferred_interval_minutes": 5,
+  "preferred_interval_minutes": 1440,
   "watch_cron_invokes_agents": false,
   "observations": [
     {
