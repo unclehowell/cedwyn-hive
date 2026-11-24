@@ -1,8 +1,8 @@
 # Three-Hat and FOI Correspondence Guardrails
 
-Version: 1.0.0
+Version: 1.0.1
 Effective: 24 November 2026
-Authority: Hive JOIN contract v3.31.1
+Authority: Hive JOIN contract v3.31.2
 Scope: every recipient-facing email draft, reply, follow-up, FOI/EIR/SAR request, internal review, complaint, preservation enquiry and every HubSpot redraft or material edit.
 
 This file defines the mandatory method. It contains generic operating rules only. Recipient-specific correspondence, private chronology, contact details, case identifiers, recipient-specific commitments and draft text remain in the private HubSpot task and source mailbox. This file is not a recipient profile and must not be used to publish case material.
@@ -96,6 +96,7 @@ Use the following as starting points only; verify applicability and current guid
 
 Official starting points (re-check for updates at each relevant review):
 - FOIA: https://www.legislation.gov.uk/ukpga/2000/36/contents
+- Data Protection Act 2018 s173: https://www.legislation.gov.uk/ukpga/2018/12/section/173
 - EIR: https://www.legislation.gov.uk/uksi/2004/3391/contents
 - ICO FOIA timing: https://ico.org.uk/for-organisations/foi/freedom-of-information-and-environmental-information-regulations/time-limits-for-compliance-under-the-freedom-of-information-act-section-10/
 - ICO EIR timing: https://ico.org.uk/for-organisations/foi/freedom-of-information-and-environmental-information-regulations/time-limits-for-compliance-under-the-eir/
