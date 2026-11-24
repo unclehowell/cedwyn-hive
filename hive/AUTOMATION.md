@@ -8,7 +8,7 @@
 - No daily draft-volume cap applies. No new Gmail draft may be created if Schedule Send is not actually exposed and confirmed. HubSpot remains open and canonical; no reminder or due date may simulate scheduling.
 - No agent uses immediate-send. The owner retains manual-send authority. Gmail must confirm the scheduled timestamp and show the message in its scheduled queue before the HubSpot handoff task can close.
 
-## Current deployment — 25 October 2026
+## Historical deployment snapshot — 25 October 2026 (not current live-version evidence)
 
 - Hive Worker version 3.9.3: `9683ba23-3a5c-4752-bfef-d0a1e0b56021` (100% traffic).
 - Cloudflare deployment: `772496f7-30f5-404a-a8a2-da05eff320d6`.
@@ -18,7 +18,7 @@
 - Background push is not configured. The local watcher stops when the page closes and a stale turn is only a possible stall, not proof an agent has stopped. No new agent execution adapter was created by this release.
 - Catalogue version `1.1.4`: 40 AI app/agent entries including an explicitly owner-defined SpaceXAI seat, 8 OS targets, 10 integration routes, 8 default IF/THEN rules. Shared custom-rule storage remains unauthenticated-off; browser-local preferences are not synced to other devices.
 
-## v1.1.0 / Hive Worker v3.8.0 — 25 October 2026
+## v1.1.0 / Hive Worker v3.8.0 — 25 October 2026 (historical)
 
 ### Added
 - Hive-hosted automation editor at https://hive.bucklerfamily.estate/automation.
