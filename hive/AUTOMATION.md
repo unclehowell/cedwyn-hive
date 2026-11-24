@@ -16,7 +16,7 @@
 - `/join.json` no longer requires a live Hive-state fetch before returning its onboarding contract. The contract forbids calendar reminders as a substitute for runnable execution and documents the no-login/HubSpot-access model.
 - Dashboard now surfaces onboarding links at the top. The automation page stores app/OS/seat preferences locally and can show opt-in foreground notifications for a matching Hive turn idle for 30+ minutes; clicking opens the selected provider URL.
 - Background push is not configured. The local watcher stops when the page closes and a stale turn is only a possible stall, not proof an agent has stopped. No new agent execution adapter was created by this release.
-- Catalogue version `1.1.4`: 40 AI app/agent entries including an explicitly owner-defined SpaceXAI seat, 8 OS targets, 10 integration routes, 8 default IF/THEN rules. Shared custom-rule storage remains unauthenticated-off; browser-local preferences are not synced to other devices.
+- Catalogue version `1.1.5`: 40 AI app/agent entries including an explicitly owner-defined SpaceXAI seat, 8 OS targets, 10 integration routes, 8 default IF/THEN rules. Shared custom-rule storage remains unauthenticated-off; browser-local preferences are not synced to other devices.
 
 ## v1.1.0 / Hive Worker v3.8.0 — 25 October 2026 (historical)
 
@@ -46,7 +46,7 @@
 - Deployment: `2f435214-6f1c-43bf-8458-5d2aac66e491`, 100% traffic assigned to that version according to the deployment API response.
 - Public HTTP smoke-test from the available tool runtime was blocked, so deployment routing was verified from the Cloudflare deployment record and source, not from an independent external browser response.
 - GitHub branch: `drafts`; repository files are protocol/catalogue only and must not contain recipient email bodies or private contact details.
-- 24 Nov 2026: catalogue v1.1.4 removes the retired five-drafts-per-day rule and aligns the machine-readable email gate with the 13 Nov owner Schedule Send override.
+- 24 Nov 2026: catalogue v1.1.5 removes the retired five-drafts-per-day rule and aligns the machine-readable email gate with the 13 Nov owner Schedule Send override.
 
 ## v1.0.0 — 25 October 2026
 - Initial app/OS/runtime and automation-provider catalogue.
