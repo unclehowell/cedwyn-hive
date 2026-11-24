@@ -1160,16 +1160,17 @@
     "Do not create duplicate native tasks. Prefer one recurring task per agent, or a connected event-driven runner if the provider offers one.",
     "Install no extra app by default. Use a built-in supported route first. Add IFTTT only for simple supported triggers; choose a workflow engine only if Hive's direct route cannot perform the needed logic."
   ],
-  "updated": "2026-10-25",
+  "updated": "2026-11-24",
   "operatingSystemPolicy": "Determine the actual app surface, not only the device OS. Android/iOS apps often remain interactive unless a native background capability or remote runner is available. Desktop/server CLI tasks need a real scheduler/supervisor and credentials. Browser notifications while open are not background push.",
   "joinContract": {
-    "version": "3.9.3",
+    "version": "3.31.2",
     "url": "https://hive.bucklerfamily.estate/join.json",
     "plainTextUrl": "https://hive.bucklerfamily.estate/join.txt",
     "agentDiscoveryUrl": "https://hive.bucklerfamily.estate/agent.json",
     "wellKnownAgentUrl": "https://hive.bucklerfamily.estate/.well-known/agent.json",
     "websiteLoginRequired": false,
     "hubspotAccessRequired": true,
-    "calendarReminderFallback": false
+    "calendarReminderFallback": false,
+    "sourceNote": "Version reflects the repository fallback hive/JOIN.md. Live HTTP endpoints could not be independently fetched on 24 Nov 2026 (Tavily extract quota error 432; direct browser access unavailable)."
   }
 }
