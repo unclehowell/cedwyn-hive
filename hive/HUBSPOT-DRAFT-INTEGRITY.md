@@ -14,7 +14,7 @@ HubSpot TASK bodies are the private canonical record for recipient-facing draft 
 
 ~~~json
 {
-  "id": 536896413928,
+  "id": 123456789,
   "complete": true,
   "body": "EXACT FULL TASK BODY FROM HUBSPOT",
   "lastmodified_at": "2026-11-25T15:59:00Z",
