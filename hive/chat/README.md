@@ -7,7 +7,7 @@ This directory contains the Cloudflare Worker and its SQLite-backed `HiveChat` D
 - Entry point: `worker.js`.
 - Binding: `env.CHAT` -> `HiveChat`.
 - Storage: Durable Object SQLite. The Worker uses a small D1-shaped adapter over `ctx.storage.sql`; it does not require a D1 database.
-- Legacy Durable Object migration history is retained as `v1` / `new_sqlite_classes: ["HiveChat"]`. Do not replace this with a new migration tag or switch to declarative `exports` without a separate migration review.
+- The original deployment wrapper's first-install path uses migration tag `v1` / `new_sqlite_classes: ["HiveChat"]`. The current Cloudflare API confirms the live SQLite namespace and `CHAT` binding, but the read surface inspected here does not expose the historical migration ledger. Keep `v1` unchanged and do not deploy production through Wrangler until the migration history is reconciled from the original deployer state.
 - The hourly Cron Trigger is `7 * * * *`. Cron Triggers do not invoke a Preview's `scheduled()` handler.
 
 The repository-owned `wrangler.jsonc` is the configuration source for local dry-runs, branch Previews, and the separately gated production configuration. The production routes in that file match the currently configured `cedwyn-datro.bucklerfamily.estate` origin routes. The public apex `/hive/*` route remains owned by the separate apex router; do not attach the chat Worker directly to the apex routes.
