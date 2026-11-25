@@ -47,6 +47,8 @@ def build_append_payload(
     the write. The helper requires an existing non-empty body; initial drafts
     have a separate creation path.
     """
+    if not isinstance(snapshot, dict):
+        raise ValueError("snapshot must be a JSON object")
     task_id = snapshot.get("id")
     if not isinstance(task_id, int) or isinstance(task_id, bool) or task_id <= 0:
         raise ValueError("snapshot.id must be a positive HubSpot TASK ID")
