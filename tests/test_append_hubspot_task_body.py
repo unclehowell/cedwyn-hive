@@ -12,7 +12,7 @@ LAST_MODIFIED = "2026-11-25T15:59:00Z"
 
 def snapshot(**overrides):
     data = {
-        "id": 536896413928,
+        "id": 123456789,
         "complete": True,
         "body": "Original recipient-facing text\n\nPrior signed review line\n",
         "lastmodified_at": LAST_MODIFIED,
@@ -30,7 +30,7 @@ class AppendHubSpotTaskBodyTests(unittest.TestCase):
         )
         update = result["update_object"]
         new_body = update["properties"]["hs_task_body"]
-        self.assertEqual(update["objectId"], 536896413928)
+        self.assertEqual(update["objectId"], 123456789)
         self.assertEqual(update["objectType"], "TASK")
         self.assertTrue(new_body.startswith(original))
         self.assertEqual(new_body[len(original):], "2026-11-25 | ChatGPT: housekeeping note")
