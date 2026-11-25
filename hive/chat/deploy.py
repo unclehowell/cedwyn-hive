@@ -36,7 +36,7 @@ def build_command(mode: str, name: str | None = None, message: str | None = None
 
     if mode == "preview":
         args = [*WRANGLER, "preview", "--config", CONFIG]
-        if name:
+        if name is not None:
             args.extend(["--name", validate_preview_name(name)])
         if message:
             args.extend(["--message", message])
