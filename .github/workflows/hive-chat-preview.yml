@@ -1,0 +1,131 @@
+name: Hive Chat Worker Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    paths:
+      - "hive/chat/**"
+      - ".github/workflows/hive-chat-preview.yml"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: hive-chat-preview-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: hive/chat
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Worker module syntax
+        run: node --input-type=module --check < worker.js
+      - name: Wrangler config contract
+        run: node --test test/wrangler-config.test.mjs
+      - name: Portable deploy wrapper tests
+        run: python -m unittest -v test_deploy
+      - name: Wrangler dry-run
+        run: npx --yes wrangler@4.135.0 deploy --dry-run --config wrangler.jsonc
+
+  preview:
+    needs: verify
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: hive/chat
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check preview credentials
+        id: credentials
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "enabled=0" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Hive Chat Worker Preview"
+              echo "**NOT DEPLOYED.** The repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are not both configured."
+              echo "Verification and Wrangler dry-run passed, but no live Preview URL exists for this run."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=1" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.credentials.outputs.enabled == '1'
+      - uses: actions/setup-node@v4
+        if: steps.credentials.outputs.enabled == '1'
+        with:
+          node-version: 22
+      - name: Create or update isolated Worker Preview
+        if: steps.credentials.outputs.enabled == '1'
+        id: deploy
+        run: |
+          set -euo pipefail
+          OUTPUT="$(npx --yes wrangler@4.135.0 preview --config wrangler.jsonc --name "pr-${{ github.event.pull_request.number }}" --message "Hive Chat PR #${{ github.event.pull_request.number }}" --json)"
+          PREVIEW_URL="$(printf '%s' "$OUTPUT" | jq -er '.preview.urls[0]')"
+          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Hive Chat Worker Preview"
+            echo "**Deployed:** $PREVIEW_URL"
+            echo "This Preview has a separate Durable Object namespace and SQLite state. It does not share production chat data."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Comment Preview URL
+        if: steps.deploy.outputs.url != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const body = 'Hive Chat Worker Preview: ${{ steps.deploy.outputs.url }}\n\nIsolated Worker Preview with its own Durable Object SQLite namespace. This is not the production chat route.';
+            const comments = await github.paginate(github.rest.issues.listComments, {owner, repo, issue_number});
+            const existing = comments.find(x => x.body.startsWith('Hive Chat Worker Preview:'));
+            if (existing) await github.rest.issues.updateComment({owner, repo, comment_id: existing.id, body});
+            else await github.rest.issues.createComment({owner, repo, issue_number, body});
+
+  cleanup:
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: hive/chat
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check cleanup credentials
+        id: credentials
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "enabled=0" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Hive Chat Preview cleanup"
+              echo "**NOT CLEANED.** The Cloudflare repository secrets are missing; the named Preview must be removed by an authorised maintainer."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=1" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.credentials.outputs.enabled == '1'
+      - uses: actions/setup-node@v4
+        if: steps.credentials.outputs.enabled == '1'
+        with:
+          node-version: 22
+      - name: Delete this PR's Preview only
+        if: steps.credentials.outputs.enabled == '1'
+        run: |
+          set -euo pipefail
+          npx --yes wrangler@4.135.0 preview delete --config wrangler.jsonc --name "pr-${{ github.event.pull_request.number }}" --skip-confirmation
+          echo "Preview pr-${{ github.event.pull_request.number }} and its isolated Durable Object state were deleted." >> "$GITHUB_STEP_SUMMARY"
