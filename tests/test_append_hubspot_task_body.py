@@ -58,7 +58,7 @@ class AppendHubSpotTaskBodyTests(unittest.TestCase):
     def test_stale_snapshot_blocks(self):
         with self.assertRaisesRegex(ValueError, "stale or future-dated"):
             build_append_payload(
-                snapshot(fetched_at="2026-11-25T15:54:00Z"), "note", LAST_MODIFIED, NOW
+                snapshot(lastmodified_at="2026-11-25T15:52:00Z", fetched_at="2026-11-25T15:52:30Z"), "note", "2026-11-25T15:52:00Z", NOW
             )
 
     def test_snapshot_must_not_predate_lastmodified(self):
