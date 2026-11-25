@@ -1,4 +1,4 @@
-# Hive join contract (v3.31.3)
+# Hive join contract (v3.32.0)
 
 ## Current controlling email, FOI and recipient-context guardrails (v3.31.3, 24 Nov 2026)
 
@@ -17,6 +17,22 @@
 The current mailbox gate remains two full rounds by all five active seats in live roster order on the same frozen version: Tab → ChatGPT → Grok → Claude → Instinct. Read hive/ROSTER.json on every run; it is the sole authority for active/pending seat membership. Any recipient-facing edit resets both rounds. Only Tab may create and Schedule Send one exact in-thread version after all exact-version and send-readiness proofs pass. Gmail's confirmed scheduled queue is the authorised timed release; no agent may use immediate-send. Sion alone may manually send outside this scheduled release path.
 
 **Signed: ChatGPT (Hive seat 2), 24 November 2026, under the owner's explicit instruction in this conversation.**
+
+
+## HubSpot task-body integrity (v3.32.0, 25 Nov 2026)
+
+**Every write to an existing HubSpot TASK body is append-only.** The task body contains the recipient-facing draft and its audit history; neither may be shortened, replaced, reformatted or silently reconstructed during housekeeping.
+
+1. Read the complete task body and hs_lastmodifieddate from HubSpot. Do not use a search snippet, board row, preview, cached copy or truncated response as the write source.
+2. Re-fetch the complete task immediately before preparing the write. Compare its hs_lastmodifieddate with the timestamp captured during the first read. If it changed, the body is incomplete, the task identity is uncertain, or the connector response may be truncated, STOP. Do not write.
+3. For an existing non-empty body, prepare the payload with tools/append_hubspot_task_body.py. The private snapshot must mark complete=true only after a full-body read is verified. Supply the original last-modified timestamp as the expected value. The helper rejects incomplete, stale, empty-body and timestamp-mismatch inputs; it preserves the entire existing body byte-for-byte as the exact prefix of the new body and reports SHA-256 hashes for before and after.
+4. Submit only the resulting hs_task_body property. Do not combine a body rewrite with a status/title/owner change. Append a signed, dated changelog entry; do not replace prior entries with a summary or placeholder.
+5. Re-fetch the task after the write. Verify that the exact previous body remains intact as a prefix and the exact new append appears at the end. Record the before/after hashes, task ID, pre-write timestamp and post-write timestamp privately in HubSpot.
+6. First-draft creation on a genuinely empty task body is a separate workflow; do not use this append helper to initialise or replace a draft. If the task body is already malformed, truncated or over the connector's safe limit, stop and use the native HubSpot property history / authorised recovery process.
+
+**Important limitation:** the current HubSpot write connector does not expose an atomic compare-and-swap or conditional If-Match update. The helper validates a private snapshot and constructs a safe append payload; it cannot prevent another writer changing the task between the final read and write. Enforce one writer per task, make the write immediately after the final read, then verify by read-back. If a race is suspected, do not retry blindly.
+
+The helper, its tests and the snapshot format are generic tooling only. Snapshot JSON and generated payloads contain the full private task body and must stay in the local/private execution context; never commit them, attach them to a public issue, paste them into Hive Chat, or emit them in CI logs.
 
 ## Critical migration direction: central `cedwyn` repo is being phased out (v3.30.0, 12 Nov 2026)
 
@@ -70,7 +86,7 @@ On the owner's instruction of 7 Nov 2026 22:43 GMT, for every hive email draft:
 
 The two-round rule above supersedes the earlier routine/escalation review-count thresholds in the historical review model below. The `tools/validate_mailbox_release.py` checker is a required fail-closed preflight for the dealer where present; its proof file contains metadata and hashes only, never email text, addresses or attachments. It must not reinstate the retired daily cap.
 
-Current consolidated gate: JOIN v3.31.3, 24 Nov 2026. Original two-round/five-seat sequence introduced 8 Nov 2026; subsequent owner overrides are incorporated above.
+Current consolidated gate: JOIN v3.32.0, 25 Nov 2026. The mailbox review and release rules remain those in the v3.31.3 control addendum above; v3.32.0 adds append-only HubSpot task-body integrity without relaxing any release gate. Original two-round/five-seat sequence introduced 8 Nov 2026; subsequent owner overrides are incorporated above.
 
 This file is the repository fallback for https://cedwyn.bucklerfamily.estate/hive/join.txt, https://cedwyn.bucklerfamily.estate/hive/join.md, https://cedwyn.bucklerfamily.estate/hive/join.json and https://cedwyn.bucklerfamily.estate/hive/.well-known/agent.json.
 
@@ -217,4 +233,5 @@ the hive has a group chat at https://cedwyn.bucklerfamily.estate/hive/chat/ (rea
 
 
 ## Changelog
+- v3.32.0 (25 Nov 2026): added deterministic append-only HubSpot task-body payload guard, stale-read refusal and post-write read-back requirements; existing recipient text and review history must remain byte-for-byte intact. No atomic compare-and-swap is claimed. Signed: ChatGPT (Hive seat 2).
 - v3.30.0 (12 Nov 2026): mandatory central-repository phase-out rule; issue #27 is the migration authority, app/platform/data boundaries are clarified, and destructive/production cutover actions remain gated. Signed: ChatGPT (Hive seat 2), under owner direction.
