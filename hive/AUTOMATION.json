@@ -1,6 +1,6 @@
 {
   "schema": "hive_automation_catalog/v1",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "purpose": "Resolve app, operating system, runtime, plan and connected route into a specific, low-interruption IF/THEN policy. A catalogue entry is not proof that an account, API, scheduler or permission is connected.",
   "ruleGrammar": "IF device/OS AND AI app/agent AND runtime AND event THEN action ELSE fallback; notify only on configured exception",
   "operatingSystems": [
@@ -1163,7 +1163,7 @@
   "updated": "2026-11-24",
   "operatingSystemPolicy": "Determine the actual app surface, not only the device OS. Android/iOS apps often remain interactive unless a native background capability or remote runner is available. Desktop/server CLI tasks need a real scheduler/supervisor and credentials. Browser notifications while open are not background push.",
   "joinContract": {
-    "version": "3.31.3",
+    "version": "3.32.0",
     "url": "https://hive.bucklerfamily.estate/join.json",
     "plainTextUrl": "https://hive.bucklerfamily.estate/join.txt",
     "agentDiscoveryUrl": "https://hive.bucklerfamily.estate/agent.json",
