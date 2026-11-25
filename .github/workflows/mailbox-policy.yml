@@ -13,6 +13,9 @@ on:
       - "hive/THREE-HAT-FOI-GUARDRAILS.md"
       - "tools/validate_mailbox_release.py"
       - "tests/test_validate_mailbox_release.py"
+      - "tests/test_append_hubspot_task_body.py"
+      - "tools/append_hubspot_task_body.py"
+      - "hive/HUBSPOT-DRAFT-INTEGRITY.md"
       - ".github/workflows/mailbox-policy.yml"
   push:
     branches: [main]
@@ -28,6 +31,9 @@ on:
       - "hive/THREE-HAT-FOI-GUARDRAILS.md"
       - "tools/validate_mailbox_release.py"
       - "tests/test_validate_mailbox_release.py"
+      - "tests/test_append_hubspot_task_body.py"
+      - "tools/append_hubspot_task_body.py"
+      - "hive/HUBSPOT-DRAFT-INTEGRITY.md"
       - ".github/workflows/mailbox-policy.yml"
 
 permissions:
@@ -52,9 +58,9 @@ jobs:
           flywheel = Path("hive/FLYWHEEL.md").read_text(encoding="utf-8")
           automation = json.loads(Path("hive/AUTOMATION.json").read_text(encoding="utf-8"))
           html = Path("hive/AUTOMATION.html").read_text(encoding="utf-8")
-          assert "v3.31.3" in join and "v3.31.3" in flywheel and "v3.31.3" in html
-          assert automation["joinContract"]["version"] == "3.31.3"
-          assert automation["version"] == "1.1.5"
+          assert "v3.32.0" in join and "v3.32.0" in flywheel and "v3.32.0" in html
+          assert automation["joinContract"]["version"] == "3.32.0"
+          assert automation["version"] == "1.2.0"
           assert "schedule_send_supported" in Path("hive/mailbox-release-proof.schema.json").read_text(encoding="utf-8")
           assert "There is no daily draft-volume cap." in Path("hive/MAILBOX-RELEASE.md").read_text(encoding="utf-8")
           assert "two complete review rounds" in automation["guardrails"][-1]
@@ -63,4 +69,8 @@ jobs:
           assert any("48 elapsed hours" in x for x in email_gate["then"])
           assert not any("five drafts" in x.lower() or "at five" in x.lower() for x in email_gate["then"])
           assert automation["joinContract"]["sourceNote"].startswith("Version reflects the repository fallback")
+          integrity = Path("hive/HUBSPOT-DRAFT-INTEGRITY.md").read_text(encoding="utf-8")
+          helper = Path("tools/append_hubspot_task_body.py").read_text(encoding="utf-8")
+          assert "append-only" in integrity and "compare-and-swap" in integrity
+          assert "original_body_preserved_as_prefix" in helper
           PY
