@@ -1,61 +1,98 @@
 #!/usr/bin/env python3
-"""Deploy work/hive-chat/worker/ as the Cloudflare Worker cedwyn-hive-chat (Durable Object HiveChat, SQLite) on routes
-cedwyn.bucklerfamily.estate/hive/chat* and /hive/api/chat* through the connected Cloudflare account. Undo rows go to
-work/cf-rebalance/changes.json. Usage: timeout -k 5 900 python3 deploy.py "<message>"   — Sion's Tab agent"""
-import json, os, sys, base64, datetime as dt
-sys.path.insert(0, '/home/user/tab/work/agent-ready')
-import deploy as AR
-HERE = os.path.dirname(os.path.abspath(__file__)); W = os.path.join(HERE, 'worker')
-ACCT, ZONE, CF = AR.ACCT, AR.ZONE, AR.CF
-NAME = 'cedwyn-hive-chat'; ROUTES = ['cedwyn.bucklerfamily.estate/hive/chat*', 'cedwyn.bucklerfamily.estate/hive/api/chat*']
-SP = os.path.join(HERE, 'state.json'); ST = json.load(open(SP)) if os.path.exists(SP) else {}
-def save(): json.dump(ST, open(SP, 'w'), indent=1)
-def call(method, path, body=None):
-    req = {"toolkit": "cloudflare", "method": method, "url": CF + path}
-    if body is not None: req["body"] = body
-    r = AR.ca(req); res = r.get('result') or {}; b = res.get('body')
-    if b is None and res.get('body_head'):
-        try: b = json.loads(res['body_head'])
-        except Exception: b = {'raw': res['body_head'][:800]}
-    if isinstance(b, str):
-        try: b = json.loads(b)
-        except Exception: b = {'raw': b[:800]}
-    return int(res.get('status') or 0), (b or {'raw': json.dumps(r)[:800]})
-def log(what, rollback):
-    P = '/home/user/tab/work/cf-rebalance/changes.json'; ch = json.load(open(P))
-    ch.append({"at_utc": dt.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'), "by": "cedwyn-hive-chat (work/hive-chat/deploy.py)", "what": what, "rollback": rollback})
-    json.dump(ch, open(P, 'w'), ensure_ascii=False, indent=1)
-def setup():
-    if not ST.get('d1_id'):
-        s, b = call('POST', f'/accounts/{ACCT}/d1/database', {"name": NAME})
-        print('d1', s, json.dumps(b)[:300])
-        ST['d1_id'] = b['result']['uuid']; save(); log(f"D1 {NAME} created ({ST['d1_id']})", f"DELETE /accounts/{ACCT}/d1/database/{ST['d1_id']}")
-    if not ST.get('worker_id'):
-        s, b = call('POST', f'/accounts/{ACCT}/workers/workers', {"name": NAME, "subdomain": {"enabled": False}, "observability": {"enabled": True}})
-        print('worker', s, json.dumps(b)[:300]); ST['worker_id'] = b['result']['id']; save()
-        log(f"Worker {NAME} created ({ST['worker_id']})", f"DELETE /accounts/{ACCT}/workers/scripts/{NAME}")
-def deploy(msg):
-    mod = {"name": "index.js", "content_type": "application/javascript+module", "content_base64": base64.b64encode(open(os.path.join(W, 'index.js'), 'rb').read()).decode()}
-    binds = [{"type": "durable_object_namespace", "name": "CHAT", "class_name": "HiveChat"}] if ST.get('do_migrated') else []
-    for v in ('AUTH0_DOMAIN', 'AUTH0_AUDIENCE'):
-        if v in ST.get('plain_vars', {}): binds.append({"type": "plain_text", "name": v, "text": ST['plain_vars'][v]})
-    b = {"compatibility_date": "2025-01-01", "main_module": "index.js", "modules": [mod], "bindings": binds, **({"migrations": {"new_tag": "v1", "new_sqlite_classes": ["HiveChat"]}} if not ST.get('do_migrated') else {}), "annotations": {"workers/message": msg[:80]}}
-    s, up = call('POST', f"/accounts/{ACCT}/workers/workers/{ST['worker_id']}/versions", b)
-    if s not in (200, 201): print('version failed', s, json.dumps(up)[:1500]); sys.exit(1)
-    vid = up['result']['id']
-    s, dep = call('POST', f"/accounts/{ACCT}/workers/scripts/{NAME}/deployments", {"strategy": "percentage", "versions": [{"version_id": vid, "percentage": 100}], "annotations": {"workers/message": msg[:80]}})
-    if s not in (200, 201): print('deploy failed', s, json.dumps(dep)[:1500]); sys.exit(1)
-    prev = ST.get('version'); ST['previous'] = prev; ST['version'] = vid; ST['do_migrated'] = 'v1'; save()
-    log(f"{NAME}: version {vid} deployed 100%: {msg}", f"POST /accounts/{ACCT}/workers/scripts/{NAME}/deployments with version {prev}" if prev else f"DELETE /accounts/{ACCT}/workers/scripts/{NAME}")
-    print(json.dumps({"version": vid, "previous": prev}))
-def routes():
-    ST.setdefault('routes', {})
-    for pat in ROUTES:
-        if pat in ST['routes']: continue
-        s, b = call('POST', f'/zones/{ZONE}/workers/routes', {"pattern": pat, "script": NAME})
-        print('route', pat, s, json.dumps(b)[:300])
-        if s in (200, 201): ST['routes'][pat] = b['result']['id']; save(); log(f"route {pat} -> {NAME}", f"DELETE /zones/{ZONE}/workers/routes/{b['result']['id']}")
-if __name__ == '__main__':
-    if '--setup' in sys.argv: setup()
-    deploy(sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('--') else 'cedwyn-hive-chat update')
-    if '--setup' in sys.argv or '--routes' in sys.argv: routes()
+"""Portable, non-production Hive Chat Wrangler wrapper.
+
+Default: build a dry-run. Use --preview to create/update the current branch's
+isolated Worker Preview, or --delete-preview NAME to remove that named Preview.
+There is deliberately no production-deploy command in this wrapper.
+"""
+from __future__ import annotations
+
+import argparse
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import Sequence
+
+HERE = Path(__file__).resolve().parent
+CONFIG = "wrangler.jsonc"
+WRANGLER = ("npx", "--yes", "wrangler@4.135.0")
+PREVIEW_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9-]{0,62}$")
+
+
+def validate_preview_name(name: str) -> str:
+    if not isinstance(name, str) or not PREVIEW_NAME_RE.fullmatch(name):
+        raise ValueError("preview name must be 1-63 letters, digits or hyphens and start with a letter or digit")
+    return name
+
+
+def build_command(mode: str, name: str | None = None, message: str | None = None) -> list[str]:
+    """Build a reproducible Wrangler command without performing the operation."""
+    if mode == "dry-run":
+        if name or message:
+            raise ValueError("name/message are only valid for a Preview")
+        return [*WRANGLER, "deploy", "--dry-run", "--config", CONFIG]
+
+    if mode == "preview":
+        args = [*WRANGLER, "preview", "--config", CONFIG]
+        if name is not None:
+            args.extend(["--name", validate_preview_name(name)])
+        if message:
+            args.extend(["--message", message])
+        return args
+
+    if mode == "delete-preview":
+        if not name:
+            raise ValueError("a Preview name is required for deletion")
+        return [
+            *WRANGLER, "preview", "delete", "--config", CONFIG,
+            "--name", validate_preview_name(name), "--skip-confirmation",
+        ]
+
+    raise ValueError("supported modes are dry-run, preview and delete-preview; production deploy is intentionally excluded")
+
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--dry-run", action="store_true", help="build and validate without uploading (default)")
+    modes.add_argument("--preview", action="store_true", help="create/update this branch's isolated Worker Preview")
+    modes.add_argument("--delete-preview", metavar="NAME", help="delete only the named Worker Preview and its isolated state")
+    parser.add_argument("--name", help="optional Preview name; Wrangler defaults to the current branch")
+    parser.add_argument("--message", help="optional Preview deployment annotation")
+    args = parser.parse_args(argv)
+
+    if args.delete_preview and (args.name or args.message):
+        parser.error("--delete-preview takes its name as the option value; do not also use --name or --message")
+    if not args.preview and not args.delete_preview and (args.name or args.message):
+        parser.error("--name and --message can only be used with --preview")
+    return args
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    args = parse_args(argv)
+    mode = "delete-preview" if args.delete_preview else "preview" if args.preview else "dry-run"
+    name = args.delete_preview if args.delete_preview else args.name
+
+    try:
+        command = build_command(mode, name, args.message)
+    except ValueError as exc:
+        print(f"BLOCKED: {exc}", file=sys.stderr)
+        return 2
+
+    if not shutil.which(command[0]):
+        print("BLOCKED: Node.js/npm (npx) is not installed. Install Node.js 22 or later.", file=sys.stderr)
+        return 2
+
+    print("Running:", " ".join(command), flush=True)
+    try:
+        result = subprocess.run(command, cwd=HERE, check=False)
+    except OSError as exc:
+        print(f"BLOCKED: could not start Wrangler: {exc}", file=sys.stderr)
+        return 2
+    return int(result.returncode)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
