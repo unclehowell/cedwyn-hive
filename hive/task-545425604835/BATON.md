@@ -2,17 +2,17 @@
 
 Metadata only. HubSpot is the canonical task record; no email text, private names, contact details or case material belongs here.
 
-- version: v0.1.0
-- status: WAITING
-- turn: queued — ChatGPT skipped idle; awaiting safe no-spend browser/cache path and verified successor access
+- version: v0.2.0
+- status: IN_PROGRESS (Hive coordination only; native HubSpot status remains WAITING)
+- turn: active — LiDAR and narrated-timeline startup defects fixed; mobile WebGL preview verified; audio acceptance still held behind no-spend gate
 - action_type: deployment-verification
-- last_change: 2026-11-16T09:07:12.694Z
-- last_action_at: 2026-11-22T08:31:08.914Z
+- last_change: 2026-11-26T20:59:23.841Z
+- last_action_at: 2026-11-26T20:59:23.841Z
 - last_action_by: ChatGPT (seat 2)
 - repository: unclehowell/cedwyn-wales-3d
 - pull_request: 11 (open, unmerged)
 - branch: feature/timelapse-1877-present
-- commit: dcc8bd4c3ed974d6eb3c6852b74fcecb96a61539
+- commit: b7b22014de6598f35e0acd7db8782c50742f11d3
 - worker: cedwyn-timelapse-voice
 - deployment_id: ab2256b6-83f2-4d86-8477-076e817119fc
 - version_id: fbc2ce06-0b8f-486d-8002-e08e02736078
@@ -21,7 +21,7 @@ Metadata only. HubSpot is the canonical task record; no email text, private name
 - health: VERIFIED 2026-11-20 — live /health returned ok:true, model @cf/deepgram/aura-1 and ai_binding:true; no audio acceptance inferred
 - workers_dev: enabled
 - preview: https://feature-timelapse-1877-prese.cedwyn-wales-3d.pages.dev
-- acceptance: PARTIAL / BLOCKED — latest deployment remains 100% on PR #11 and live /health passes; no actual click/audio response/playback verified for e1955, e1961 or e1994b; no /speak request made because a cache miss may invoke Workers AI
+- acceptance: PARTIAL — 3D LiDAR scene, timeline, controls and ghost visual verified in mobile preview; live narration/audio wording and mouth-waveform sync remain untested under no-spend gate because a cache miss may invoke Workers AI
 - verified: source exposes ?tl=pause, #tlvoiceaudio, #tlvoice and .tlhear; event modal's Hear this headline handler calls speakHeadline(e.id, true); worker checks v4 cache before Workers AI on a miss
 - pending: confirm a no-spend cache fixture or approved no-spend browser test path; actual .tlhear click, audio response, play() resolution/currentTime progression and audible wording for e1955, e1961 and e1994b; current /health route response remains unconfirmed
 - hive_chat_message_id: 90 (existing/idempotently confirmed)
@@ -90,3 +90,16 @@ The requested Worker deployment already existed before this seat's execution. It
 - PR #11 remains OPEN/UNMERGED at branch commit 390a5b41bdbb6c3af937f341fecc4696c7aeb747. Cloudflare Pages preview build is successful. The branch contains the v0.10.0 Three.js ghost guide and waveform-driven mouth animation.
 - Remaining acceptance: inspect the rendered guide and timeline in an actual WebGL browser; test user-gesture narration/audio response and spoken wording for e1955, e1961 and e1994b. Do not probe /speak until there is a known no-spend cache fixture or explicit budget approval. Do not claim audio acceptance from source/deployment evidence.
 - Verdict: production Worker CORS alignment VERIFIED; frontend production release and end-to-end narration acceptance remain OPEN.
+
+## LiDAR and guided-tour startup repair — 2026-11-26
+
+- Owner reported the preview stuck at “Loading LiDAR terrain…”. Investigation used a real mobile-sized Chromium/WebGL session.
+- Root cause 1: the Three.js import map pointed at `cedwyn.bucklerfamily.estate`; that host returned a 302 to the apex, and the redirect response lacked CORS headers. Browser module loading failed before the 3D module's own boot handler could run. The import map now points directly at `https://bucklerfamily.estate/_ext/...`; a module-import rejection now changes the loader to a visible error instead of leaving an endless loading message.
+- Root cause 2: `timelapse.js` declared `head` twice in the same module scope (timeline progress handle and ghost head mesh), causing `SyntaxError: Identifier 'head' has already been declared`. Renamed the ghost mesh binding to `guideHead`, added visible timeline startup diagnostics, and bumped the script URL to `timelapse.js?v=0.10.1`.
+- Current feature branch head: `b7b22014de6598f35e0acd7db8782c50742f11d3`. Pages preview deployment `549fd94e-a0c3-4324-8190-44ce3a375700` succeeded and owns the branch preview alias.
+- Browser acceptance (`?tl=pause`, mobile 390 × 844): `window.__w3d` and `window.__tl` ready; timeline active and paused; timeline bar and ghost layer rendered; all timeline/parcel assets and DTM tile requests returned HTTP 200; no page errors or failed requests. A visual screenshot shows the floating ghost beside the LiDAR landscape with Play and Hear controls.
+- Default browser acceptance: timeline auto-starts at 1535 and runs; first event is “1535 · Tewkesbury Abbey and the manorial lordship”; no startup error; zero `/speak` requests.
+- Cost gate respected: no `/speak` call, no TTS generation and no Workers AI inference. The ghost is visibly present; source inspection confirms its mouth is controlled by the narration waveform/media-clock fallback, but actual spoken wording, audio playback and mouth/audio synchronisation have not been accepted.
+- PR #11 remains OPEN/UNMERGED. Production Pages frontend remains on the older `main` deployment; these frontend fixes are preview only. The production voice Worker CORS alignment was deployed separately in the preceding handoff and remains distinct from a Pages release.
+- Native HubSpot task 545425604835 was not changed and remains WAITING. This BATON status reflects Hive engineering coordination only.
+- Next: retain no-spend gate; obtain an existing no-spend cached voice fixture or explicit audio budget approval before testing `/speak`. Do not claim end-to-end narration acceptance or merge/release the frontend until audio playback and mouth sync are verified.
