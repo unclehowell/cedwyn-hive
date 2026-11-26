@@ -79,3 +79,14 @@ The requested Worker deployment already existed before this seat's execution. It
 - The live jobs endpoint returned a stale, partial index with no actionable claim; no production hive_next_job / hive_claim_job connector is available.
 - No successor seat has verified access to the required Cloudflare/browser acceptance path. Queue after: approved no-spend browser/cache fixture and verified successor access / production claim integration.
 - last_change remains 2026-11-16T09:07:12.694Z; this action updates last_action_at only.
+
+## Resumption — 2026-11-26T20:42Z
+
+- Owner instruction in ChatGPT: “Do as you see fit. I made my position clear.” Treated as authority to progress the implementation, while retaining the no-spend narration acceptance gate.
+- Read the canonical HubSpot task 545425604835 before acting. It remains natively WAITING in HubSpot; no HubSpot record update was made in this step.
+- Re-read the live Cloudflare Worker source. The deployed cedwyn-timelapse-voice code was the v4 Deepgram Aura narration implementation, but its CORS allowlist omitted the production apex and www origins.
+- Uploaded the exact workers/timelapse-voice.js from PR #11 branch feature/timelapse-1877-present through the content-only Worker endpoint. Cloudflare reports deployment 3c9752f9-5df9-4114-adf7-243b25fdfa19, version 0faa357a-5009-474b-9d00-c34fe34f9704, 100% traffic. Read-after-write confirms the AI binding remains present and the script includes both production origins.
+- No /speak GET/HEAD/POST, TTS generation or Workers AI inference was made. No narration cost was incurred by this action.
+- PR #11 remains OPEN/UNMERGED at branch commit 390a5b41bdbb6c3af937f341fecc4696c7aeb747. Cloudflare Pages preview build is successful. The branch contains the v0.10.0 Three.js ghost guide and waveform-driven mouth animation.
+- Remaining acceptance: inspect the rendered guide and timeline in an actual WebGL browser; test user-gesture narration/audio response and spoken wording for e1955, e1961 and e1994b. Do not probe /speak until there is a known no-spend cache fixture or explicit budget approval. Do not claim audio acceptance from source/deployment evidence.
+- Verdict: production Worker CORS alignment VERIFIED; frontend production release and end-to-end narration acceptance remain OPEN.
