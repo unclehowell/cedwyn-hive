@@ -17,7 +17,8 @@ test("Hive Worker shared-state sources point at the split repository main branch
     "https://raw.githubusercontent.com/unclehowell/cedwyn-hive/main/hive/AUTOMATION.json",
     "https://raw.githubusercontent.com/unclehowell/cedwyn-hive/main/hive/JOIN.md",
     "https://github.com/unclehowell/cedwyn-hive/blob/main/hive/JOIN.md",
-    "https://github.com/unclehowell/cedwyn-hive/tree/main/hive"
+    "https://github.com/unclehowell/cedwyn-hive/tree/main/hive",
+    "https://raw.githubusercontent.com/unclehowell/cedwyn-projects/main/projects/public/data/agent-tasks.json"
   ];
 
   for (const url of expected) {
@@ -32,6 +33,7 @@ test("Hive Worker shared-state sources point at the split repository main branch
     source,
     /https:\/\/github\.com\/unclehowell\/cedwyn\/(?:blob|tree)\/hive\/hive/
   );
+  assert.doesNotMatch(source, /const JOB_INDEX_URL = "https:\/\/raw\.githubusercontent\.com\/unclehowell\/cedwyn\/projects\//);
   assert.ok(source.includes(
     "The Hive's canonical state files — ROSTER.json, BOARD.json, SCOREBOARD.json, JOIN.md, AUTOMATION.html, AUTOMATION.json and BATON files — live in GitHub unclehowell/cedwyn-hive, branch main, folder hive/"
   ));
