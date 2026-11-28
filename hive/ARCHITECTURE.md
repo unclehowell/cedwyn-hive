@@ -8,16 +8,22 @@
 
 **Migration authority:** https://github.com/unclehowell/cedwyn-hive/issues/27 — “Cedwyn repository purge-readiness report”. Every agent must read this issue before claiming or changing platform, app-source, catalogue, build, deployment or infrastructure work.
 
-The owner is phasing out `unclehowell/cedwyn`. It is not the home for new app features or ordinary new PRs. Each webapp's own repository is its authoritative application source. A separate platform repository must own estate-wide assembly/shared runtime/navigation/release; a separate catalogue/data repository or service must own authoritative records, schemas and provenance. Those successor homes are not yet all established: do not invent or assume one.
+The owner is phasing out \`unclehowell/cedwyn\`; it is not the home for new app features or ordinary PRs. The current successor is \`unclehowell/bucklerfamily-estate\`, established as the active central site/build source on 17 November 2026. That repository owns the estate-wide assembly, shared runtime, build/release workflows and central SQLite evidence catalogue. Its \`main\` branch is the maintained source; its generated \`site\` branch is the Cloudflare Pages publication output. Each dedicated webapp repository remains the authoritative source for that app. Do not invent an additional platform or catalogue repository: the current successor intentionally owns both functions.
 
-**Until the purge gates in issue #27 are evidenced:**
-- Continue app work only in that app's own repository.
-- Record work requiring the uncreated successor platform/catalogue in issue #27; do not add a new dependency to `cedwyn`.
-- Treat old-repo issues and PRs as migration candidates. Do not merge legacy-source changes merely to keep the old build alive without an owner-approved migration plan.
-- Do not delete/archive the repository, disable Actions, remove branches, detach Pages, alter Workers/routes/DNS, rotate secrets, change D1/KV/R2 bindings, or cut over production under this instruction.
-- Existing production services must keep running until their replacements are tested. This is a controlled phase-out, not an immediate shutdown.
+A live Cloudflare check on 28 November 2026 confirms the production Pages project named \`cedwyn\` now builds from \`unclehowell/bucklerfamily-estate\`, branch \`site\`; its latest production deployment succeeded on 27 November. This proves the main Pages source has moved, not that every Worker, API, scheduled workflow, state store or fallback has moved. The old repository remains active compatibility infrastructure until every remaining dependency is independently migrated and tested.
 
-This direction supersedes older statements in this document or linked instructions that describe `unclehowell/cedwyn` as the permanent source for all GitHub code, schemas, protocols, data or build rules. Historical links may remain labelled as historical; active operations must be migrated before purge.
+**Migration authority:** https://github.com/unclehowell/cedwyn-hive/issues/27 — the retirement register. Keep it current with verified evidence. DATRO and all \`*-datro\` subdomains are outside the estate migration scope; do not probe, modify, route, detach, rebuild or migrate them as part of this work.
+
+**Until the retirement gates in issue #27 are evidenced:**
+- Continue app work only in that app's own repository; central platform/catalogue work belongs in \`unclehowell/bucklerfamily-estate\`.
+- Do not add new app-source or operational dependencies to \`unclehowell/cedwyn\`.
+- Treat old-repository branches, workflows, Worker references and issues as migration dependencies, not current authority.
+- Keep the old repository, its Actions, branches and Pages/Worker connections available while any live consumer still reads or writes them.
+- Do not delete/archive the repository, disable Actions, remove branches, detach Pages, alter in-scope production routes/DNS, rotate secrets, change D1/KV/R2/DO bindings or cut over production until the successor is tested and rollback is proven.
+- Preserve every existing production data store. An API/database read model is not disposable merely because its code has moved.
+- Historical references may remain when clearly identified as historical; live code, scheduled jobs and fallback routes must not depend on the retiring repository.
+
+This current state supersedes older statements in this document or linked instructions that say the platform/catalogue successor repositories are not yet established.
 
 
 ## 1. What BucklerFamily.Estate is
@@ -58,8 +64,8 @@ Formula (operational learning measure, not a claim of historical truth):
 | System | Role |
 |--------|------|
 | **HubSpot** | Work queue, owners, due dates, correspondence follow-ups, organisations, contributors, procurement, decisions. Authoritative task bodies. |
-| **GitHub repositories** | Each webapp has its own authoritative repo. A separate platform repo owns assembly/shared runtime/release; a separate catalogue/data source owns authoritative records and schemas. See migration control issue #27. |
-| **Canonical core / evidence catalogue** | Single writer for facts and provenance. Neutral description + transcript + separate versioned “our reading”. |
+| **GitHub repositories** | Each webapp has its own authoritative repository. `unclehowell/bucklerfamily-estate` is the central platform/build source and canonical catalogue source; `unclehowell/cedwyn` is a retiring compatibility repository only. See migration control issue #27. |
+| **Canonical core / evidence catalogue** | The central SQLite catalogue in `unclehowell/bucklerfamily-estate` is the single writer for record identity, source provenance, neutral descriptions and versioned interpretations. Static chunks, D1 read models, graphs, search indexes and app views are derived read models. |
 | **D1 / graph / search / app views** | Derived read models. |
 | **Gmail** | Communication channel and original correspondence. No agent sends without applicable approval. |
 | **Hive** | Agent coordination, claims, chat, handover. Not a second task database. |
@@ -171,3 +177,71 @@ A message is a task command only when its subject begins `[CEDWYN TASK]` or it c
 - Publish the address to agents only after a cache-busted end-to-end test and a documented rollback. Until then, use MCP/API or the Gmail Tasks side panel; never invent an intake address.
 
 Change note: 5 Nov 2026 — ChatGPT (Hive seat 2), under owner direction. Architecture addition only; no email address, Cloudflare route, Worker, secret or API credential has been provisioned by this change.
+
+
+## 8. Estate autonomy and event reconstruction architecture (owner direction, 28 Nov 2026)
+
+The target is an estate research flywheel that progresses routine, bounded work without the owner repeatedly routing agents. It must be event-driven, resumable, auditable and fail-closed. It must not create a competing task database or weaken the current mailbox/review rules.
+
+### 8.1 Event capture and provenance
+
+Every meaningful external or internal change is an event: an incoming email, disclosure response, attachment, archive item, verified source discovery, catalogue correction, project milestone, GitHub change, failed workflow, build or deployment. Store a stable event ID, event type, source system and source ID, original URL/thread reference, occurred-at and ingested-at timestamps, actor, related entity/record/request/task IDs, content hash, privacy class, idempotency key, processing state and links to superseding events.
+
+The original source remains in its original system of record or approved private object store. It is never overwritten by an extracted transcript or a newer interpretation. Derived records point back to the original. A correction appends a new event and records what it supersedes.
+
+### 8.2 Specialist processing
+
+Use specialised, bounded workers for:
+- intake and matching of authenticated messages and files;
+- document extraction and transcript production;
+- entity, place, parcel and chronology matching;
+- duplicate detection and source verification;
+- adversarial evidence review and counter-evidence discovery;
+- recipient, statutory regime, custodian and deadline analysis;
+- project control and dependency updates;
+- public-safe app generation, testing and release.
+
+A job must have an owner/agent, lease, input event IDs, allowed tools, output schema, completion test, retry policy and deadline. The job lease prevents duplicate work; HubSpot remains authoritative for human work/tasks, and GitHub remains authoritative for app source and code review.
+
+### 8.3 Durable execution target
+
+Cloudflare is the preferred estate runtime:
+- Workers receive authenticated events and run small deterministic handlers.
+- Queues absorb bursts and provide bounded retries.
+- Workflows persist multi-step jobs, sleep until deadlines and wait for external events or review.
+- Durable Objects provide exclusive job claims and idempotent transitions.
+- D1 holds structured event indexes and processing metadata.
+- R2 holds approved original artefacts and derived extracts with content hashes and retention metadata.
+
+**Verified platform status on 28 November 2026:** the account has existing D1, KV, R2 and Durable Object resources, but no estate-wide Cloudflare Queues or Workflows have been provisioned. The existing Hive issue-lease Worker is a pilot and is not wired into the live Hive UI/JOIN contract. These are implementation gaps, not live capabilities. Do not repurpose existing namespaces or create paid dependencies without a documented cost, privacy, export and rollback assessment.
+
+### 8.4 Evidence model
+
+Maintain three distinct layers:
+1. **Original artefact:** source file, original email or exact public record, with capture details and hash.
+2. **Neutral catalogue record:** what the source is, what it says, its date, creator, custodian, page/folio and related IDs.
+3. **Interpretation:** versioned reasoning, evidence for and against, confidence classification, author/reviewer and the propositions it affects.
+
+A material public claim must be traceable to one or more primary artefacts. Conflicting sources remain visible. The parcel model A1/A2/B/C must be preserved and checked explicitly wherever relevant; a broad place or “farm” label is never a substitute for parcel identity.
+
+### 8.5 Privacy and release boundaries
+
+Private correspondence, full HubSpot task bodies, addresses, personal data, legal strategy, authentication material and unreviewed submissions remain in approved private systems. GitHub and public app endpoints carry only code, generic protocols and public-safe metadata. Never put raw emails, attachments, contact details, secrets or private case notes into public repositories, workflow logs, preview builds or unauthenticated queues.
+
+A public update is generated from approved catalogue fields and published only after schema, provenance, link, privacy, accessibility and build checks pass. Preserve the previous working release and record the source event IDs and commit in the release log. A failure keeps the previous release live.
+
+### 8.6 Email and disclosure autonomy
+
+Routine discovery, recipient research, request drafting, duplicate checks, deadline calculation, response matching, attachment indexing and HubSpot updates should run automatically within the documented project policy. Requests must be scoped to identifiable recorded information, use the correct recipient and route, respect the two-new-statutory-requests-per-day limit and carry a no-fee rule. A proposed fee or paid service is an exception.
+
+Outbound dispatch remains governed by the live \`hive/JOIN.md\` and \`hive/THREE-HAT-FOI-GUARDRAILS.md\`: full thread continuity; recipient-specific statutory/policy checks; three analytical hats and the fourth-excuse sweep; actual active-seat reviews on the same frozen version; and the permitted release mechanism only. Simulated reviewers do not count. No agent may use immediate-send. If genuine Gmail Schedule Send or any required review proof cannot be verified, retain the canonical text privately as blocked/not scheduled and do not claim dispatch. This architecture may automate preparation and tracking, but it must not silently bypass the current release contract.
+
+### 8.7 Agent wake-ups and workload
+
+The Cloudflare Watch cron is monitoring infrastructure, not an LLM runner. Each real Hive seat needs its own verified runner and recurrence in its own harness, with a logged last-run timestamp and execution result. A seat may not be marked active or independently reviewed merely because a cron ran or another seat simulated its review. Every run must re-read the current roster, claim one eligible HubSpot task, perform one bounded material step, write completion evidence and release the claim. If its connector, source or permitted tool is unavailable, record the blocker and fail closed.
+
+### 8.8 Publication and migration controls
+
+The central build is \`unclehowell/bucklerfamily-estate\`; each app is sourced from its dedicated repository and the current \`split-repos.json\` manifest. Generated Pages output is the \`site\` branch. The production Pages project named \`cedwyn\` was verified on 28 November to use \`unclehowell/bucklerfamily-estate/site\`, with a successful deployment on 27 November. This does not retire downstream Worker/API/cron dependencies.
+
+The live \`cedwyn-cms\`, \`cedwyn-api\` and \`ghf-watch\` services still contain old-repository source references and must be migrated, tested and re-read before issue #27 can be closed. Preserve their current routes, bindings and persistent data until successors pass smoke tests. Keep all DATRO systems and \`*-datro\` hosts outside this work and unchanged.
