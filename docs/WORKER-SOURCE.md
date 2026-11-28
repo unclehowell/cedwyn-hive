@@ -25,3 +25,8 @@ The running Worker imports `./seed.txt`, `./pipeline.txt` and `./hive-public-que
 The GitHub Actions workflow tests packaging, Worker syntax and the source contract. It does **not** upload a Worker. A Cloudflare Pages preview is not a preview of the separate `ghf-watch` Worker runtime.
 
 Before changing the live Worker, formalise and validate the separate Worker deployment configuration, all existing bindings, an isolated non-production Worker preview, route/MCP acceptance tests and production cutover. Preserve the current production service binding and traffic until those checks pass. Do not report the Worker as deployed or the Hive job queue as migrated on the strength of a source commit or Pages preview.
+
+
+## Separate deployed Hive JOIN Worker
+
+The Worker named `cedwyn-hive` has a separate source snapshot at `worker/hive-proxy-index.js`. Its JOIN fallback reads `hive/JOIN.md` from this repository's `main` branch. This source snapshot is not a deployment. Preserve the existing route and settings until its preview, response-header parsing and rollback are verified.
